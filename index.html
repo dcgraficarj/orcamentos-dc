@@ -1,0 +1,991 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DC Gráfica Rápida | Orçamentos</title>
+<style>
+:root{--brand:#ef741e;--brand-dark:#1b1311;--brand-soft:#fff1e6;--bg:#fff7f1;--border:#f3c8a6;--muted:#82614a;font-family:Arial,Helvetica,sans-serif;color:#2c1a10;background:var(--bg)}
+*{box-sizing:border-box}body{margin:0;padding:26px 14px;background:linear-gradient(180deg,#fff7f1 0%,#fff2e8 100%)}
+.wrap{max-width:850px;margin:auto}.header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px;flex-wrap:wrap}.brandbox{display:flex;align-items:center;gap:14px}.brandbox img{width:110px;height:auto;border-radius:0;box-shadow:0 6px 24px rgba(239,116,30,.18)}.header h1{margin:0;font-size:25px;color:var(--brand-dark)}.subtitle{margin:6px 0 0;color:var(--muted)}.pill{background:var(--brand);color:white;padding:8px 11px;border-radius:30px;font-weight:bold;font-size:13px}.topbar{display:grid;grid-template-columns:90px 1fr 90px;align-items:center;background:var(--brand);color:#fff;border-radius:14px;padding:12px 18px;margin-bottom:12px;box-shadow:0 8px 24px rgba(239,116,30,.22)}.topbar-logo{display:flex;align-items:center;justify-content:flex-start}.topbar-logo img{width:58px;height:auto;display:block}.topbar-info{text-align:center;line-height:1.35}.topbar-cnpj{font-size:18px;font-weight:700}.topbar-phones{font-size:17px;font-weight:700}.topbar-spacer{width:58px;height:1px}
+.panel{background:white;border:1px solid var(--border);border-radius:15px;padding:24px;box-shadow:0 5px 24px rgba(104,44,7,.08);margin-bottom:17px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.field{margin-bottom:15px}.field label{display:block;font-weight:700;margin-bottom:7px;font-size:14px;color:#442515}input{width:100%;padding:12px;border:1px solid #e2b287;border-radius:9px;font-size:17px;color:#2d1c14;background:white}input:focus{outline:2px solid #f3a869;border-color:var(--brand)}#codigo{letter-spacing:2px;font-weight:700}#produto{background:var(--brand-soft);padding:14px;border-radius:9px;min-height:50px;font-weight:700;color:#7a3708;border:1px solid #f6cfb2}.muted{color:#9a775d;font-weight:normal}.result{display:flex;justify-content:space-between;gap:16px;align-items:center;background:#fff2e8;border:1px solid #ffd3b4;border-radius:12px;padding:17px;margin-top:9px}.result strong{font-size:32px;color:#ae4908}.meta{font-size:13px;color:#7b5a44;margin-top:5px}.buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:17px}button{border:0;border-radius:9px;padding:13px 16px;font-size:15px;font-weight:bold;cursor:pointer;background:var(--brand);color:white}button.secondary{background:#f6e4d4;color:#61371d}button:disabled{opacity:.5;cursor:not-allowed}pre{white-space:pre-wrap;font:14px/1.6 Arial,Helvetica,sans-serif;border:1px solid #f0cfb1;border-radius:10px;padding:14px;margin:12px 0 0;color:#4a2d1d;background:#fffaf6}.error{color:#b42318;font-size:13px;min-height:18px;margin-top:5px}.notice{font-size:13px;color:#75533b;margin-top:12px}details{margin-top:10px}summary{cursor:pointer;font-weight:bold;padding:7px 0;color:#5b3219}.catalog-title{font-size:19px;margin:0 0 6px}.catalog-hint{font-size:13px;color:#76533c;margin:0 0 14px}.table-scroll{overflow-x:auto}tbody tr{cursor:pointer}tbody tr:hover{background:#fff1e6}table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:10px;border-bottom:1px solid #f0dfd0}td:last-child,th:last-child{text-align:right;white-space:nowrap}#feedback{font-size:13px;color:#0c6d41;margin-top:9px;min-height:18px}@media(max-width:600px){.panel{padding:17px}.grid{grid-template-columns:1fr 1fr}.grid .field:last-child{grid-column:1/-1}.header h1{font-size:21px}.pill{font-size:11px}.result strong{font-size:25px}.brandbox img{width:90px}.topbar{grid-template-columns:64px 1fr 0;gap:8px;padding:10px 12px}.topbar-logo img{width:48px}.topbar-spacer{display:none}.topbar-cnpj{font-size:14px}.topbar-phones{font-size:13px}}
+
+/* Layout desktop compacto: formulário principal e catálogo lateral */
+body{padding:12px 16px;min-height:100vh}
+.wrap{max-width:1480px}
+.header{margin-bottom:10px}
+.brandbox img{width:72px}
+.header h1{font-size:21px}.subtitle{font-size:12px;margin-top:2px}
+.topbar{margin-bottom:10px}
+.workspace{display:grid;grid-template-columns:minmax(0,1.06fr) minmax(430px,1fr);gap:12px;align-items:start}
+.maincolumn{min-width:0}.panel{padding:13px 16px;border-radius:11px;margin-bottom:10px}
+.field{margin-bottom:9px}.field label{font-size:12px;margin-bottom:4px}
+input{font-size:15px;padding:8px 10px;border-radius:7px}
+#produto{padding:10px;min-height:38px;font-size:14px}
+.grid{gap:9px}
+.result{margin-top:5px;padding:11px}.result strong{font-size:27px}
+.buttons{margin-top:10px}button{font-size:13px;padding:10px 12px}
+pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
+.notice{margin-top:9px;font-size:11px}.error{min-height:0;margin-top:3px}
+.catalog{margin-bottom:0}.catalog-title{font-size:17px;margin:0 0 3px}.catalog-hint{font-size:11px;margin-bottom:9px}
+.catalog table{font-size:11.5px;line-height:1.18}.catalog th,.catalog td{padding:5px 5px}
+.catalog td:first-child{font-weight:bold;color:#9e460e}
+.catalog tbody tr:hover{background:#ffeedf}
+.catalog tbody tr.active{background:#ffe1ca}
+.catalog .table-scroll{overflow:visible}
+@media(min-width:1000px) and (min-height:700px){.catalog .table-scroll{max-height:calc(100vh - 165px);overflow:auto}}
+@media(max-width:999px){.workspace{grid-template-columns:1fr}.catalog .table-scroll{overflow-x:auto}.catalog table{font-size:12px}.catalog th,.catalog td{padding:8px 6px}}
+@media(max-width:600px){body{padding:12px 9px}.brandbox img{width:64px}.header h1{font-size:18px}.panel{padding:12px}.result strong{font-size:23px}}
+
+/* Seletor exclusivo do adesivo vinil */
+#tipoVinil{display:none;margin:0 0 10px}
+#tipoVinil.visivel{display:block}
+.vinil-opcoes{display:flex;gap:9px;flex-wrap:wrap}
+.vinil-opcoes label{display:flex;align-items:center;gap:7px;border:1px solid #e2b287;border-radius:8px;padding:9px 13px;cursor:pointer;font-size:13px;font-weight:bold;background:#fffaf6;margin:0}
+.vinil-opcoes label:has(input:checked){border-color:var(--brand);background:var(--brand-soft);color:#7a3708}
+.vinil-opcoes input{width:auto;accent-color:var(--brand);margin:0}
+
+/* Navegação por setores */
+.sector-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 14px;padding:4px 0}
+.sector-tab{background:white;color:#754326;border:1px solid var(--border);padding:12px 15px;border-radius:10px;white-space:nowrap;transition:background .15s,border-color .15s}
+.sector-tab:hover{background:#fff0e4}
+.sector-tab.active{background:var(--brand);border-color:var(--brand);color:#fff;box-shadow:0 3px 9px rgba(239,116,30,.2)}
+.sector-tab:focus-visible{outline:3px solid #9d4d11;outline-offset:2px}
+.sector-content[hidden]{display:none!important}
+.empty-sector{max-width:760px;margin:24px auto;padding:34px 26px;text-align:center}
+.empty-sector h2{font-size:22px;margin:0 0 12px;color:#442515}
+.empty-sector p{color:var(--muted);line-height:1.5;margin:0}
+@media(max-width:700px){.sector-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.sector-tab{padding:11px 6px;font-size:12px}}
+
+/* Padronização de mensagens de cópia em todos os setores */
+.feedback-orcamento{font-size:13px;color:#0c6d41;margin-top:9px;min-height:18px;line-height:1.45}
+
+/* Produção externa: formulário + catálogo lateral */
+.externa-produto{border:1px solid #f6cfb2;background:var(--brand-soft);border-radius:9px;padding:11px;font-weight:700;color:#7a3708;font-size:14px;margin-bottom:11px}
+.externa-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.externa-options select{width:100%;padding:10px;border:1px solid #e2b287;background:white;border-radius:8px;font-size:14px;color:#2d1c14}
+.externa-options select:focus{outline:2px solid #f3a869}
+.external-price-note{font-size:12px;color:#75533b;margin:9px 0}
+.external-table tbody tr.active{background:#ffe1ca}
+.external-table tbody tr{cursor:pointer}
+.external-table td:last-child,.external-table th:last-child{text-align:right}
+.externa-impressao-opcoes{flex-wrap:nowrap;gap:7px}
+.externa-impressao-opcoes label{padding:9px 10px;white-space:nowrap}
+.externa-impressao-opcoes label[hidden]{display:none}
+@media(max-width:1200px){.externa-impressao-opcoes{flex-wrap:wrap}}
+@media(max-width:600px){.externa-options{grid-template-columns:1fr}}
+.externa-full-row{grid-column:1/-1}
+.externa-full-row[hidden]{display:none!important}
+.externa-hint{font-size:12px;color:#9b551f;margin:5px 0 0}
+.gramatura-opcoes{margin-top:2px}
+.gramatura-opcoes label{font-weight:700}
+/* Gramatura em linha inteira; quantidade e impressão lado a lado abaixo */
+.externa-options #externa-gramatura-campo{grid-column:1/-1}
+.gramatura-opcoes{display:flex;flex-wrap:nowrap;gap:8px}
+.gramatura-opcoes label{white-space:nowrap;flex:1;justify-content:center;padding:9px 5px;font-size:12px}
+@media(max-width:750px){.gramatura-opcoes{flex-wrap:wrap}.gramatura-opcoes label{flex:0 1 auto;padding:9px 10px}}
+
+.blocos-select{width:100%;padding:10px;border:1px solid #e2b287;border-radius:8px;background:#fff;color:#2d1c14;font-size:14px}
+.blocos-select:focus{outline:2px solid #f3a869}
+.blocos-acabamentos{gap:7px}.blocos-acabamentos label{padding:8px 10px}
+.blocos-acabamentos label[hidden], #blocos-carbonado-vias-campo[hidden], #blocos-carbonado-aviso[hidden]{display:none!important}
+.imp-encaderna-box{border-top:1px solid var(--border);padding-top:12px;margin-top:12px}.imp-encaderna-box #imp-encaderna-dados[hidden]{display:none}
+
+/* Orçamento empresarial, formulário e cabeçalho */
+.topbar{grid-template-columns:85px minmax(0,1fr) auto;gap:14px}
+.topbar-spacer{display:none}
+.topbar-action{background:#fff;color:#a74905;border:2px solid #fff;border-radius:9px;padding:12px 15px;font-weight:800;white-space:nowrap}
+.topbar-action:hover{background:#fff0e6;color:#8c3900}
+.formal-panel{max-width:1150px;margin:0 auto}
+.formal-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.formal-field label{display:block;font-size:13px;font-weight:700;margin-bottom:5px}
+.formal-field input,.formal-field textarea{width:100%;background:white;border:1px solid #e2b287;border-radius:8px;padding:10px;font:14px Arial,sans-serif;color:#2d1c14}
+.formal-field textarea{resize:vertical;min-height:65px}
+.formal-items{width:100%;border-collapse:collapse;margin:10px 0 5px}
+.formal-items th{text-align:left;background:#fff1e6;color:#6b320e;font-size:12px}
+.formal-items th,.formal-items td{padding:8px 5px;border-bottom:1px solid #f0dfd0}
+.formal-items td:last-child,.formal-items th:last-child{text-align:center;white-space:normal}
+.formal-items input{width:100%;min-width:65px;border:1px solid #e2b287;border-radius:6px;padding:9px;font-size:13px}
+.formal-items .formal-desc{min-width:190px}
+.formal-items .formal-qty{min-width:65px}
+.formal-items .formal-price{min-width:110px}
+.formal-radio{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:5px}.formal-radio label{display:flex;align-items:center;gap:6px;border:1px solid #e2b287;border-radius:8px;padding:10px;background:#fffaf6;cursor:pointer;font-size:13px}.formal-radio label:has(input:checked){background:#fff1e6;border-color:#ef741e;color:#813d0c}.formal-radio input{width:auto;accent-color:#ef741e;margin:0}
+.formal-remove{padding:8px 10px;background:#fff0e7;color:#994b15;border:1px solid #e6ad88}
+.formal-total{text-align:right;font-size:24px;font-weight:800;color:#aa4a10;margin:12px 0}
+.formal-help{font-size:12px;color:#76533c;margin:9px 0}
+@media(max-width:750px){.topbar{grid-template-columns:52px 1fr;gap:8px}.topbar-action{grid-column:1/-1;width:100%}.formal-grid{grid-template-columns:1fr}.formal-items{min-width:550px}.formal-table-wrap{overflow-x:auto}.topbar-cnpj{font-size:14px}.topbar-phones{font-size:13px}}
+</style>
+</head>
+<body><main class="wrap"><header class="topbar"><div class="topbar-logo"><img src="data:image/png;base64,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" alt="DC Gráfica Rápida"></div><div class="topbar-info"><div class="topbar-cnpj">CNPJ 00.915.560/0001-76</div><div class="topbar-phones">(21) 98555-5525 / (21) 985555-5523</div></div><button type="button" class="topbar-action" id="abrir-formal">ORÇAMENTO FORMALIZADO</button></header>
+<nav class="sector-tabs" role="tablist" aria-label="Setores de orçamento"><button type="button" class="sector-tab active" role="tab" id="tab-roland" aria-controls="setor-roland" aria-selected="true" data-setor="roland">ROLAND</button><button type="button" class="sector-tab" role="tab" id="tab-externa" aria-controls="setor-externa" aria-selected="false" data-setor="externa">PRODUÇÃO EXTERNA</button><button type="button" class="sector-tab" role="tab" id="tab-blocos" aria-controls="setor-blocos" aria-selected="false" data-setor="blocos">BLOCOS</button><button type="button" class="sector-tab" role="tab" id="tab-impressao" aria-controls="setor-impressao" aria-selected="false" data-setor="impressao">IMPRESSÃO</button><button type="button" class="sector-tab" role="tab" id="tab-servicos" aria-controls="setor-servicos" aria-selected="false" data-setor="servicos">REVELAÇÃO DIGITAL</button><button type="button" class="sector-tab" role="tab" id="tab-crachas" aria-controls="setor-crachas" aria-selected="false" data-setor="crachas">CRACHÁS</button><button type="button" class="sector-tab" role="tab" id="tab-cordao" aria-controls="setor-cordao" aria-selected="false" data-setor="cordao">CORDÃO</button></nav>
+<section id="setor-roland" class="sector-content" role="tabpanel" aria-labelledby="tab-roland">
+<div class="workspace"><div class="maincolumn"><section class="panel"><div class="field"><label for="codigo">Digite o código do produto (1 a 21)</label><input id="codigo" placeholder="Digite 1, 2, 3..." inputmode="numeric" maxlength="3" autocomplete="off" autofocus><div class="error" id="erroCodigo"></div></div><div class="field"><label>Produto aparece automaticamente aqui</label><div id="produto"><span class="muted">Digite um código de 1 a 21</span></div></div><div class="field" id="tipoVinil"><label>Tipo de adesivo vinil</label><div class="vinil-opcoes"><label><input type="radio" name="vinil" value="Branco" checked> Branco</label><label><input type="radio" name="vinil" value="Transparente"> Transparente</label></div></div><div class="grid"><div class="field"><label for="largura">Largura (cm)</label><input id="largura" type="text" inputmode="decimal" placeholder="Ex.: 55"></div><div class="field"><label for="altura">Altura (cm)</label><input id="altura" type="text" inputmode="decimal" placeholder="Ex.: 35"></div><div class="field"><label for="quantidade">Quantidade</label><input id="quantidade" type="number" min="1" step="1" placeholder="Ex.: 1"></div></div><div class="field"><label for="prazo">Prazo de produção (automático)</label><input id="prazo" type="text" placeholder="Calculado pelo valor total" readonly><div class="meta">1 dia útil a cada R$ 160,00 do valor total (arredondado para cima).</div></div><div class="error" id="erroValores"></div><div class="field" style="margin-top:10px"><label>Valor para este orçamento</label>
+<div class="vinil-opcoes" id="roland-modo-valor">
+<label><input type="radio" name="roland-valor" value="minimo" checked> Aplicar mínimo de R$ 20,00</label>
+<label><input type="radio" name="roland-valor" value="original"> Valor original (item adicional no mesmo pedido)</label>
+</div><div class="meta">O valor original pode ser usado quando o pedido já possui outro serviço. A opção selecionada será usada no texto copiado.</div></div>
+<div class="field" style="border:1px solid var(--border);border-radius:9px;padding:10px;background:#fffaf6"><div style="display:flex;justify-content:space-between;gap:10px"><span>Valor original, sem mínimo</span><b id="roland-original">R$ 0,00</b></div><div style="display:flex;justify-content:space-between;gap:10px;margin-top:7px"><span>Valor com mínimo</span><b id="roland-com-minimo">R$ 0,00</b></div></div><div class="result"><div><b>Valor total</b><div class="meta" id="detalhes">Preço por m² conforme o produto escolhido · mínimo por orçamento: R$ 20,00</div></div><strong id="total">R$ 0,00</strong></div><div class="buttons"><button id="copiar" disabled>Copiar orçamento</button><button id="limpar" class="secondary" type="button">Limpar campos</button></div><div id="feedback" class="feedback-orcamento" aria-live="polite"></div><div class="notice">O valor mínimo é de R$ 20,00 para um pedido avulso. Para um serviço adicional no mesmo pedido, selecione o valor original. O cálculo considera altura × largura × quantidade × preço/m² ÷ 10.000.</div></section>
+<section class="panel preview-panel"><b>Prévia do item atual</b><pre id="previa">Preencha o código, as medidas e a quantidade.</pre></section>
+</div>
+<aside class="panel catalog"><h2 class="catalog-title">Produtos e preços</h2><p class="catalog-hint">Digite o código no formulário ou clique em um produto.</p><div class="table-scroll"><table><thead><tr><th>Cód.</th><th>Produto</th><th>R$/m²</th></tr></thead><tbody id="tabela"></tbody></table></div></aside></div></section>
+<section id="setor-externa" class="sector-content" role="tabpanel" aria-labelledby="tab-externa" hidden>
+ <div class="workspace">
+  <div class="maincolumn">
+   <section class="panel">
+    <div class="field"><label for="externa-codigo">Código do produto</label><input id="externa-codigo" inputmode="numeric" maxlength="3" placeholder="Ex.: 1" value="1"><div class="error" id="externa-erro"></div></div>
+    <div class="field"><label>Produto selecionado</label><div class="externa-produto" id="externa-produto">Cartão de Visita 9x5 - Couchê 250g. - UV Total Frente</div></div>
+    <div class="externa-options">
+     <div class="field" id="externa-gramatura-campo" hidden><label>Gramatura do papel</label><div class="vinil-opcoes gramatura-opcoes" id="externa-gramatura-opcoes"><label><input type="radio" name="externa-gramatura" value="70" checked> Couchê Brilho 70g</label><label><input type="radio" name="externa-gramatura" value="90"> Couchê Brilho 90g</label><label><input type="radio" name="externa-gramatura" value="115"> Couchê Brilho 115g</label><label><input type="radio" name="externa-gramatura" value="150"> Couchê Brilho 150g</label></div></div>
+     <div class="field externa-full-row" id="externa-tag-tamanho-campo" hidden><label>Tamanho da tag</label><div class="vinil-opcoes"><label><input type="radio" name="externa-tag-tamanho" value="4.5x5" checked> 4,5 × 5 cm</label><label><input type="radio" name="externa-tag-tamanho" value="9x5"> 9 × 5 cm (furo de 3 mm)</label></div></div>
+     <div class="field externa-full-row" id="externa-tag-furo-campo" hidden><label>Acabamento da tag 4,5 × 5 cm</label><div class="vinil-opcoes"><label><input type="radio" name="externa-tag-furo" value="sem" checked> Sem furo</label><label><input type="radio" name="externa-tag-furo" value="com"> Com furo de 3 mm</label></div></div>
+     <div class="field externa-full-row" id="externa-wind-modelo-campo" hidden><label>Modelo do WindBanner</label><div class="vinil-opcoes"><label><input type="radio" name="externa-wind-modelo" value="Faca" checked> Faca</label><label><input type="radio" name="externa-wind-modelo" value="Asa"> Asa</label><label><input type="radio" name="externa-wind-modelo" value="Vela"> Vela</label><label><input type="radio" name="externa-wind-modelo" value="Gota"> Gota</label></div></div>
+     <div class="field externa-full-row" id="externa-wind-tamanho-campo" hidden><label>Tamanho do WindBanner</label><div class="vinil-opcoes"><label><input type="radio" name="externa-wind-tamanho" value="mini" checked> Mini 1,80m</label><label><input type="radio" name="externa-wind-tamanho" value="grande"> Grande 2,80m</label></div><div class="meta" id="externa-wind-medidas"></div></div>
+     <div class="field" id="externa-wind-quantidade-campo" hidden><label for="externa-wind-quantidade">Quantidade</label><input type="number" id="externa-wind-quantidade" min="1" step="1" value="1"></div>
+     <div class="field" id="externa-quantidade-campo"><label for="externa-quantidade">Quantidade</label><select id="externa-quantidade"><option value="250">250 unidades</option><option value="500">500 unidades</option><option value="1000">1.000 unidades</option><option value="2000">2.000 unidades</option><option value="3000">3.000 unidades</option></select></div>
+     <div class="field" id="externa-impressao-campo"><label>Tipo de impressão</label><div class="vinil-opcoes externa-impressao-opcoes" id="externa-impressao"><label><input type="radio" name="externa-impressao" value="frente" checked> 4/0 - Frente</label><label><input type="radio" name="externa-impressao" value="frenteVerso"> 4/4 - Frente e Verso</label></div></div>
+    </div>
+    <div class="field"><label for="externa-prazo">Prazo de produção</label><input id="externa-prazo" readonly value="até 3 dias úteis"></div>
+    <div class="result"><div><b>Valor total</b><div class="meta" id="externa-detalhes">Preço conforme tiragem e tipo de impressão</div></div><strong id="externa-total">R$ 50,00</strong></div>
+    <div class="buttons"><button id="externa-copiar">Copiar orçamento</button><button class="secondary" id="externa-limpar" type="button">Limpar campos</button></div>
+    <div id="externa-feedback" class="feedback-orcamento" aria-live="polite"></div>
+    <p class="external-price-note">Valores e prazos conforme a tabela cadastrada para cada produto.</p>
+   </section>
+   <section class="panel preview-panel"><b>Prévia para copiar e colar no WhatsApp</b><pre id="externa-previa"></pre></section>
+  </div>
+  <aside class="panel catalog"><h2 class="catalog-title">Produtos e preços</h2><p class="catalog-hint">Digite o código ou clique em um produto. Selecione a tiragem e o tipo de impressão à esquerda.</p>
+    <div class="table-scroll"><table class="external-table"><thead><tr><th>Cód.</th><th>Produto</th><th>Opções</th></tr></thead><tbody id="externa-tabela"><tr data-codigo="1" class="active"><td>1</td><td>Cartão de Visita 9x5 - Couchê 250g. - UV Total Frente</td><td>250 a 3.000 un.</td></tr><tr data-codigo="2"><td>2</td><td>Cartão de Visita 9x5 - Couchê 300g. - Laminação Fosca + Verniz Localizado</td><td>500 a 3.000 un.</td></tr><tr data-codigo="3"><td>3</td><td>Cartão de Visita Duplo 9x10 - Couchê 250g.</td><td>500 a 2.000 un.</td></tr><tr data-codigo="4"><td>4</td><td>Panfleto 10x14 - Couchê Brilho</td><td>500 a 10.000 un.</td></tr><tr data-codigo="5"><td>5</td><td>Panfleto 14x20 - Couchê Brilho</td><td>500 a 10.000 un.</td></tr><tr data-codigo="6"><td>6</td><td>Tag em papel Couchê 250g - UV 1/0 - Verniz Total Frente</td><td>4,5×5 e 9×5 cm</td></tr><tr data-codigo="7"><td>7</td><td>Marcadores de Página Couchê 250g 5x18</td><td>100 a 1.000 un.</td></tr><tr data-codigo="8"><td>8</td><td>WindBanner - Completo: Concreto + Tecido Dupla Face + Haste</td><td>Mini e Grande</td></tr></tbody></table></div>
+  </aside>
+ </div>
+</section>
+<section id="setor-blocos" class="sector-content" role="tabpanel" aria-labelledby="tab-blocos" hidden>
+<div class="workspace">
+  <div class="maincolumn">
+    <section class="panel">
+      <div class="field"><label>Produto selecionado</label><div class="externa-produto" id="blocos-produto">BLOCO PB 1 VIA PADRÃO - 100 FOLHAS CADA</div></div>
+      <div id="blocos-observacao-vias" class="meta" hidden style="margin:0 0 10px">2ª e 3ª vias conforme disponibilidade de estoque. Opções: amarelo, rosa, azul ou verde.</div>
+      <div class="field" id="blocos-carbonado-vias-campo" hidden><label>Quantidade de vias (papel autocopiativo)</label><div class="vinil-opcoes"><label><input type="radio" name="blocos-carbonado-vias" value="2" checked> 2 vias</label><label><input type="radio" name="blocos-carbonado-vias" value="3"> 3 vias</label></div></div>
+      <div class="field"><label for="blocos-tamanho">Tamanho do bloco</label><select id="blocos-tamanho" class="blocos-select"></select></div>
+      <div class="field"><label for="blocos-quantidade">Quantidade de blocos</label><input id="blocos-quantidade" type="number" min="1" step="1" inputmode="numeric" placeholder="Digite a quantidade"><div class="meta" id="blocos-quantidade-ajuda"></div><div class="error" id="blocos-quantidade-erro" aria-live="polite"></div></div>
+      <div class="field"><label>Acabamento adicional</label><div class="vinil-opcoes blocos-acabamentos">
+<label><input type="radio" name="blocos-acabamento" value="nenhum" checked> Sem acabamento adicional</label>
+<label><input type="radio" name="blocos-acabamento" value="serrilhaNumeracao"> Serrilha + Numeração</label>
+<label><input type="radio" name="blocos-acabamento" value="numeracao"> Apenas Numeração</label>
+<label><input type="radio" name="blocos-acabamento" value="serrilha"> Apenas Serrilha</label>
+</div><div class="meta">Adicional por resma iniciada de 500 folhas A4, considerando quantas artes cabem por folha conforme o tamanho.</div></div>
+      <div id="blocos-carbonado-aviso" class="meta" hidden style="margin-bottom:9px">Papel autocopiativo: não fazemos serrilha. Numeração opcional: R$ 20,00 a cada 500 folhas.</div>
+      <div class="field"><label for="blocos-prazo">Prazo de produção</label><input id="blocos-prazo" value="até 3 dias úteis" readonly></div>
+      <div class="result"><div><b>Valor total</b><div class="meta" id="blocos-detalhes">Escolha o tamanho e a tiragem</div></div><strong id="blocos-total">R$ 0,00</strong></div>
+      <div class="buttons"><button id="blocos-copiar">Copiar orçamento</button><button type="button" id="blocos-limpar" class="secondary">Limpar campos</button></div>
+      <div id="blocos-feedback" class="feedback-orcamento" aria-live="polite"></div>
+      <p class="external-price-note">Blocos PB, 100 ou 150 folhas conforme o produto. Acabamentos cobrados por grupos iniciados de 500 folhas A4 equivalentes (base de 100 folhas por bloco), conforme o aproveitamento do tamanho. O bloco de 3 vias tem 150 folhas reais, mas mantém a mesma base de cobrança dos blocos de 1 e 2 vias. O preço unitário é aplicado conforme a faixa de quantidade do tamanho selecionado.</p>
+    </section>
+    <section class="panel preview-panel"><b>Prévia para copiar e colar no WhatsApp</b><pre id="blocos-previa"></pre></section>
+  </div>
+  <aside class="panel catalog">
+    <h2 class="catalog-title">Produtos e preços</h2>
+    <p class="catalog-hint">Selecione o produto e escolha o tamanho e a quantidade no formulário.</p>
+    <div class="table-scroll"><table class="external-table"><thead><tr><th>Cód.</th><th>Produto</th></tr></thead><tbody id="blocos-tabela"></tbody></table></div>
+  </aside>
+</div>
+</section>
+<section id="setor-impressao" class="sector-content" role="tabpanel" aria-labelledby="tab-impressao" hidden>
+ <div class="workspace"><div class="maincolumn">
+  <section class="panel">
+   <div class="field"><label>Produto selecionado</label><div class="externa-produto" id="imp-produto-nome">Impressão a Laser - PB</div></div>
+   <div class="field"><label>Tamanho</label><div class="vinil-opcoes" id="imp-tamanhos"><label><input type="radio" name="imp-tamanho" value="A4" checked> A4</label><label><input type="radio" name="imp-tamanho" value="A3"> A3</label></div></div>
+   <div class="field"><label>Tipo de papel</label><div class="vinil-opcoes" id="imp-papeis"></div></div>
+   <div class="field" id="imp-gramatura-campo" hidden><label>Gramatura</label><div class="vinil-opcoes" id="imp-gramaturas"></div></div>
+   <div class="field" id="imp-lados-campo" hidden><label>Tipo de impressão</label><div class="vinil-opcoes" id="imp-lados"></div></div>
+   <div class="field"><label for="imp-quantidade">Quantidade de impressões</label><input id="imp-quantidade" type="number" min="1" step="1" value="1" inputmode="numeric"></div>
+   <div class="field imp-encaderna-box">
+    <label>Encadernação Espiral (adicional)</label>
+    <div class="vinil-opcoes"><label><input type="radio" name="imp-encadernar" value="nao" checked> Sem encadernação</label><label><input type="radio" name="imp-encadernar" value="sim"> Com encadernação</label></div>
+    <div id="imp-encaderna-dados" hidden>
+     <div class="field" style="margin-top:10px"><label>Impressão das páginas da apostila</label><div class="vinil-opcoes"><label><input type="radio" name="imp-enc-lados" value="frente" checked> Só frente</label><label><input type="radio" name="imp-enc-lados" value="frenteVerso"> Frente e verso</label></div></div>
+     <div class="externa-options" style="margin-top:10px"><div class="field"><label for="imp-folhas-apostila">Folhas físicas por apostila (automático)</label><input id="imp-folhas-apostila" type="number" value="1" readonly></div><div class="field"><label for="imp-apostilas">Quantidade de encadernações</label><input id="imp-apostilas" type="number" min="1" step="1" value="1" inputmode="numeric"></div></div>
+     <p class="external-price-note">O total de páginas informado no campo Quantidade de impressões é dividido entre as apostilas. Frente e verso ocupa duas páginas por folha. Se a quantidade de páginas for ímpar, a última folha terá apenas um lado impresso.</p>
+     <p class="external-price-note">Até 160 folhas: R$ 7,00 · 161 a 200: R$ 9,00 · 201 a 250: R$ 12,00 · 251 a 350: R$ 14,00. Acima de 350 folhas: consultar.</p>
+    </div>
+   </div>
+   <div class="error" id="imp-erro" aria-live="polite"></div>
+   <div class="result"><div><b>Valor total</b><div class="meta" id="imp-detalhes">Preço conforme quantidade e papel</div></div><strong id="imp-total">R$ 0,00</strong></div>
+   <div class="buttons"><button id="imp-copiar" disabled>Copiar orçamento</button><button id="imp-limpar" class="secondary" type="button">Limpar campos</button></div>
+   <div class="feedback-orcamento" id="imp-feedback" aria-live="polite"></div>
+   <p class="notice">Preços por impressão conforme a faixa de quantidade. Os preços são aplicados conforme a faixa de quantidade e o produto escolhido. Para impressão colorida, a última faixa começa em 200 unidades.</p>
+  </section>
+  <section class="panel preview-panel"><b>Prévia para copiar e colar no WhatsApp</b><pre id="imp-previa">Preencha as opções para calcular o orçamento.</pre></section>
+ </div><aside class="panel catalog"><h2 class="catalog-title">Produtos e preços</h2><p class="catalog-hint">Selecione um produto para orçar.</p><div class="table-scroll"><table class="external-table"><thead><tr><th>Cód.</th><th>Produto</th></tr></thead><tbody id="imp-catalogo"><tr data-imp-codigo="1" class="active"><td>1</td><td>Impressão a Laser - PB</td></tr><tr data-imp-codigo="2"><td>2</td><td>Impressão a Laser - Colorido</td></tr></tbody></table></div></aside></div>
+</section>
+
+<section id="setor-servicos" class="sector-content" role="tabpanel" aria-labelledby="tab-servicos" hidden>
+<div class="workspace"><div class="maincolumn"><section class="panel">
+ <div class="field"><label>Produto selecionado</label><div class="externa-produto" id="serv-produto">Revelação 10×15 cm</div></div>
+ <div class="field" id="serv-variante-campo" hidden><label>Acabamento da Polaroid</label><div class="vinil-opcoes">
+ <label><input type="radio" name="serv-variante" value="sem" checked> Sem imã</label>
+ <label><input type="radio" name="serv-variante" value="ima"> Com imã</label>
+ </div></div>
+ <div class="field"><label for="serv-quantidade">Quantidade de unidades</label><input id="serv-quantidade" type="number" min="1" step="1" value="1" inputmode="numeric"></div>
+ <div class="error" id="serv-erro" aria-live="polite"></div>
+ <div class="result"><div><b>Valor total</b><div class="meta" id="serv-detalhes">Selecione o produto e a quantidade</div></div><strong id="serv-total">R$ 0,00</strong></div>
+ <div class="buttons"><button id="serv-copiar" disabled>Copiar orçamento</button><button id="serv-limpar" class="secondary" type="button">Limpar campos</button></div>
+ <div class="feedback-orcamento" id="serv-feedback" aria-live="polite"></div>
+ <p class="notice">Tabela para pagamento em dinheiro ou PIX. Quantidades sem preço na tabela original ficam para confirmação.</p>
+ </section><section class="panel preview-panel"><b>Prévia para copiar e colar no WhatsApp</b><pre id="serv-previa">Selecione o produto e informe a quantidade.</pre></section></div>
+ <aside class="panel catalog"><h2 class="catalog-title">Produtos e preços</h2><p class="catalog-hint">Clique no produto para montar o orçamento.</p><div class="table-scroll"><table class="external-table"><thead><tr><th>Cód.</th><th>Produto</th></tr></thead><tbody id="serv-tabela"><tr data-serv="revelacao" class="active"><td>1</td><td>Revelação 10×15 cm</td></tr><tr data-serv="polaroid"><td>2</td><td>Polaroid</td></tr></tbody></table></div></aside>
+ </div></section>
+
+<section id="setor-crachas" class="sector-content" role="tabpanel" aria-labelledby="tab-crachas" hidden>
+ <div class="workspace">
+  <div class="maincolumn">
+   <section class="panel">
+    <div class="field"><label>Produto selecionado</label><div class="externa-produto">Crachá personalizado - 54 × 86 mm</div></div>
+    <div class="field"><label>Tipo de impressão</label><div class="vinil-opcoes"><label><input type="radio" name="cracha-impressao" value="frente" checked> Só frente</label><label><input type="radio" name="cracha-impressao" value="frenteVerso"> Frente e verso</label></div></div>
+    <div class="field"><label>Acabamento</label><div class="vinil-opcoes"><label><input type="radio" name="cracha-furo" value="com" checked> Com furo</label><label><input type="radio" name="cracha-furo" value="sem"> Sem furo</label></div><div class="meta">O furo não altera o preço.</div></div>
+    <div class="field"><label for="cracha-quantidade">Quantidade de crachás</label><input type="number" id="cracha-quantidade" min="1" step="1" value="1" inputmode="numeric"></div>
+    <div class="error" id="cracha-erro" aria-live="polite"></div>
+    <div class="result"><div><b>Valor total</b><div class="meta" id="cracha-detalhes">Preço calculado pela quantidade</div></div><strong id="cracha-total">R$ 0,00</strong></div>
+    <div class="buttons"><button id="cracha-copiar" type="button">Copiar orçamento</button><button id="cracha-limpar" class="secondary" type="button">Limpar campos</button></div>
+    <div id="cracha-feedback" class="feedback-orcamento" aria-live="polite"></div>
+    <p class="external-price-note">Valores por unidade conforme a faixa de quantidade. O acabamento com ou sem furo não altera o valor. Prazo de produção não informado na tabela.</p>
+   </section>
+   <section class="panel preview-panel"><b>Prévia para copiar e colar no WhatsApp</b><pre id="cracha-previa"></pre></section>
+  </div>
+  <aside class="panel catalog">
+   <h2 class="catalog-title">Crachás 54 × 86 mm</h2>
+   <p class="catalog-hint">Preço unitário por faixa, calculado automaticamente para a quantidade informada.</p>
+   <div class="table-scroll"><table class="external-table"><thead><tr><th>Quantidade</th><th>Só frente</th><th>Frente e verso</th></tr></thead><tbody id="cracha-tabela">
+    <tr data-faixa="0"><td>1 a 5</td><td>R$ 15,00</td><td>R$ 22,00</td></tr>
+    <tr data-faixa="1"><td>6 a 15</td><td>R$ 13,00</td><td>R$ 18,00</td></tr>
+    <tr data-faixa="2"><td>16 a 50</td><td>R$ 11,00</td><td>R$ 14,00</td></tr>
+    <tr data-faixa="3"><td>50 a 100*</td><td>R$ 9,00</td><td>R$ 12,00</td></tr>
+    <tr data-faixa="4"><td>Acima de 100</td><td>R$ 7,00</td><td>R$ 9,00</td></tr>
+   </tbody></table></div>
+   <p class="external-price-note">*Para evitar sobreposição entre faixas, 50 unidades usam o valor da faixa de 16 a 50; a faixa seguinte começa em 51.</p>
+  </aside>
+ </div>
+</section>
+
+<section id="setor-cordao" class="sector-content" role="tabpanel" aria-labelledby="tab-cordao" hidden>
+ <div class="workspace"><div class="maincolumn">
+  <section class="panel">
+   <div class="field"><label>Produto selecionado</label><div class="externa-produto">Cordão Personalizado 20 mm - 90 × 2 cm</div></div>
+   <div class="field"><label>Acabamento</label><div class="vinil-opcoes">
+    <label><input type="radio" name="cordao-acabamento" value="padrao" checked> Argola + jacaré (padrão)</label>
+    <label><input type="radio" name="cordao-acabamento" value="mosquetao"> Mosquetão (+ R$ 1,90 por unidade, acima de 50 unidades)</label>
+   </div></div>
+   <div class="field"><label for="cordao-quantidade">Quantidade de cordões</label><input id="cordao-quantidade" type="number" min="1" step="1" value="1" inputmode="numeric"></div>
+   <div class="field"><label for="cordao-prazo">Prazo de produção</label><input id="cordao-prazo" value="3 a 5 dias úteis" readonly></div>
+   <div id="cordao-erro" class="error" aria-live="polite"></div>
+   <div class="result"><div><b>Valor total</b><div class="meta" id="cordao-detalhes">Cálculo conforme quantidade e acabamento</div></div><strong id="cordao-total">R$ 0,00</strong></div>
+   <div class="buttons"><button id="cordao-copiar" type="button">Copiar orçamento</button><button id="cordao-limpar" class="secondary" type="button">Limpar campos</button></div>
+   <div id="cordao-feedback" class="feedback-orcamento" aria-live="polite"></div>
+   <p class="external-price-note">Cordão 20 mm, comprimento 90 cm, com argola + jacaré. Mosquetão disponível apenas para pedidos acima de 50 unidades, com acréscimo de R$ 1,90 por unidade.</p>
+  </section>
+  <section class="panel preview-panel"><b>Prévia para copiar e colar no WhatsApp</b><pre id="cordao-previa"></pre></section>
+ </div><aside class="panel catalog">
+  <h2 class="catalog-title">Cordão Personalizado 20 mm</h2><p class="catalog-hint">Preços unitários por quantidade, com cálculo automático.</p>
+  <div class="table-scroll"><table class="external-table"><thead><tr><th>Quantidade</th><th>Valor por unidade</th></tr></thead><tbody id="cordao-tabela">
+   <tr><td>1 unidade</td><td>R$ 25,00</td></tr><tr><td>2 a 5</td><td>R$ 20,00</td></tr><tr><td>6 a 10</td><td>R$ 17,50</td></tr><tr><td>11 a 16</td><td>R$ 13,50</td></tr><tr><td>17 a 22</td><td>R$ 12,00</td></tr><tr><td>23 a 49</td><td>R$ 10,50</td></tr><tr><td>50 a 99</td><td>R$ 6,50</td></tr><tr><td>100 a 299</td><td>R$ 5,90</td></tr><tr><td>300 ou mais</td><td>R$ 5,15</td></tr>
+  </tbody></table></div>
+ </aside></div>
+</section>
+
+<section id="setor-formal" class="sector-content" hidden aria-label="Orçamento formalizado">
+ <section class="panel formal-panel">
+  <h2 style="margin:0 0 6px">Orçamento formalizado para empresas</h2>
+  <p class="formal-help">Preencha os dados e clique em Gerar PDF. O arquivo é criado e baixado automaticamente, sem internet. Valores e campos podem ser editados.</p>
+  <div class="formal-grid">
+   
+   <div class="formal-field"><label for="formal-data">Data</label><input id="formal-data" type="date"></div>
+   <div class="formal-field"><label for="formal-cliente">Empresa / Cliente *</label><input id="formal-cliente" placeholder="Razão social ou nome"></div>
+   <div class="formal-field"><label for="formal-cnpj">CNPJ / CPF do cliente</label><input id="formal-cnpj" placeholder="Opcional"></div>
+   <div class="formal-field"><label for="formal-contato">Contato do cliente</label><input id="formal-contato" placeholder="Nome do responsável"></div>
+   <div class="formal-field"><label for="formal-email">E-mail / Telefone do cliente</label><input id="formal-email" placeholder="Opcional"></div>
+  </div>
+  <h3 style="margin:20px 0 8px">Produtos e serviços</h3>
+  <div class="formal-table-wrap"><table class="formal-items"><thead><tr><th style="width:49%">Descrição</th><th>Qtd.</th><th>Valor total (R$)</th><th></th></tr></thead><tbody id="formal-itens"></tbody></table></div>
+  <button type="button" class="secondary" id="formal-adicionar">+ Adicionar item</button>
+  <div class="formal-total">Total: <span id="formal-total">R$ 0,00</span></div>
+  <div class="formal-grid">
+   <div class="formal-field"><label for="formal-prazo">Prazo de produção</label><input id="formal-prazo" placeholder="Ex.: até 3 dias úteis após aprovação"></div>
+   <div class="formal-field"><label for="formal-validade">Validade do orçamento</label><input id="formal-validade" placeholder="Ex.: 7 dias"></div>
+   <div class="formal-field"><label>Entrega / Retirada</label><div class="vinil-opcoes formal-radio"><label><input type="radio" name="formal-entrega" value="Retirada no balcão" checked> Retirada</label><label><input type="radio" name="formal-entrega" value="Entrega"> Entrega</label></div></div>
+   <div class="formal-field"><label>Forma de pagamento</label><div class="vinil-opcoes formal-radio"><label><input type="radio" name="formal-pagamento" value="PIX" checked> PIX</label><label><input type="radio" name="formal-pagamento" value="Débito"> Débito</label><label><input type="radio" name="formal-pagamento" value="Crédito"> Crédito</label><label><input type="radio" name="formal-pagamento" value="Link de pagamento"> Link de pagamento</label></div></div>
+   <div class="formal-field" style="grid-column:1/-1"><label for="formal-obs">Observações</label><textarea id="formal-obs" rows="3" placeholder="Detalhes, acabamento, condições adicionais..."></textarea></div>
+  </div>
+  <div class="error" id="formal-erro" aria-live="polite"></div>
+  <div class="buttons"><button type="button" id="formal-pdf">Gerar PDF automaticamente</button><button type="button" class="secondary" id="formal-limpar">Limpar orçamento</button><button type="button" class="secondary" id="formal-voltar">Voltar aos produtos</button></div>
+  <div id="formal-feedback" class="feedback-orcamento" aria-live="polite"></div>
+ </section>
+</section>
+</main>
+<script>
+'use strict';
+const produtos={
+'1':['Adesivo Vinil Branco ou Transparente',80],
+'2':['Banner Tubete e Corda',80],
+'3':['Lona com Ilhós',80],
+'4':['Adesivo recorte eletrônico (mascarado)',160],
+'5':['Adesivo retroverso',180],
+'6':['Adesivo com laminação + refile individual',220],
+'7':['Adesivo laminado',200],
+'8':['Adesivo com refile',180],
+'9':['Adesivo Microperfurado',140],
+'10':['Placa adesivada 1mm - só frente',180],
+'11':['Placa adesivada 2mm - só frente',270],
+'12':['Placa 1mm adesivada frente e verso',260],
+'13':['Placa 2mm adesivada frente e verso',310],
+'14':['Placa adesivada 1mm c/ laminação - só frente',220],
+'15':['Placa adesivada 2mm c/ laminação - só frente',310],
+'16':['Placa 1mm com laminação - frente e verso',300],
+'17':['Placa 2mm com laminação - frente e verso',390],
+'18':['Placa 1mm adesivada c/ pé - display',195],
+'19':['Papel Fotográfico - Glossy 240g',190],
+'20':['Papel Fotográfico Glossy 180g',170],
+'21':['Totem',300]
+};
+const $=id=>document.getElementById(id);
+const money=n=>n.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const decimal=s=>Number(String(s).trim().replace(',','.'));
+let mensagem='';
+function atualiza(){
+ const raw=$('codigo').value.trim();const codigo=/^\d{1,2}$/.test(raw)?String(Number(raw)):'';const item=produtos[codigo];
+ $('erroCodigo').textContent=raw&&!item?'Código não encontrado. Confira a lista de produtos.':'';
+ $('produto').textContent=item?item[0]:'';
+  $('tipoVinil').classList.toggle('visivel',codigo==='1');
+ document.querySelectorAll('#tabela tr').forEach(tr=>tr.classList.toggle('active',tr.querySelector('td')?.textContent.trim()===codigo));
+ if(!item)$('produto').innerHTML='<span class="muted">Digite um código de 1 a 21</span>';
+ const h=decimal($('altura').value),w=decimal($('largura').value),q=Number($('quantidade').value);
+ const pronto=item&&Number.isFinite(h)&&h>0&&Number.isFinite(w)&&w>0&&Number.isSafeInteger(q)&&q>0;
+ $('erroValores').textContent=!pronto&&item&&($('altura').value||$('largura').value||$('quantidade').value)?'Informe altura e largura maiores que zero e quantidade inteira positiva.':'';
+ $('copiar').disabled=!pronto;
+
+ $('feedback').textContent='';
+ if(!pronto){$('prazo').value='';$('roland-original').textContent='R$ 0,00';$('roland-com-minimo').textContent='R$ 0,00';$('total').textContent='R$ 0,00';$('detalhes').textContent='Preço por m² conforme o produto escolhido · mínimo por orçamento: R$ 20,00';$('previa').textContent='Preencha o código, as medidas e a quantidade.';mensagem='';return;}
+ const area=h*w*q/10000, bruto=area*item[1], original=Math.round((bruto+Number.EPSILON)*100)/100, comMinimo=Math.max(20,original);
+ $('roland-original').textContent=money(original);
+ $('roland-com-minimo').textContent=money(comMinimo);
+ const modo=document.querySelector('input[name="roland-valor"]:checked').value;
+ const total=modo==='original'?original:comMinimo;
+ $('total').textContent=money(total);
+ $('detalhes').textContent=modo==='original'?'Valor original, sem mínimo':(original<20?'Mínimo de R$ 20,00 aplicado':'Valor calculado, acima do mínimo');
+ const prazo=Math.max(1,Math.ceil(total/160));
+ $('prazo').value='até '+prazo+' '+(prazo===1?'dia útil':'dias úteis');
+ const prazoTexto='\nPrazo de produção: até '+prazo+' '+(prazo===1?'dia útil':'dias úteis');
+ const nomeOrcamento=codigo==='1'?'Adesivo Vinil '+document.querySelector('input[name="vinil"]:checked').value:item[0];
+  mensagem='Segue orçamento:\nProduto: '+nomeOrcamento+' - Medida: '+$('largura').value.trim()+'cm largura × '+$('altura').value.trim()+'cm altura\nQuantidade: '+q+' '+(q===1?'unidade':'unidades')+'\n*VALOR TOTAL: '+money(total)+'*'+prazoTexto;
+ $('previa').textContent=mensagem;
+
+}
+['codigo','altura','largura','quantidade'].forEach(id=>$(id).addEventListener('input',atualiza));
+ document.querySelectorAll('input[name="vinil"]').forEach(el=>el.addEventListener('change',atualiza));
+ document.querySelectorAll('input[name="roland-valor"]').forEach(el=>el.addEventListener('change',atualiza));
+$('codigo').addEventListener('blur',()=>{const s=$('codigo').value.trim();if(s&&/^\d{1,3}$/.test(s))$('codigo').value=String(Number(s));atualiza()});
+$('limpar').addEventListener('click',()=>{['codigo','altura','largura','quantidade','prazo'].forEach(id=>$(id).value='');document.querySelector('input[name="vinil"][value="Branco"]').checked=true;document.querySelector('input[name="roland-valor"][value="minimo"]').checked=true;atualiza();$('codigo').focus()});
+$('copiar').addEventListener('click',async()=>{if(!mensagem)return;try{await navigator.clipboard.writeText(mensagem);$('feedback').textContent='Orçamento copiado! Cole no WhatsApp com Ctrl + V.'}catch(e){const ta=document.createElement('textarea');ta.value=mensagem;document.body.appendChild(ta);ta.select();let ok=document.execCommand('copy');ta.remove();$('feedback').textContent=ok?'Orçamento copiado! Cole no WhatsApp com Ctrl + V.':'Não foi possível copiar automaticamente. Selecione o texto da prévia e copie com Ctrl + C.'}});
+$('tabela').innerHTML=Object.entries(produtos).map(([c,[nome,valor]])=>'<tr data-codigo="'+c+'" title="Selecionar produto"><td>'+c+'</td><td>'+nome+'</td><td>'+money(valor)+'</td></tr>').join('');
+$('tabela').addEventListener('click',e=>{const tr=e.target.closest('tr[data-codigo]');if(!tr)return;$('codigo').value=tr.dataset.codigo;atualiza();$('altura').focus();window.scrollTo({top:0,behavior:'smooth'});});
+atualiza();
+
+
+// Catálogo da Produção Externa (preços de tabela, independentes da Roland).
+const externaProdutos={
+ '1':{nome:'Cartão de Visita 9x5 - Couchê 250g. - UV Total Frente',
+  valores:{250:{frente:50,frenteVerso:60},500:{frente:60,frenteVerso:70},1000:{frente:90,frenteVerso:100},2000:{frente:152,frenteVerso:160},3000:{frente:228,frenteVerso:240}},prazo:'até 3 dias úteis'},
+ '2':{nome:'Cartão de Visita 9x5 - Couchê 300g. - Laminação Fosca + Verniz Localizado',
+  valores:{500:{frenteVerso:190},1000:{frenteVerso:220},2000:{frenteVerso:380},3000:{frenteVerso:560}},prazo:'até 3 dias úteis'},
+ '3':{nome:'Cartão de Visita Duplo 9x10 - Couchê 250g.',
+  valores:{500:{frente:120,frenteVerso:170},1000:{frente:135,frenteVerso:229},2000:{frente:264,frenteVerso:429}},prazo:'até 3 dias úteis'},
+ '4':{nome:'Panfleto 10x14 - Couchê Brilho',prazo:'até 3 dias úteis',
+  gramaturas:{
+   '70':{500:{frente:160,frenteVerso:190},1000:{frente:185,frenteVerso:200},2500:{frente:200,frenteVerso:250},5000:{frente:220,frenteVerso:280},10000:{frente:400,frenteVerso:460}},
+   '90':{500:{frente:176,frenteVerso:206},1000:{frente:180,frenteVerso:210},2500:{frente:220,frenteVerso:270},5000:{frente:270,frenteVerso:340},10000:{frente:540,frenteVerso:680}},
+   '115':{500:{frente:166,frenteVerso:205},1000:{frente:170,frenteVerso:210},2500:{frente:240,frenteVerso:300},5000:{frente:320,frenteVerso:400},10000:{frente:640,frenteVerso:800}},
+   '150':{500:{frente:210,frenteVerso:240},1000:{frente:280,frenteVerso:380},2500:{frente:310,frenteVerso:370},5000:{frente:460,frenteVerso:540},10000:{frente:920,frenteVerso:1080}}
+  }},
+ '5':{nome:'Panfleto 14x20 - Couchê Brilho',
+  prazo:'até 3 dias úteis',
+  gramaturas:{
+   '70':{500:{frente:320,frenteVerso:380},1000:{frente:340,frenteVerso:400},2500:{frente:400,frenteVerso:600},5000:{frente:440,frenteVerso:560},10000:{frente:800,frenteVerso:920}},
+   '90':{500:{frente:352,frenteVerso:412},1000:{frente:360,frenteVerso:420},2500:{frente:440,frenteVerso:540},5000:{frente:540,frenteVerso:680},10000:{frente:1080,frenteVerso:1360}},
+   '115':{500:{frente:332,frenteVerso:400},1000:{frente:340,frenteVerso:420},2500:{frente:440,frenteVerso:560},5000:{frente:600,frenteVerso:760},10000:{frente:1280,frenteVerso:1600}},
+   '150':{500:{frente:420,frenteVerso:480},1000:{frente:560,frenteVerso:760},2500:{frente:620,frenteVerso:770},5000:{frente:920,frenteVerso:1840},10000:{frente:1840,frenteVerso:2160}}
+  }},
+ '6':{nome:'Tag em papel Couchê 250g - UV 1/0 - Verniz Total Frente',prazo:'até 3 a 4 dias úteis',tamanhos:{
+  '4.5x5':{sem:{100:{frente:24,frenteVerso:32},250:{frente:36,frenteVerso:46},500:{frente:50,frenteVerso:68},1000:{frente:58,frenteVerso:74},2000:{frente:70,frenteVerso:84},4000:{frente:138,frenteVerso:162}},com:{100:{frente:64,frenteVerso:72},250:{frente:76,frenteVerso:86},500:{frente:88.10,frenteVerso:108},1000:{frente:98,frenteVerso:114},2000:{frente:150,frenteVerso:164},4000:{frente:298,frenteVerso:322}}},
+  '9x5':{com:{100:{frente:72,frenteVerso:88},250:{frente:90,frenteVerso:98},500:{frente:96,frenteVerso:104},1000:{frente:150,frenteVerso:160},2000:{frente:280,frenteVerso:290}}}
+ }},
+ '7':{nome:'Marcadores de Página Couchê 250g 5x18',prazo:'até 4 dias úteis',aviso:'Valor de criação de arte não incluso!',valores:{100:{frente:92,frenteVerso:99.20},250:{frente:128,frenteVerso:160},500:{frente:144,frenteVerso:168},1000:{frente:152,frenteVerso:180}}},
+ '8':{nome:'WindBanner - Completo: Concreto + Tecido Dupla Face + Haste',prazo:'até 5 dias úteis',windbanner:true,tamanhosWind:{mini:{valor:245,alturaReta:'2,10 m',alturaMontada:'aproximadamente 1,80 m',tecido:'50 × 150 cm'},grande:{valor:285,alturaReta:'3,25 m',alturaMontada:'aproximadamente 2,80 m',tecido:'75 × 200 cm'}}}
+};
+let mensagemExterna='';
+let externaCodigoAnterior='';
+function atualizaExterna(){
+ const codigo=String(Number($('externa-codigo').value||0));
+ const item=externaProdutos[codigo];
+ const tag=!!item?.tamanhos;
+ const wind=!!item?.windbanner;
+ $('externa-erro').textContent=$('externa-codigo').value.trim()&&!item?'Código não encontrado. Selecione um produto da lista.':'';
+ document.querySelectorAll('#externa-tabela tr[data-codigo]').forEach(tr=>tr.classList.toggle('active',tr.dataset.codigo===codigo));
+ $('externa-produto').textContent=item?item.nome:'Selecione um produto da lista';
+ $('externa-gramatura-campo').hidden=!(item&&item.gramaturas);
+ $('externa-wind-modelo-campo').hidden=!wind;
+ $('externa-wind-tamanho-campo').hidden=!wind;
+ $('externa-wind-quantidade-campo').hidden=!wind;
+ $('externa-quantidade-campo').hidden=wind;
+ $('externa-impressao-campo').hidden=wind;
+ if(wind){
+  if(codigo!==externaCodigoAnterior){
+   document.querySelector('input[name="externa-wind-modelo"][value="Faca"]').checked=true;
+   document.querySelector('input[name="externa-wind-tamanho"][value="mini"]').checked=true;
+   $('externa-wind-quantidade').value='1';
+  }
+  const modelo=document.querySelector('input[name="externa-wind-modelo"]:checked').value;
+  const tam=document.querySelector('input[name="externa-wind-tamanho"]:checked').value;
+  const dados=item.tamanhosWind[tam];
+  const qtd=Number($('externa-wind-quantidade').value);
+  const valido=Number.isSafeInteger(qtd)&&qtd>0;
+  const total=dados.valor*qtd;
+  $('externa-wind-medidas').textContent='Altura reta: '+dados.alturaReta+' | Montado: '+dados.alturaMontada+' | Tecido após costura: '+dados.tecido;
+  $('externa-prazo').value=item.prazo;
+  $('externa-total').textContent=valido?money(total):'R$ 0,00';
+  $('externa-detalhes').textContent=tam==='mini'?'Mini - '+money(dados.valor)+' por unidade':'Grande - '+money(dados.valor)+' por unidade';
+  mensagemExterna=valido?'Segue orçamento:\nProduto: '+item.nome+'\nModelo: '+modelo+' - Tamanho: '+(tam==='mini'?'Mini':'Grande')+'\nAltura: '+dados.alturaReta+' reto / '+dados.alturaMontada+' montado\nTecido após costura: '+dados.tecido+'\nQuantidade: '+qtd+' '+(qtd===1?'unidade':'unidades')+'\n*VALOR TOTAL: '+money(total)+'*\nPrazo de produção: '+item.prazo:'';
+  $('externa-previa').textContent=valido?mensagemExterna:'Informe uma quantidade inteira maior que zero.';
+  $('externa-copiar').disabled=!valido;
+  $('externa-feedback').textContent='';
+  externaCodigoAnterior=codigo;
+  return;
+ }
+
+ $('externa-tag-tamanho-campo').hidden=!tag;
+ const tamanho=tag?document.querySelector('input[name="externa-tag-tamanho"]:checked').value:null;
+ $('externa-tag-furo-campo').hidden=!(tag&&tamanho==='4.5x5');
+ if(!item){externaCodigoAnterior=codigo;$('externa-copiar').disabled=true;$('externa-total').textContent='R$ 0,00';$('externa-prazo').value='';$('externa-detalhes').textContent='Selecione um produto válido';$('externa-previa').textContent='Selecione um produto para calcular o orçamento.';mensagemExterna='';return;}
+ if(codigo!==externaCodigoAnterior){
+  if(item.gramaturas)document.querySelector('input[name="externa-gramatura"][value="70"]').checked=true;
+  if(tag){document.querySelector('input[name="externa-tag-tamanho"][value="4.5x5"]').checked=true;document.querySelector('input[name="externa-tag-furo"][value="sem"]').checked=true;}
+  externaCodigoAnterior=codigo;
+ }
+ const tamanhoAtual=tag?document.querySelector('input[name="externa-tag-tamanho"]:checked').value:null;
+ const furo=tag?(tamanhoAtual==='9x5'?'com':document.querySelector('input[name="externa-tag-furo"]:checked').value):null;
+ $('externa-tag-furo-campo').hidden=!(tag&&tamanhoAtual==='4.5x5');
+ const gramatura=item.gramaturas?(document.querySelector('input[name="externa-gramatura"]:checked')?.value||'70'):null;
+ const valores=tag?item.tamanhos[tamanhoAtual][furo]:(item.gramaturas?item.gramaturas[gramatura]:item.valores);
+ if(!valores){
+  $('externa-copiar').disabled=true;$('externa-total').textContent='Valor a definir';$('externa-prazo').value='a confirmar';
+  $('externa-detalhes').textContent='Tag 4,5 × 5 cm com furo: preços não cadastrados';
+  $('externa-previa').textContent='Preços para a tag 4,5 × 5 cm com furo ainda não informados.';mensagemExterna='';$('externa-feedback').textContent='';return;
+ }
+ const antigasQuantidades=Array.from($('externa-quantidade').options).map(o=>o.value).join(',');
+ const quantidades=Object.keys(valores).map(Number).sort((a,b)=>a-b);
+ const novasQuantidades=quantidades.join(',');
+ if(antigasQuantidades!==novasQuantidades){
+  const anterior=$('externa-quantidade').value;
+  $('externa-quantidade').innerHTML=quantidades.map(q=>'<option value="'+q+'">'+q.toLocaleString('pt-BR')+' unidades</option>').join('');
+  if(quantidades.includes(Number(anterior)))$('externa-quantidade').value=anterior;
+ }
+ const qtd=Number($('externa-quantidade').value);
+ const disponiveis=Object.keys(valores[qtd]);
+ const radiosImpressao=Array.from(document.querySelectorAll('input[name="externa-impressao"]'));
+ radiosImpressao.forEach(radio=>{radio.closest('label').hidden=!disponiveis.includes(radio.value);radio.disabled=!disponiveis.includes(radio.value);});
+ let radioSelecionado=radiosImpressao.find(radio=>radio.checked&&!radio.disabled);
+ if(!radioSelecionado){radioSelecionado=radiosImpressao.find(radio=>!radio.disabled);if(radioSelecionado)radioSelecionado.checked=true;}
+ const impressao=radioSelecionado?.value;
+ const total=valores[qtd]?.[impressao];
+ if(typeof total!=='number'){$('externa-copiar').disabled=true;return;}
+ const tipo=impressao==='frente'?'4/0 - Frente':'4/4 - Frente e Verso';
+ const prazoExterna=item.prazosPorGramatura?.[gramatura]?.[qtd]||item.prazosPorQuantidade?.[qtd]||item.prazo;
+ const variacao=tag?' - Tamanho: '+(tamanhoAtual==='4.5x5'?'4,5 × 5 cm':'9 × 5 cm')+' - '+(furo==='com'?'Com furo de 3 mm':'Sem furo'):'';
+ $('externa-total').textContent=money(total);$('externa-prazo').value=prazoExterna;
+ $('externa-detalhes').textContent=(gramatura?'Couchê Brilho '+gramatura+'g · ':'')+tipo+' · '+qtd.toLocaleString('pt-BR')+' unidades'+(tag?' · '+(furo==='com'?'com furo de 3 mm':'sem furo'):'');
+ mensagemExterna='Segue orçamento:\nProduto: '+item.nome+(gramatura?' '+gramatura+'g':'')+variacao+' - Impressão: '+tipo+'\nQuantidade: '+qtd.toLocaleString('pt-BR')+' unidades\n*VALOR TOTAL: '+money(total)+'*\nPrazo de produção: '+prazoExterna+(item.aviso?'\n*'+item.aviso+'*':'');
+ $('externa-previa').textContent=mensagemExterna;$('externa-copiar').disabled=false;$('externa-feedback').textContent='';
+}
+$('externa-wind-quantidade').addEventListener('input',atualizaExterna);
+['externa-codigo','externa-quantidade'].forEach(id=>$(id).addEventListener(id==='externa-codigo'?'input':'change',atualizaExterna));
+document.querySelectorAll('input[name="externa-gramatura"],input[name="externa-tag-tamanho"],input[name="externa-tag-furo"],input[name="externa-impressao"],input[name="externa-wind-modelo"],input[name="externa-wind-tamanho"]').forEach(el=>el.addEventListener('change',atualizaExterna));
+$('externa-tabela').addEventListener('click',e=>{const tr=e.target.closest('tr[data-codigo]');if(!tr)return;$('externa-codigo').value=tr.dataset.codigo;atualizaExterna();});
+$('externa-limpar').addEventListener('click',()=>{$('externa-codigo').value='1';externaCodigoAnterior='';atualizaExterna();});
+$('externa-copiar').addEventListener('click',async()=>{
+ if(!mensagemExterna)return;
+ try{await navigator.clipboard.writeText(mensagemExterna);$('externa-feedback').textContent='Orçamento copiado! Cole no WhatsApp com Ctrl + V.';}
+ catch(e){const ta=document.createElement('textarea');ta.value=mensagemExterna;document.body.appendChild(ta);ta.select();const ok=document.execCommand('copy');ta.remove();$('externa-feedback').textContent=ok?'Orçamento copiado! Cole no WhatsApp com Ctrl + V.':'Selecione o texto da prévia e copie com Ctrl + C.';}
+});
+atualizaExterna();
+
+
+// BLOCOS: 2 produtos, cada um com tamanhos e suas faixas de preços.
+// Preço unitário de cada faixa = valor informado / quantidade de referência.
+const blocosCatalogo={
+ '1':{nome:'BLOCO PB 1 VIA PADRÃO - 100 FOLHAS CADA',vias:1,tamanhos:[
+  {tamanho:'10×7 cm',multiplo:8,precos:[[8,40],[16,72],[24,84],[40,95]]},
+  {tamanho:'8×8 ou 9×9 cm',multiplo:6,precos:[[6,36],[30,95]]},
+  {tamanho:'10×14 cm',multiplo:4,precos:[[4,40],[12,108],[16,128],[20,95]]},
+  {tamanho:'20×9 cm',multiplo:3,precos:[[3,36],[9,99],[12,120],[15,95]]},
+  {tamanho:'14×20 cm',multiplo:2,precos:[[2,35],[4,68],[6,96],[10,95]]},
+  {tamanho:'20×30 cm',multiplo:1,precos:[[1,22],[5,95]]}
+ ]},
+ '2':{nome:'BLOCO PB 2 VIAS PADRÃO - 100 FOLHAS CADA',vias:2,tamanhos:[
+  {tamanho:'10×7 cm',multiplo:8,precos:[[8,44],[16,80],[24,96],[40,107.50]]},
+  {tamanho:'8×8 ou 9×9 cm',multiplo:6,precos:[[6,36],[30,107.50]]},
+  {tamanho:'10×14 cm',multiplo:4,precos:[[4,44],[12,114],[16,120],[20,107.50]]},
+  {tamanho:'20×9 cm',multiplo:3,precos:[[3,39],[9,99],[12,114],[15,107.50]]},
+  {tamanho:'14×20 cm',multiplo:2,precos:[[2,43],[4,80],[6,102],[10,107.50]]},
+  {tamanho:'20×30 cm',multiplo:1,precos:[[1,24],[5,107.50]]}
+ ]},
+ '3':{nome:'BLOCO PB 3 VIAS PADRÃO - 150 FOLHAS CADA',vias:3,folhas:150,tamanhos:[
+  {tamanho:'10×7 cm',multiplo:8,precos:[[8,44],[16,80],[24,96],[40,107.60]]},
+  {tamanho:'8×8 ou 9×9 cm',multiplo:6,precos:[[6,45],[30,157.50]]},
+  {tamanho:'10×14 cm',multiplo:4,precos:[[4,52],[12,132],[16,152],[20,157.50]]},
+  {tamanho:'20×9 cm',multiplo:3,precos:[[3,45],[9,126],[12,150],[15,157.50]]},
+  {tamanho:'14×20 cm',multiplo:2,precos:[[2,55],[4,100],[6,117],[10,157.50]]},
+  {tamanho:'20×30 cm',multiplo:1,precos:[[1,32.50],[5,155]]}
+ ]},
+ '4':{nome:'BLOCO PB CARBONADO - PAPEL AUTOCOPIATIVO',carbonado:true,tamanhos:[]}
+};
+// Preços informados para as quantidades de referência, separados por número de vias.
+const carbonadoTabelas={
+ '2':[
+  {tamanho:'10×7 cm',multiplo:8,minimo:8,referenciaQuantidade:40,preco:320},
+  {tamanho:'10×14 cm',multiplo:4,minimo:4,referenciaQuantidade:30,preco:320},
+  {tamanho:'20×9 cm',multiplo:3,minimo:3,referenciaQuantidade:15,preco:320},
+  {tamanho:'14×20 cm',multiplo:2,minimo:2,referenciaQuantidade:10,preco:320},
+  {tamanho:'20×30 cm',multiplo:1,minimo:5,preco:320}
+ ],
+ '3':[
+  {tamanho:'10×7 cm',multiplo:8,minimo:8,referenciaQuantidade:40,preco:360},
+  {tamanho:'10×14 cm',multiplo:4,minimo:4,referenciaQuantidade:20,preco:360},
+  {tamanho:'20×9 cm',multiplo:3,minimo:3,referenciaQuantidade:15,preco:360},
+  {tamanho:'14×20 cm',multiplo:2,minimo:2,referenciaQuantidade:10,preco:360},
+  {tamanho:'20×30 cm',multiplo:1,minimo:5,preco:360}
+ ]
+};
+let mensagemBlocos='';
+let blocoCodigo='1';
+function montarBlocos(){
+ $('blocos-tabela').innerHTML=Object.entries(blocosCatalogo).map(([cod,p])=>
+  '<tr data-produto-bloco="'+cod+'"><td>'+cod+'</td><td>'+p.nome+'</td></tr>').join('');
+ selecionarBloco('1');
+}
+function selecionarBloco(codigo){
+ if(!blocosCatalogo[codigo])return;
+ blocoCodigo=codigo;
+ const produto=blocosCatalogo[codigo];
+ const carbonado=!!produto.carbonado;
+ $('blocos-carbonado-vias-campo').hidden=!carbonado;
+ $('blocos-carbonado-aviso').hidden=!carbonado;
+ document.querySelectorAll('.blocos-acabamentos label').forEach(label=>{
+  const tipo=label.querySelector('input')?.value;
+  label.hidden=carbonado && !['nenhum','numeracao'].includes(tipo);
+ });
+ if(carbonado){document.querySelector('input[name="blocos-carbonado-vias"][value="2"]').checked=true;produto.tamanhos=carbonadoTabelas['2'];}
+ $('blocos-tamanho').innerHTML=produto.tamanhos.map((p,i)=>`<option value="${i}">${p.tamanho}</option>`).join('');
+ document.querySelector('input[name="blocos-acabamento"][value="nenhum"]').checked=true;
+ $('blocos-observacao-vias').hidden=carbonado || produto.vias!==3;
+ document.querySelectorAll('#blocos-tabela tr').forEach(tr=>tr.classList.toggle('active',tr.dataset.produtoBloco===codigo));
+ atualizarBlocos(true);
+}
+function atualizarBlocos(resetQuantidade=false){
+ const produto=blocosCatalogo[blocoCodigo];
+ const p=produto.tamanhos[Number($('blocos-tamanho').value)];
+ if(!p)return;
+ const minimo=produto.carbonado?p.minimo:p.precos[0][0];
+ const campo=$('blocos-quantidade');
+ campo.min=String(minimo);campo.step=String(p.multiplo);
+ if(resetQuantidade)campo.value=String(minimo);
+ $('blocos-prazo').value=produto.carbonado?'a partir de 3 dias úteis':'até 3 dias úteis';
+ $('blocos-quantidade-ajuda').textContent='Quantidade mínima: '+minimo+' '+(minimo===1?'bloco':'blocos')+'. '+(p.multiplo===1?'Quantidade livre, de 1 em 1.':'Somente múltiplos de '+p.multiplo+' (ex.: '+[1,2,3,4,5].map(n=>n*p.multiplo).join(', ')+').')+(produto.carbonado?' Valor proporcional ao preço de referência.':' Preço por faixa aplicado automaticamente.');
+ const texto=campo.value.trim();const q=Number(texto);
+ const valido=texto!==''&&Number.isSafeInteger(q)&&q>=minimo&&q%p.multiplo===0;
+ $('blocos-quantidade-erro').textContent=valido?'':(texto===''?'Digite a quantidade de blocos.':q<minimo?'Quantidade mínima: '+minimo+' blocos.':p.multiplo===1?'Informe uma quantidade inteira.':'Quantidade inválida: para este tamanho, informe múltiplos de '+p.multiplo+'.');
+ $('blocos-copiar').disabled=!valido;
+ let acabamento=document.querySelector('input[name="blocos-acabamento"]:checked')?.value||'nenhum';
+ if(produto.carbonado&&!['nenhum','numeracao'].includes(acabamento))acabamento='nenhum';
+ const acabamentos={nenhum:['Sem acabamento adicional',0],serrilhaNumeracao:['Serrilha + Numeração',30],numeracao:['Apenas Numeração',20],serrilha:['Apenas Serrilha',20]};
+ const [nomeAcabamento,precoAcabamento]=acabamentos[acabamento];
+ $('blocos-produto').textContent=produto.carbonado?produto.nome+' - '+document.querySelector('input[name="blocos-carbonado-vias"]:checked').value+' VIAS':produto.nome;
+ if(!valido){
+  $('blocos-total').textContent='R$ 0,00';
+  $('blocos-detalhes').textContent='Quantidade mínima: '+minimo+' blocos · '+(p.multiplo===1?'de 1 em 1':'múltiplos de '+p.multiplo);
+  $('blocos-previa').textContent='Informe uma quantidade válida para calcular o orçamento.';
+  mensagemBlocos='';$('blocos-feedback').textContent='';return;
+ }
+ const faixa=produto.carbonado?[p.referenciaQuantidade||p.minimo,p.preco]:p.precos.filter(([limite])=>q>=limite).at(-1);
+ const precoBase=Math.round((q*faixa[1]/faixa[0]+Number.EPSILON)*100)/100;
+ const vias=produto.carbonado?Number(document.querySelector('input[name="blocos-carbonado-vias"]:checked').value):produto.vias;
+ const folhas=produto.carbonado?(vias===3?150:100):(produto.folhas||100);
+ // O aproveitamento por A4 coincide com o múltiplo da produção.
+ // Para acabamento, 1, 2 e 3 vias têm a MESMA base de 100 folhas por bloco.
+ // As 150 folhas reais de 3 vias são mantidas somente na descrição e produção.
+ const artesPorA4=p.multiplo;
+ const folhasA4Reais=Math.ceil(q*folhas/artesPorA4);
+ const folhasA4Cobranca=Math.ceil(q*100/artesPorA4);
+ const grupos500=Math.ceil(folhasA4Cobranca/500);
+ const adicional=precoAcabamento*grupos500;
+ const precoFinal=Math.round((precoBase+adicional)*100)/100;
+ $('blocos-total').textContent=money(precoFinal);
+ $('blocos-detalhes').textContent=q.toLocaleString('pt-BR')+' blocos · Valor unitário: '+money(precoFinal/q)+' · '+folhas+' folhas cada'+(adicional?' · Base acabamento: '+folhasA4Cobranca+' folhas A4 equivalentes ('+grupos500+' '+(grupos500===1?'resma':'resmas')+') · Acabamento: +'+money(adicional):'');
+ mensagemBlocos='Segue orçamento:\nProduto: '+produto.nome+(produto.carbonado?' - '+vias+' vias':'')+' - Tamanho: '+p.tamanho+
+ '\n'+folhas+' folhas por bloco\nQuantidade: '+q.toLocaleString('pt-BR')+' '+(q===1?'bloco':'blocos')+' - Valor unitário: '+money(precoFinal/q)+
+ '\nAcabamento: '+nomeAcabamento+(adicional?' ('+grupos500+' '+(grupos500===1?'resma':'resmas')+' de 500 folhas A4 equivalentes) - '+money(adicional):'')+
+ '\n*VALOR TOTAL: '+money(precoFinal)+'*'+
+ '\nPrazo de produção: '+(produto.carbonado?'a partir de 3 dias úteis':'até 3 dias úteis')+(produto.vias===3?'\n2ª e 3ª vias conforme disponibilidade de estoque: amarelo, rosa, azul ou verde.':'');
+ $('blocos-previa').textContent=mensagemBlocos;
+ $('blocos-feedback').textContent='';
+}
+$('blocos-tamanho').addEventListener('change',()=>atualizarBlocos(true));
+document.querySelectorAll('input[name="blocos-carbonado-vias"]').forEach(r=>r.addEventListener('change',()=>{
+ if(blocoCodigo!=='4')return;
+ const p=blocosCatalogo['4'];p.tamanhos=carbonadoTabelas[r.value];
+ $('blocos-tamanho').innerHTML=p.tamanhos.map((t,i)=>'<option value="'+i+'">'+t.tamanho+'</option>').join('');
+ atualizarBlocos(true);
+}));
+$('blocos-quantidade').addEventListener('input',()=>atualizarBlocos());
+document.querySelectorAll('input[name="blocos-acabamento"]').forEach(el=>el.addEventListener('change',()=>atualizarBlocos()));
+$('blocos-tabela').addEventListener('click',e=>{
+ const tr=e.target.closest('tr[data-produto-bloco]');
+ if(!tr)return;selecionarBloco(tr.dataset.produtoBloco);
+});
+$('blocos-limpar').addEventListener('click',()=>{
+ $('blocos-tamanho').value='0';document.querySelector('input[name="blocos-acabamento"][value="nenhum"]').checked=true;
+ if(blocoCodigo==='4'){document.querySelector('input[name="blocos-carbonado-vias"][value="2"]').checked=true;blocosCatalogo['4'].tamanhos=carbonadoTabelas['2'];$('blocos-tamanho').innerHTML=carbonadoTabelas['2'].map((t,i)=>'<option value="'+i+'">'+t.tamanho+'</option>').join('');}
+ atualizarBlocos(true);
+});
+$('blocos-copiar').addEventListener('click',async()=>{
+ if(!mensagemBlocos)return;
+ try{await navigator.clipboard.writeText(mensagemBlocos);
+ $('blocos-feedback').textContent='Orçamento copiado! Cole no WhatsApp com Ctrl + V.';}
+ catch(e){const t=document.createElement('textarea');t.value=mensagemBlocos;
+ document.body.appendChild(t);t.select();const ok=document.execCommand('copy');t.remove();
+ $('blocos-feedback').textContent=ok?'Orçamento copiado! Cole no WhatsApp com Ctrl + V.':'Selecione a prévia e copie com Ctrl + C.';}
+});
+montarBlocos();
+
+
+// IMPRESSÃO / Produto 1: Impressão a Laser PB. Valores unitários da tabela.
+const impTabela={
+ A4:{offset:[{min:1,max:9,preco:1},{min:10,max:49,preco:.60},{min:50,max:499,preco:.25},{min:500,max:Infinity,preco:.12}],
+  cartao:{'170':{frente:[{min:1,max:50,preco:2},{min:51,max:Infinity,preco:1.50}],frenteVerso:[{min:1,max:50,preco:2.50},{min:51,max:Infinity,preco:2}]},
+   '240':{frente:[{min:1,max:50,preco:2.20},{min:51,max:Infinity,preco:2}],frenteVerso:[{min:1,max:50,preco:3.50},{min:51,max:Infinity,preco:3}]}}},
+ A3:{offset:[{min:1,max:9,preco:2.50},{min:10,max:49,preco:1.50},{min:50,max:499,preco:.50},{min:501,max:Infinity,preco:.30}],
+  cartao:{'170':{frente:[{min:1,max:50,preco:3},{min:51,max:Infinity,preco:2}],frenteVerso:[{min:1,max:50,preco:4},{min:51,max:Infinity,preco:3}]}}}
+};
+const impTabelaCor={
+ A4:{offset:[3,2.80,2.20,2,1.80],cartao:{'170':[4,3.50,3,2.50,2.25],'240':[4.50,4,3.50,3,2.75]}},
+ A3:{offset:[6,5.60,4.40,4,3.60],cartao:{'170':[8,7,6,5,4.50]}}
+};
+let impProdutoAtual='1';
+const impNome=()=>impProdutoAtual==='1'?'Impressão a Laser - PB':'Impressão a Laser - Colorido';
+function impEscolherProduto(codigo){
+ if(!['1','2'].includes(codigo))return;
+ impProdutoAtual=codigo;
+ $('imp-produto-nome').textContent=impNome();
+ document.querySelectorAll('#imp-catalogo tr[data-imp-codigo]').forEach(tr=>tr.classList.toggle('active',tr.dataset.impCodigo===codigo));
+ impMontarOpcoes();
+}
+$('imp-catalogo').addEventListener('click',e=>{const tr=e.target.closest('tr[data-imp-codigo]');if(tr)impEscolherProduto(tr.dataset.impCodigo)});
+const impOpcao=(name,value,rotulo,checked)=>`<label><input type="radio" name="${name}" value="${value}"${checked?' checked':''}> ${rotulo}</label>`;
+const impMarcado=name=>document.querySelector(`input[name="${name}"]:checked`)?.value;
+let impMensagem='';
+function impMontarOpcoes(){
+ const tam=impMarcado('imp-tamanho');
+ const papelAnterior=impMarcado('imp-papel');
+ $('imp-papeis').innerHTML=impOpcao('imp-papel','offset','Offset / Sulfite 75g',papelAnterior!=='cartao')+
+ impOpcao('imp-papel','cartao',tam==='A3'?'Couchê / Cartão':(impProdutoAtual==='2'?'Couchê / Cartão / Adesivo':'Cartão'),papelAnterior==='cartao');
+ impAtualizarPapel();
+}
+function impAtualizarPapel(){
+ const tam=impMarcado('imp-tamanho'), papel=impMarcado('imp-papel');
+ const ehCartao=papel==='cartao';
+ $('imp-gramatura-campo').hidden=!ehCartao;
+ $('imp-lados-campo').hidden=!ehCartao||impProdutoAtual==='2';
+ if(ehCartao){
+  const antiga=impMarcado('imp-gramatura');
+  const opcoes=Object.keys((impProdutoAtual==='2'?impTabelaCor:impTabela)[tam].cartao);
+  $('imp-gramaturas').innerHTML=opcoes.map(g=>impOpcao('imp-gramatura',g,g+'g',g===(opcoes.includes(antiga)?antiga:opcoes[0]))).join('');
+  const antigoLado=impMarcado('imp-lado');
+  $('imp-lados').innerHTML=impOpcao('imp-lado','frente','Frente (F)',antigoLado!=='frenteVerso')+
+   impOpcao('imp-lado','frenteVerso','Frente e Verso (F/V)',antigoLado==='frenteVerso');
+ }
+ impCalcular();
+}
+function impPrecoEncadernacao(folhas){
+ if(!Number.isSafeInteger(folhas)||folhas<1||folhas>350)return null;
+ return folhas<=160?7:folhas<=200?9:folhas<=250?12:14;
+}
+function impSincronizarFolhas(){
+ const paginas=Number($('imp-quantidade').value), apostilas=Number($('imp-apostilas').value);
+ const duasFaces=impMarcado('imp-enc-lados')==='frenteVerso';
+ const valido=Number.isSafeInteger(paginas)&&paginas>0&&Number.isSafeInteger(apostilas)&&apostilas>0&&paginas%apostilas===0;
+ const folhas=valido?Math.ceil((paginas/apostilas)/(duasFaces?2:1)):null;
+ $('imp-folhas-apostila').value=folhas===null?'':String(folhas);
+ return folhas;
+}
+function impCalcular(){
+ const tam=impMarcado('imp-tamanho'),papel=impMarcado('imp-papel');
+ const q=Number($('imp-quantidade').value);
+ const gram=impMarcado('imp-gramatura'),lado=impMarcado('imp-lado');
+ const ehCor=impProdutoAtual==='2';
+ const faixas=ehCor?(papel==='offset'?impTabelaCor[tam].offset:impTabelaCor[tam].cartao[gram]):(papel==='offset'?impTabela[tam].offset:impTabela[tam].cartao[gram]?.[lado]);
+ const indiceCor=q<10?0:q<50?1:q<100?2:q<200?3:4;
+ const faixa=Number.isSafeInteger(q)&&q>0?(ehCor?{preco:faixas?.[indiceCor]}:faixas?.find(f=>q>=f.min&&q<=f.max)):null;
+ const incluir=impMarcado('imp-encadernar')==='sim';
+ $('imp-encaderna-dados').hidden=!incluir;
+ const apostilas=Number($('imp-apostilas').value);
+ const folhas=impSincronizarFolhas();
+ const encLados=impMarcado('imp-enc-lados');
+ const precoEnc=incluir?impPrecoEncadernacao(folhas):0;
+ let erro=(!Number.isSafeInteger(q)||q<=0)?'Informe uma quantidade inteira maior que zero.':(!faixa||!Number.isFinite(faixa.preco))?'Quantidade sem preço definido na tabela. Consulte o atendimento para confirmar.':'';
+ if(!erro&&incluir&&(!Number.isSafeInteger(apostilas)||apostilas<1||q%apostilas!==0))erro='Encadernação: a quantidade de impressões deve ser divisível pela quantidade de apostilas.';
+ if(!erro&&incluir&&precoEnc===null)erro='Encadernação: o limite é de 350 folhas físicas por apostila. Consulte o atendimento para volumes maiores.';
+ $('imp-erro').textContent=erro;
+ $('imp-copiar').disabled=!!erro;
+ $('imp-feedback').textContent='';
+ if(erro){$('imp-total').textContent='R$ 0,00';$('imp-detalhes').textContent='Aguardando dados válidos';$('imp-previa').textContent=erro;impMensagem='';return;}
+ const totalImp=Math.round((q*faixa.preco+Number.EPSILON)*100)/100;
+ const totalEnc=incluir?Math.round(precoEnc*apostilas*100)/100:0;
+ const total=Math.round((totalImp+totalEnc)*100)/100;
+ const nomePapel=papel==='offset'?'Offset / Sulfite 75g':(tam==='A3'?'Couchê / Cartão ':impProdutoAtual==='2'?'Couchê / Cartão / Adesivo ':'Cartão ')+gram+'g';
+ const nomeLado=papel==='offset'||impProdutoAtual==='2'?'':lado==='frente'?' - Frente':' - Frente e Verso';
+ $('imp-total').textContent=money(total);
+ $('imp-detalhes').textContent=incluir?'Impressão: '+money(totalImp)+' · Encadernação: '+money(totalEnc):'Valor por impressão: '+money(faixa.preco)+' · '+q.toLocaleString('pt-BR')+' impressões';
+ impMensagem='Segue orçamento:\nProduto: '+impNome()+' - Tamanho '+tam+' - '+nomePapel+nomeLado+
+ '\nQuantidade: '+q.toLocaleString('pt-BR')+' '+(q===1?'impressão':'impressões')+
+ (incluir?'\nValor das impressões: '+money(totalImp)+'\nEncadernação Espiral: '+apostilas+' '+(apostilas===1?'unidade':'unidades')+' ('+(encLados==='frenteVerso'?'frente e verso':'só frente')+', '+folhas+' '+(folhas===1?'folha':'folhas')+' físicas cada) - '+money(totalEnc):'')+
+ '\n*VALOR TOTAL: '+money(total)+'*';
+ $('imp-previa').textContent=impMensagem;
+}
+
+document.querySelectorAll('input[name="imp-tamanho"]').forEach(el=>el.addEventListener('change',impMontarOpcoes));
+$('imp-papeis').addEventListener('change',impAtualizarPapel);
+$('imp-gramaturas').addEventListener('change',impCalcular);
+$('imp-lados').addEventListener('change',impCalcular);
+$('imp-quantidade').addEventListener('input',impCalcular);
+document.querySelectorAll('input[name="imp-encadernar"]').forEach(r=>r.addEventListener('change',impCalcular));
+document.querySelectorAll('input[name="imp-enc-lados"]').forEach(r=>r.addEventListener('change',impCalcular));
+$('imp-apostilas').addEventListener('input',impCalcular);
+$('imp-limpar').addEventListener('click',()=>{
+ document.querySelector('input[name="imp-tamanho"][value="A4"]').checked=true;
+ $('imp-quantidade').value='1';$('imp-folhas-apostila').value='1';$('imp-apostilas').value='1';document.querySelector('input[name="imp-enc-lados"][value="frente"]').checked=true;document.querySelector('input[name="imp-encadernar"][value="nao"]').checked=true;impMontarOpcoes();
+});
+$('imp-copiar').addEventListener('click',async()=>{
+ if(!impMensagem)return;
+ try{await navigator.clipboard.writeText(impMensagem);$('imp-feedback').textContent='Orçamento copiado! Cole no WhatsApp com Ctrl + V.';}
+ catch(e){const ta=document.createElement('textarea');ta.value=impMensagem;document.body.appendChild(ta);ta.select();const ok=document.execCommand('copy');ta.remove();$('imp-feedback').textContent=ok?'Orçamento copiado! Cole no WhatsApp com Ctrl + V.':'Selecione a prévia e copie com Ctrl + C.';}
+});
+impMontarOpcoes();
+
+
+// SERVIÇOS: revelação e Polaroid, conforme tabela fornecida.
+let servTipo='revelacao';
+let servMensagem='';
+function atualizarServicos(){
+ const pol=servTipo==='polaroid';
+ const q=Number($('serv-quantidade').value);
+ const variante=document.querySelector('input[name="serv-variante"]:checked')?.value||'sem';
+ $('serv-variante-campo').hidden=!pol;
+ $('serv-produto').textContent=pol?'Polaroid':'Revelação 10×15 cm';
+ document.querySelectorAll('#serv-tabela tr[data-serv]').forEach(tr=>tr.classList.toggle('active',tr.dataset.serv===servTipo));
+ let preco=null;let faixa='';let erro='';
+ if(!Number.isSafeInteger(q)||q<1){erro='Informe uma quantidade inteira maior que zero.';}
+ else if(!pol){
+  if(q<=9){preco=3.50;faixa='1 a 9';}
+  else if(q<=49){preco=3;faixa='10 a 49';}
+  else if(q>=51){preco=2.50;faixa='Acima de 50';}
+  else erro='A tabela não define preço para exatamente 50 revelações. Confirme o valor.';
+ }else{
+  if(q>=2&&q<=10){preco=variante==='ima'?7.50:3;faixa='2 a 10';}
+  else if(q>=12&&q<=20){preco=variante==='ima'?5.50:2.50;faixa='12 a 20';}
+  else if(q>=23){preco=variante==='ima'?4.20:2;faixa='Acima de 22';}
+  else erro='A tabela não define preço para '+q+' '+(q===1?'Polaroid':'Polaroids')+'. Confirme o valor.';
+ }
+ $('serv-erro').textContent=erro;
+ $('serv-copiar').disabled=!!erro;
+ $('serv-feedback').textContent='';
+ if(erro){$('serv-total').textContent='R$ 0,00';$('serv-detalhes').textContent='Preço a confirmar';$('serv-previa').textContent=erro;servMensagem='';return;}
+ const total=Math.round((preco*q+Number.EPSILON)*100)/100;
+ const nome=pol?'Polaroid - '+(variante==='ima'?'Com imã':'Sem imã'):'Revelação 10×15 cm';
+ $('serv-total').textContent=money(total);
+ $('serv-detalhes').textContent='Faixa: '+faixa+' unidades · '+money(preco)+' por unidade';
+ servMensagem='Segue orçamento:\nProduto: '+nome+'\nQuantidade: '+q+' '+(q===1?'unidade':'unidades')+'\n*VALOR TOTAL: '+money(total)+'*';
+ $('serv-previa').textContent=servMensagem;
+}
+$('serv-tabela').addEventListener('click',e=>{const tr=e.target.closest('tr[data-serv]');if(!tr)return;servTipo=tr.dataset.serv;$('serv-quantidade').value=servTipo==='polaroid'?'2':'1';atualizarServicos();});
+$('serv-quantidade').addEventListener('input',atualizarServicos);
+document.querySelectorAll('input[name="serv-variante"]').forEach(el=>el.addEventListener('change',atualizarServicos));
+$('serv-limpar').addEventListener('click',()=>{servTipo='revelacao';$('serv-quantidade').value='1';document.querySelector('input[name="serv-variante"][value="sem"]').checked=true;atualizarServicos();});
+$('serv-copiar').addEventListener('click',async()=>{if(!servMensagem)return;try{await navigator.clipboard.writeText(servMensagem);$('serv-feedback').textContent='Orçamento copiado! Cole no WhatsApp com Ctrl + V.';}catch(e){const ta=document.createElement('textarea');ta.value=servMensagem;document.body.appendChild(ta);ta.select();const ok=document.execCommand('copy');ta.remove();$('serv-feedback').textContent=ok?'Orçamento copiado! Cole no WhatsApp com Ctrl + V.':'Selecione a prévia e copie com Ctrl + C.';}});
+atualizarServicos();
+
+
+// CRACHÁS: preços unitários por tiragem. O furo é apenas descritivo.
+const crachaFaixas=[
+ {min:1,max:5,frente:15,frenteVerso:22},
+ {min:6,max:15,frente:13,frenteVerso:18},
+ {min:16,max:50,frente:11,frenteVerso:14},
+ {min:51,max:100,frente:9,frenteVerso:12},
+ {min:101,max:Infinity,frente:7,frenteVerso:9}
+];
+let crachaMensagem='';
+function atualizarCracha(){
+ const campo=$('cracha-quantidade');
+ const q=Number(campo.value);
+ const valido=campo.value.trim()!==''&&Number.isSafeInteger(q)&&q>=1;
+ const impressao=document.querySelector('input[name="cracha-impressao"]:checked').value;
+ const furo=document.querySelector('input[name="cracha-furo"]:checked').value;
+ const faixa=valido?crachaFaixas.find(f=>q>=f.min&&q<=f.max):null;
+ $('cracha-erro').textContent=valido?'':'Digite uma quantidade inteira maior que zero.';
+ $('cracha-copiar').disabled=!valido;
+ document.querySelectorAll('#cracha-tabela tr').forEach((tr,i)=>tr.classList.toggle('active',valido&&crachaFaixas[i]===faixa));
+ if(!valido){
+  $('cracha-total').textContent='R$ 0,00';
+  $('cracha-detalhes').textContent='Informe uma quantidade válida.';
+  $('cracha-previa').textContent='Digite uma quantidade válida para calcular o orçamento.';
+  crachaMensagem='';$('cracha-feedback').textContent='';return;
+ }
+ const unitario=faixa[impressao];
+ const total=Math.round((q*unitario+Number.EPSILON)*100)/100;
+ $('cracha-total').textContent=money(total);
+ $('cracha-detalhes').textContent=q.toLocaleString('pt-BR')+' '+(q===1?'crachá':'crachás')+' · Valor por unidade: '+money(unitario);
+ crachaMensagem='Segue orçamento:\nProduto: Crachá personalizado - Medida: 54 × 86 mm'+
+ '\nImpressão: '+(impressao==='frente'?'Só frente':'Frente e verso')+
+ '\nAcabamento: '+(furo==='com'?'Com furo':'Sem furo')+
+ '\nQuantidade: '+q.toLocaleString('pt-BR')+' '+(q===1?'unidade':'unidades')+
+ '\n*VALOR TOTAL: '+money(total)+'*';
+ $('cracha-previa').textContent=crachaMensagem;
+ $('cracha-feedback').textContent='';
+}
+$('cracha-quantidade').addEventListener('input',atualizarCracha);
+document.querySelectorAll('input[name="cracha-impressao"],input[name="cracha-furo"]').forEach(el=>el.addEventListener('change',atualizarCracha));
+$('cracha-limpar').addEventListener('click',()=>{
+ $('cracha-quantidade').value='1';
+ document.querySelector('input[name="cracha-impressao"][value="frente"]').checked=true;
+ document.querySelector('input[name="cracha-furo"][value="com"]').checked=true;
+ atualizarCracha();
+});
+$('cracha-copiar').addEventListener('click',async()=>{
+ if(!crachaMensagem)return;
+ try{await navigator.clipboard.writeText(crachaMensagem);$('cracha-feedback').textContent='Orçamento copiado! Cole no WhatsApp com Ctrl + V.';}
+ catch(e){const ta=document.createElement('textarea');ta.value=crachaMensagem;document.body.appendChild(ta);ta.select();const ok=document.execCommand('copy');ta.remove();$('cracha-feedback').textContent=ok?'Orçamento copiado! Cole no WhatsApp com Ctrl + V.':'Selecione a prévia e copie com Ctrl + C.';}
+});
+atualizarCracha();
+
+
+// CORDÃO: preço por unidade conforme faixas cadastradas.
+const cordaoFaixas=[
+ {min:1,max:1,preco:25}, {min:2,max:5,preco:20},
+ {min:6,max:10,preco:17.5}, {min:11,max:16,preco:13.5},
+ {min:17,max:22,preco:12}, {min:23,max:49,preco:10.5},
+ {min:50,max:99,preco:6.5}, {min:100,max:299,preco:5.9},
+ {min:300,max:Infinity,preco:5.15}
+];
+let cordaoMensagem='';
+function atualizarCordao(){
+ const el=$('cordao-quantidade'), q=Number(el.value);
+ const mosquetao=document.querySelector('input[name="cordao-acabamento"]:checked').value==='mosquetao';
+ const valido=el.value.trim()!==''&&Number.isSafeInteger(q)&&q>=1;
+ const erro=!valido?'Informe uma quantidade inteira maior que zero.':mosquetao&&q<=50?'O mosquetão está disponível somente para pedidos acima de 50 unidades.':'';
+ const faixa=valido?cordaoFaixas.find(f=>q>=f.min&&q<=f.max):null;
+ $('cordao-erro').textContent=erro;
+ $('cordao-copiar').disabled=!!erro;
+ document.querySelectorAll('#cordao-tabela tr').forEach((tr,i)=>tr.classList.toggle('active',!erro&&cordaoFaixas[i]===faixa));
+ $('cordao-feedback').textContent='';
+ if(erro){ $('cordao-total').textContent='R$ 0,00';$('cordao-detalhes').textContent='Aguardando quantidade e acabamento válidos';$('cordao-previa').textContent=erro;cordaoMensagem='';return; }
+ const unitario=faixa.preco+(mosquetao?1.90:0);
+ const total=Math.round((unitario*q+Number.EPSILON)*100)/100;
+ $('cordao-total').textContent=money(total);
+ $('cordao-detalhes').textContent=q.toLocaleString('pt-BR')+' '+(q===1?'cordão':'cordões')+' · Valor unitário: '+money(unitario);
+ cordaoMensagem='Segue orçamento:\nProduto: Cordão Personalizado 20 mm - Medida: 90 × 2 cm'+
+ '\nAcabamento: '+(mosquetao?'Mosquetão':'Argola + jacaré')+
+ '\nQuantidade: '+q.toLocaleString('pt-BR')+' '+(q===1?'unidade':'unidades')+
+ '\n*VALOR TOTAL: '+money(total)+'*'+
+ '\nPrazo de produção: 3 a 5 dias úteis';
+ $('cordao-previa').textContent=cordaoMensagem;
+}
+$('cordao-quantidade').addEventListener('input',atualizarCordao);
+document.querySelectorAll('input[name="cordao-acabamento"]').forEach(el=>el.addEventListener('change',atualizarCordao));
+$('cordao-limpar').addEventListener('click',()=>{ $('cordao-quantidade').value='1';document.querySelector('input[name="cordao-acabamento"][value="padrao"]').checked=true;atualizarCordao(); });
+$('cordao-copiar').addEventListener('click',async()=>{
+ if(!cordaoMensagem)return;
+ try{await navigator.clipboard.writeText(cordaoMensagem);$('cordao-feedback').textContent='Orçamento copiado! Cole no WhatsApp com Ctrl + V.';}
+ catch(e){const ta=document.createElement('textarea');ta.value=cordaoMensagem;document.body.appendChild(ta);ta.select();const ok=document.execCommand('copy');ta.remove();$('cordao-feedback').textContent=ok?'Orçamento copiado! Cole no WhatsApp com Ctrl + V.':'Selecione a prévia e copie com Ctrl + C.';}
+});
+atualizarCordao();
+
+// Alternar setores sem recriar os formulários nem perder dados preenchidos.
+const abas = Array.from(document.querySelectorAll('.sector-tab'));
+function abrirSetor(setor, focar=false){
+ abas.forEach(aba=>{
+   const ativo=aba.dataset.setor===setor;
+   aba.classList.toggle('active',ativo);
+   aba.setAttribute('aria-selected',String(ativo));
+   $('setor-'+aba.dataset.setor).hidden=!ativo;
+ });
+ // A aba formalizada fica fora da barra de setores: exibir explicitamente.
+ $('setor-formal').hidden=(setor!=='formal');
+ if(focar) $('tab-'+setor).focus();
+}
+abas.forEach((aba,i)=>{
+ aba.addEventListener('click',()=>abrirSetor(aba.dataset.setor));
+ aba.addEventListener('keydown',event=>{
+  if(!['ArrowRight','ArrowLeft','Home','End'].includes(event.key))return;
+  event.preventDefault();
+  const next=event.key==='Home'?0:event.key==='End'?abas.length-1:(i+(event.key==='ArrowRight'?1:-1)+abas.length)%abas.length;
+  abrirSetor(abas[next].dataset.setor,true);
+ });
+});
+
+// Gerador PDF nativo, independente da internet ou de bibliotecas externas.
+const formalBRL=n=>Number(n).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const formalNum=v=>{let s=String(v||'').trim().replace(/\s/g,'');if(s.includes(','))s=s.replace(/\./g,'').replace(',','.');const n=Number(s);return Number.isFinite(n)?n:NaN;};
+function formalLinha(descricao='',qtd='1',valor=''){
+ const tr=document.createElement('tr');
+ tr.innerHTML='<td><input class="formal-desc" aria-label="Descrição do item" placeholder="Produto, tamanho e acabamento"></td><td><input class="formal-qty" aria-label="Quantidade" type="number" min="1" step="1"></td><td><input class="formal-price" aria-label="Valor total do item" inputmode="decimal" placeholder="0,00"></td><td><button type="button" class="formal-remove" aria-label="Remover item">✕</button></td>';
+ tr.querySelector('.formal-desc').value=descricao;tr.querySelector('.formal-qty').value=qtd;tr.querySelector('.formal-price').value=valor;
+ tr.querySelector('.formal-remove').addEventListener('click',()=>{if($('formal-itens').children.length>1){tr.remove();formalAtualizar()}else{tr.querySelectorAll('input').forEach(i=>i.value='');tr.querySelector('.formal-qty').value='1';formalAtualizar()}});
+ tr.querySelectorAll('input').forEach(i=>i.addEventListener('input',formalAtualizar));$('formal-itens').appendChild(tr);formalAtualizar();
+}
+function formalDados(){return [...$('formal-itens').querySelectorAll('tr')].map(tr=>({descricao:tr.querySelector('.formal-desc').value.trim(),quantidade:Number(tr.querySelector('.formal-qty').value),valor:formalNum(tr.querySelector('.formal-price').value)}));}
+function formalAtualizar(){let total=0;formalDados().forEach(i=>{if(i.descricao&&Number.isSafeInteger(i.quantidade)&&i.quantidade>0&&Number.isFinite(i.valor)&&i.valor>=0)total+=i.valor;});$('formal-total').textContent=formalBRL(Math.round(total*100)/100);}
+$('abrir-formal').addEventListener('click',()=>{abrirSetor('formal');window.scrollTo({top:0,behavior:'smooth'});});
+$('formal-adicionar').addEventListener('click',()=>formalLinha());
+$('formal-voltar').addEventListener('click',()=>abrirSetor('roland'));
+$('formal-limpar').addEventListener('click',()=>{['formal-cliente','formal-cnpj','formal-contato','formal-email','formal-prazo','formal-validade','formal-obs'].forEach(id=>$(id).value='');document.querySelector('input[name="formal-pagamento"][value="PIX"]').checked=true;document.querySelector('input[name="formal-entrega"][value="Retirada no balcão"]').checked=true;$('formal-itens').innerHTML='';formalLinha();$('formal-erro').textContent='';$('formal-feedback').textContent='';});
+$('formal-data').value=new Date().toLocaleDateString('en-CA');
+formalLinha();
+function formalPdfDownload(dados,itens){
+ // PDF 1.4 sem dependências: texto Helvetica (Windows-1252), páginas A4 e múltiplas páginas.
+ const objects=[];const add=v=>{objects.push(v);return objects.length;};
+ const catalog=add('');const pagesObj=add('');const regular=add('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');const bold=add('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>');
+ const width=595.28,height=841.89,left=45,right=550;
+ let cmds=[],y=height-45,pageNums=[];
+ const fmt=n=>Number(n).toFixed(2);
+ const cp1252=s=>String(s).replace(/[\u2010-\u2015]/g,'-').replace(/\u2022/g,'*').replace(/\u00d7/g,'x').replace(/[\u0100-\uffff]/g,c=>({"\u20ac":"\u0080","\u0152":"\u008c","\u0153":"\u009c","\u0160":"\u008a","\u0161":"\u009a","\u0178":"\u009f","\u017d":"\u008e","\u017e":"\u009e"}[c]||'?'));
+ const oct=s=>{let r='';for(const c of cp1252(s)){const v=c.charCodeAt(0);if(v===40||v===41||v===92)r+='\\'+c;else if(v<32||v>126)r+='\\'+v.toString(8).padStart(3,'0');else r+=c;}return r;};
+ const text=(str,x,yy,size=10,isBold=false,color='0.19 0.15 0.12')=>{cmds.push(`${color} rg BT /F${isBold?2:1} ${size} Tf 1 0 0 1 ${fmt(x)} ${fmt(yy)} Tm (${oct(str)}) Tj ET`);};
+ const box=(x,yy,w,h,color)=>cmds.push(`${color} rg ${fmt(x)} ${fmt(yy)} ${fmt(w)} ${fmt(h)} re f`);
+ const rule=(yy)=>box(left,yy,right-left,.6,'0.86 0.77 0.68');
+ const split=(s,max=88)=>{const words=String(s||'').split(/\s+/);let lines=[],line='';for(const word of words){if(!word)continue;if((line+' '+word).trim().length>max){if(line)lines.push(line);line=word;}else line=(line+' '+word).trim();}if(line)lines.push(line);return lines.length?lines:[''];};
+ function start(){cmds=[];y=height-48;box(0,height-88,width,88,'0.94 0.455 0.118');text('DC GRÁFICA RÁPIDA',left,height-46,19,true,'1 1 1');text('CNPJ: 00.915.560/0001-76',left,height-66,9,false,'1 1 1');text('(21) 98555-5525 / (21) 985555-5523',324,height-65,9,false,'1 1 1');y=height-116;}
+ function finish(){text('DC GRÁFICA RÁPIDA  |  Documento gerado eletronicamente',left,29,8,false,'0.52 0.40 0.32');const stream=cmds.join('\n')+'\n';const bytes=[...new TextEncoder().encode(stream)];const content=add(`<< /Length ${bytes.length} >>\nstream\n${stream}endstream`);const page=add(`<< /Type /Page /Parent ${pagesObj} 0 R /MediaBox [0 0 ${fmt(width)} ${fmt(height)}] /Resources << /Font << /F1 ${regular} 0 R /F2 ${bold} 0 R >> >> /Contents ${content} 0 R >>`);pageNums.push(page);}
+ function need(h){if(y-h<55){finish();start();}}
+ function para(label,value){if(!value)return;const lines=split(label+': '+value,99);need(lines.length*15+5);for(let j=0;j<lines.length;j++){text(lines[j],left,y,10,j===0&&false);y-=15;}y-=4;}
+ start();text('ORÇAMENTO COMERCIAL',left,y,16,true);y-=24;
+ para('Data',dados.data);para('Cliente',dados.cliente);para('CNPJ/CPF',dados.cnpj);para('Contato',dados.contato);para('E-mail / Telefone',dados.email);y-=5;need(45);rule(y);y-=22;
+ text('DESCRIÇÃO',left,y,9,true);text('QTD.',375,y,9,true);text('VALOR TOTAL',453,y,9,true);y-=12;rule(y);y-=17;
+ for(const item of itens){const linhas=split(item.descricao,51);need(Math.max(28,linhas.length*14+12));linhas.forEach((l,i)=>text(l,left,y-i*14,9));text(String(item.quantidade),375,y,9);text(formalBRL(item.valor),451,y,9);y-=Math.max(28,linhas.length*14+12);rule(y+10);}
+ need(50);y-=16;text('VALOR TOTAL:',355,y,12,true);text(formalBRL(itens.reduce((a,i)=>a+i.valor,0)),455,y,14,true,'0.65 0.27 0.04');y-=33;
+ para('Prazo de produção',dados.prazo);para('Validade da proposta',dados.validade);para('Condições de pagamento',dados.pagamento);para('Entrega / Retirada',dados.entrega);
+ if(dados.obs){need(35);y-=12;text('OBSERVAÇÕES',left,y,11,true);y-=18;for(const line of split(dados.obs,100)){need(16);text(line,left,y,10);y-=16;}}
+ finish();objects[catalog-1]=`<< /Type /Catalog /Pages ${pagesObj} 0 R >>`;objects[pagesObj-1]=`<< /Type /Pages /Kids [${pageNums.map(n=>n+' 0 R').join(' ')}] /Count ${pageNums.length} >>`;
+ // Encoder Windows-1252 para preservar acentos portugueses em PDF.
+ const strBytes=str=>{const out=[];for(let k=0;k<str.length;k++){const n=str.charCodeAt(k);out.push(n<=255?n:63);}return out;};
+ const chunks=[strBytes('%PDF-1.4\n%\xE2\xE3\xCF\xD3\n')];let off=chunks[0].length;let xref=[0];for(let i=0;i<objects.length;i++){xref.push(off);const b=strBytes(`${i+1} 0 obj\n${objects[i]}\nendobj\n`);chunks.push(b);off+=b.length;}let trailer=`xref\n0 ${objects.length+1}\n0000000000 65535 f \n`;for(let i=1;i<xref.length;i++)trailer+=String(xref[i]).padStart(10,'0')+' 00000 n \n';trailer+=`trailer\n<< /Size ${objects.length+1} /Root ${catalog} 0 R >>\nstartxref\n${off}\n%%EOF`;chunks.push(strBytes(trailer));return new Blob(chunks.map(b=>new Uint8Array(b)),{type:'application/pdf'});
+}
+$('formal-pdf').addEventListener('click',()=>{const cliente=$('formal-cliente').value.trim();const itens=formalDados();const erro=!cliente?'Preencha o nome da empresa ou cliente.':(!itens.length||itens.some(i=>!i.descricao||!Number.isSafeInteger(i.quantidade)||i.quantidade<=0||!Number.isFinite(i.valor)||i.valor<0))?'Preencha descrição, quantidade inteira e valor total de todos os itens.':'';$('formal-erro').textContent=erro;$('formal-feedback').textContent='';if(erro)return;
+ const dia=$('formal-data').value;const data=dia?dia.split('-').reverse().join('/') : new Date().toLocaleDateString('pt-BR');
+ const dados={data,cliente,cnpj:$('formal-cnpj').value.trim(),contato:$('formal-contato').value.trim(),email:$('formal-email').value.trim(),prazo:$('formal-prazo').value.trim(),validade:$('formal-validade').value.trim(),pagamento:document.querySelector('input[name="formal-pagamento"]:checked').value,entrega:document.querySelector('input[name="formal-entrega"]:checked').value,obs:$('formal-obs').value.trim()};
+ try{const blob=formalPdfDownload(dados,itens);const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='Orcamento_DC_'+cliente.replace(/[^a-zA-Z0-9_-]/g,'_').slice(0,35)+'.pdf';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),20000);$('formal-feedback').textContent='PDF gerado. Confira a pasta Downloads.';}catch(e){$('formal-erro').textContent='Falha ao gerar PDF: '+e.message;}
+});
+
+</script></body></html>
