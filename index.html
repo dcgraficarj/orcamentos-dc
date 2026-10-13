@@ -124,9 +124,21 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
 .arte-extra .arte-valor label{display:block;font-size:12px;font-weight:700;margin-bottom:5px}
 .arte-extra .arte-valor input{max-width:220px}
 .arte-extra .arte-aviso{font-size:12px;color:#a12619;min-height:0;margin-top:5px}
+
+/* Carrinho de orçamentos */
+.cart-action{background:#fff;color:#a74905;border:2px solid white;border-radius:9px;padding:12px 15px;font-weight:800;white-space:nowrap}
+.cart-action:hover{background:#fff0e6}
+.topbar{grid-template-columns:85px minmax(0,1fr) auto auto}
+.cart-add{background:#754326}
+.cart-panel{max-width:1100px;margin:auto}
+.cart-item{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:12px;align-items:center;border-bottom:1px solid #f0dfd0;padding:13px 0}
+.cart-item-name{font-weight:700}.cart-item-desc{white-space:pre-wrap;font-size:12px;color:#735a48;margin-top:3px}
+.cart-total{font-size:24px;font-weight:800;text-align:right;color:#a74905;padding:16px 0}
+.cart-notice{font-size:12px;color:#82614a}
+@media(max-width:850px){.topbar{grid-template-columns:52px minmax(0,1fr);gap:8px}.topbar-action,.cart-action{grid-column:auto;width:100%;font-size:11px;white-space:normal}.topbar-info{grid-column:2}.cart-item{grid-template-columns:minmax(0,1fr) auto}.cart-item button{grid-column:2}}
 </style>
 </head>
-<body><main class="wrap"><header class="topbar"><div class="topbar-logo"><img src="data:image/png;base64,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" alt="DC Gráfica Rápida"></div><div class="topbar-info"><div class="topbar-cnpj">CNPJ 00.915.560/0001-76</div><div class="topbar-phones">(21) 98555-5525 / (21) 985555-5523</div></div><button type="button" class="topbar-action" id="abrir-formal">ORÇAMENTO FORMALIZADO</button></header>
+<body><main class="wrap"><header class="topbar"><div class="topbar-logo"><img src="data:image/png;base64,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" alt="DC Gráfica Rápida"></div><div class="topbar-info"><div class="topbar-cnpj">CNPJ 00.915.560/0001-76</div><div class="topbar-phones">(21) 98555-5525 / (21) 985555-5523</div></div><button type="button" class="cart-action" id="abrir-carrinho">🛒 CARRINHO (<span id="cart-count">0</span>)</button><button type="button" class="topbar-action" id="abrir-formal">ORÇAMENTO FORMALIZADO</button></header>
 <nav class="sector-tabs" role="tablist" aria-label="Setores de orçamento"><button type="button" class="sector-tab active" role="tab" id="tab-roland" aria-controls="setor-roland" aria-selected="true" data-setor="roland">ROLAND</button><button type="button" class="sector-tab" role="tab" id="tab-externa" aria-controls="setor-externa" aria-selected="false" data-setor="externa">PRODUÇÃO EXTERNA</button><button type="button" class="sector-tab" role="tab" id="tab-blocos" aria-controls="setor-blocos" aria-selected="false" data-setor="blocos">BLOCOS</button><button type="button" class="sector-tab" role="tab" id="tab-impressao" aria-controls="setor-impressao" aria-selected="false" data-setor="impressao">IMPRESSÃO</button><button type="button" class="sector-tab" role="tab" id="tab-servicos" aria-controls="setor-servicos" aria-selected="false" data-setor="servicos">REVELAÇÃO DIGITAL</button><button type="button" class="sector-tab" role="tab" id="tab-crachas" aria-controls="setor-crachas" aria-selected="false" data-setor="crachas">CRACHÁS</button><button type="button" class="sector-tab" role="tab" id="tab-cordao" aria-controls="setor-cordao" aria-selected="false" data-setor="cordao">CORDÃO</button></nav>
 <section id="setor-roland" class="sector-content" role="tabpanel" aria-labelledby="tab-roland">
 <div class="workspace"><div class="maincolumn"><section class="panel"><div class="field"><label for="codigo">Digite o código do produto (1 a 21)</label><input id="codigo" placeholder="Digite 1, 2, 3..." inputmode="numeric" maxlength="3" autocomplete="off" autofocus><div class="error" id="erroCodigo"></div></div><div class="field"><label>Produto aparece automaticamente aqui</label><div id="produto"><span class="muted">Digite um código de 1 a 21</span></div></div><div class="field" id="tipoVinil"><label>Tipo de adesivo vinil</label><div class="vinil-opcoes"><label><input type="radio" name="vinil" value="Branco" checked> Branco</label><label><input type="radio" name="vinil" value="Transparente"> Transparente</label></div></div><div class="grid"><div class="field"><label for="largura">Largura (cm)</label><input id="largura" type="text" inputmode="decimal" placeholder="Ex.: 55"></div><div class="field"><label for="altura">Altura (cm)</label><input id="altura" type="text" inputmode="decimal" placeholder="Ex.: 35"></div><div class="field"><label for="quantidade">Quantidade</label><input id="quantidade" type="number" min="1" step="1" placeholder="Ex.: 1"></div></div><div class="field"><label for="prazo">Prazo de produção (automático)</label><input id="prazo" type="text" placeholder="Calculado pelo valor total" readonly><div class="meta">1 dia útil a cada R$ 160,00 do valor total (arredondado para cima).</div></div><div class="error" id="erroValores"></div><div class="field" style="margin-top:10px"><label>Valor para este orçamento</label>
@@ -134,7 +146,7 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
 <label><input type="radio" name="roland-valor" value="minimo" checked> Aplicar mínimo de R$ 20,00</label>
 <label><input type="radio" name="roland-valor" value="original"> Valor original (item adicional no mesmo pedido)</label>
 </div><div class="meta">O valor original pode ser usado quando o pedido já possui outro serviço. A opção selecionada será usada no texto copiado.</div></div>
-<div class="field" style="border:1px solid var(--border);border-radius:9px;padding:10px;background:#fffaf6"><div style="display:flex;justify-content:space-between;gap:10px"><span>Valor original, sem mínimo</span><b id="roland-original">R$ 0,00</b></div><div style="display:flex;justify-content:space-between;gap:10px;margin-top:7px"><span>Valor com mínimo</span><b id="roland-com-minimo">R$ 0,00</b></div></div><div class="arte-extra" id="arte-roland"><label class="arte-opcao"><input type="checkbox" id="arte-roland-check"> Adicionar criação de arte</label><div class="arte-valor"><label for="arte-roland-valor">Valor da criação de arte (R$)</label><input type="text" inputmode="decimal" id="arte-roland-valor" placeholder="Ex.: 30,00" autocomplete="off"><div class="arte-aviso" id="arte-roland-erro"></div></div></div><div class="result"><div><b>Valor total</b><div class="meta" id="detalhes">Preço por m² conforme o produto escolhido · mínimo por orçamento: R$ 20,00</div></div><strong id="total">R$ 0,00</strong></div><div class="buttons"><button id="copiar" disabled>Copiar orçamento</button><button id="limpar" class="secondary" type="button">Limpar campos</button></div><div id="feedback" class="feedback-orcamento" aria-live="polite"></div><div class="notice">O valor mínimo é de R$ 20,00 para um pedido avulso. Para um serviço adicional no mesmo pedido, selecione o valor original. O cálculo considera altura × largura × quantidade × preço/m² ÷ 10.000.</div></section>
+<div class="field" style="border:1px solid var(--border);border-radius:9px;padding:10px;background:#fffaf6"><div style="display:flex;justify-content:space-between;gap:10px"><span>Valor original, sem mínimo</span><b id="roland-original">R$ 0,00</b></div><div style="display:flex;justify-content:space-between;gap:10px;margin-top:7px"><span>Valor com mínimo</span><b id="roland-com-minimo">R$ 0,00</b></div></div><div class="arte-extra" id="arte-roland"><label class="arte-opcao"><input type="checkbox" id="arte-roland-check"> Adicionar criação de arte</label><div class="arte-valor"><label for="arte-roland-valor">Valor da criação de arte (R$)</label><input type="text" inputmode="decimal" id="arte-roland-valor" placeholder="Ex.: 30,00" autocomplete="off"><div class="arte-aviso" id="arte-roland-erro"></div></div></div><div class="result"><div><b>Valor total</b><div class="meta" id="detalhes">Preço por m² conforme o produto escolhido · mínimo por orçamento: R$ 20,00</div></div><strong id="total">R$ 0,00</strong></div><div class="buttons"><button id="copiar" disabled>Copiar orçamento</button><button type="button" class="cart-add" data-cart-add="roland">+ Adicionar ao carrinho</button><button id="limpar" class="secondary" type="button">Limpar campos</button></div><div id="feedback" class="feedback-orcamento" aria-live="polite"></div><div class="notice">O valor mínimo é de R$ 20,00 para um pedido avulso. Para um serviço adicional no mesmo pedido, selecione o valor original. O cálculo considera altura × largura × quantidade × preço/m² ÷ 10.000.</div></section>
 <section class="panel preview-panel"><b>Prévia do item atual</b><pre id="previa">Preencha o código, as medidas e a quantidade.</pre></section>
 </div>
 <aside class="panel catalog"><h2 class="catalog-title">Produtos e preços</h2><p class="catalog-hint">Digite o código no formulário ou clique em um produto.</p><div class="table-scroll"><table><thead><tr><th>Cód.</th><th>Produto</th><th>R$/m²</th></tr></thead><tbody id="tabela"></tbody></table></div></aside></div></section>
@@ -156,7 +168,7 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
     </div>
     <div class="field"><label for="externa-prazo">Prazo de produção</label><input id="externa-prazo" readonly value="até 3 dias úteis"></div>
     <div class="arte-extra" id="arte-externa"><label class="arte-opcao"><input type="checkbox" id="arte-externa-check"> Adicionar criação de arte</label><div class="arte-valor"><label for="arte-externa-valor">Valor da criação de arte (R$)</label><input type="text" inputmode="decimal" id="arte-externa-valor" placeholder="Ex.: 30,00" autocomplete="off"><div class="arte-aviso" id="arte-externa-erro"></div></div></div><div class="result"><div><b>Valor total</b><div class="meta" id="externa-detalhes">Preço conforme tiragem e tipo de impressão</div></div><strong id="externa-total">R$ 50,00</strong></div>
-    <div class="buttons"><button id="externa-copiar">Copiar orçamento</button><button class="secondary" id="externa-limpar" type="button">Limpar campos</button></div>
+    <div class="buttons"><button id="externa-copiar">Copiar orçamento</button><button type="button" class="cart-add" data-cart-add="externa">+ Adicionar ao carrinho</button><button class="secondary" id="externa-limpar" type="button">Limpar campos</button></div>
     <div id="externa-feedback" class="feedback-orcamento" aria-live="polite"></div>
     <p class="external-price-note">Valores e prazos conforme a tabela cadastrada para cada produto.</p>
    </section>
@@ -185,7 +197,7 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
       <div id="blocos-carbonado-aviso" class="meta" hidden style="margin-bottom:9px">Papel autocopiativo: não fazemos serrilha. Numeração opcional: R$ 20,00 a cada 500 folhas.</div>
       <div class="field"><label for="blocos-prazo">Prazo de produção</label><input id="blocos-prazo" value="até 3 dias úteis" readonly></div>
       <div class="arte-extra" id="arte-blocos"><label class="arte-opcao"><input type="checkbox" id="arte-blocos-check"> Adicionar criação de arte</label><div class="arte-valor"><label for="arte-blocos-valor">Valor da criação de arte (R$)</label><input type="text" inputmode="decimal" id="arte-blocos-valor" placeholder="Ex.: 30,00" autocomplete="off"><div class="arte-aviso" id="arte-blocos-erro"></div></div></div><div class="result"><div><b>Valor total</b><div class="meta" id="blocos-detalhes">Escolha o tamanho e a tiragem</div></div><strong id="blocos-total">R$ 0,00</strong></div>
-      <div class="buttons"><button id="blocos-copiar">Copiar orçamento</button><button type="button" id="blocos-limpar" class="secondary">Limpar campos</button></div>
+      <div class="buttons"><button id="blocos-copiar">Copiar orçamento</button><button type="button" class="cart-add" data-cart-add="blocos">+ Adicionar ao carrinho</button><button type="button" id="blocos-limpar" class="secondary">Limpar campos</button></div>
       <div id="blocos-feedback" class="feedback-orcamento" aria-live="polite"></div>
       <p class="external-price-note">Blocos PB, 100 ou 150 folhas conforme o produto. Acabamentos cobrados por grupos iniciados de 500 folhas A4 equivalentes (base de 100 folhas por bloco), conforme o aproveitamento do tamanho. O bloco de 3 vias tem 150 folhas reais, mas mantém a mesma base de cobrança dos blocos de 1 e 2 vias. O preço unitário é aplicado conforme a faixa de quantidade do tamanho selecionado.</p>
     </section>
@@ -219,7 +231,7 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
    </div>
    <div class="error" id="imp-erro" aria-live="polite"></div>
    <div class="arte-extra" id="arte-imp"><label class="arte-opcao"><input type="checkbox" id="arte-imp-check"> Adicionar criação de arte</label><div class="arte-valor"><label for="arte-imp-valor">Valor da criação de arte (R$)</label><input type="text" inputmode="decimal" id="arte-imp-valor" placeholder="Ex.: 30,00" autocomplete="off"><div class="arte-aviso" id="arte-imp-erro"></div></div></div><div class="result"><div><b>Valor total</b><div class="meta" id="imp-detalhes">Preço conforme quantidade e papel</div></div><strong id="imp-total">R$ 0,00</strong></div>
-   <div class="buttons"><button id="imp-copiar" disabled>Copiar orçamento</button><button id="imp-limpar" class="secondary" type="button">Limpar campos</button></div>
+   <div class="buttons"><button id="imp-copiar" disabled>Copiar orçamento</button><button type="button" class="cart-add" data-cart-add="imp">+ Adicionar ao carrinho</button><button id="imp-limpar" class="secondary" type="button">Limpar campos</button></div>
    <div class="feedback-orcamento" id="imp-feedback" aria-live="polite"></div>
    <p class="notice">Preços por impressão conforme a faixa de quantidade. Os preços são aplicados conforme a faixa de quantidade e o produto escolhido. Para impressão colorida, a última faixa começa em 200 unidades.</p>
   </section>
@@ -237,7 +249,7 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
  <div class="field"><label for="serv-quantidade">Quantidade de unidades</label><input id="serv-quantidade" type="number" min="1" step="1" value="1" inputmode="numeric"></div>
  <div class="error" id="serv-erro" aria-live="polite"></div>
  <div class="arte-extra" id="arte-serv"><label class="arte-opcao"><input type="checkbox" id="arte-serv-check"> Adicionar criação de arte</label><div class="arte-valor"><label for="arte-serv-valor">Valor da criação de arte (R$)</label><input type="text" inputmode="decimal" id="arte-serv-valor" placeholder="Ex.: 30,00" autocomplete="off"><div class="arte-aviso" id="arte-serv-erro"></div></div></div><div class="result"><div><b>Valor total</b><div class="meta" id="serv-detalhes">Selecione o produto e a quantidade</div></div><strong id="serv-total">R$ 0,00</strong></div>
- <div class="buttons"><button id="serv-copiar" disabled>Copiar orçamento</button><button id="serv-limpar" class="secondary" type="button">Limpar campos</button></div>
+ <div class="buttons"><button id="serv-copiar" disabled>Copiar orçamento</button><button type="button" class="cart-add" data-cart-add="serv">+ Adicionar ao carrinho</button><button id="serv-limpar" class="secondary" type="button">Limpar campos</button></div>
  <div class="feedback-orcamento" id="serv-feedback" aria-live="polite"></div>
  <p class="notice">Tabela para pagamento em dinheiro ou PIX. Quantidades sem preço na tabela original ficam para confirmação.</p>
  </section><section class="panel preview-panel"><b>Prévia para copiar e colar no WhatsApp</b><pre id="serv-previa">Selecione o produto e informe a quantidade.</pre></section></div>
@@ -254,7 +266,7 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
     <div class="field"><label for="cracha-quantidade">Quantidade de crachás</label><input type="number" id="cracha-quantidade" min="1" step="1" value="1" inputmode="numeric"></div>
     <div class="error" id="cracha-erro" aria-live="polite"></div>
     <div class="arte-extra" id="arte-cracha"><label class="arte-opcao"><input type="checkbox" id="arte-cracha-check"> Adicionar criação de arte</label><div class="arte-valor"><label for="arte-cracha-valor">Valor da criação de arte (R$)</label><input type="text" inputmode="decimal" id="arte-cracha-valor" placeholder="Ex.: 30,00" autocomplete="off"><div class="arte-aviso" id="arte-cracha-erro"></div></div></div><div class="result"><div><b>Valor total</b><div class="meta" id="cracha-detalhes">Preço calculado pela quantidade</div></div><strong id="cracha-total">R$ 0,00</strong></div>
-    <div class="buttons"><button id="cracha-copiar" type="button">Copiar orçamento</button><button id="cracha-limpar" class="secondary" type="button">Limpar campos</button></div>
+    <div class="buttons"><button id="cracha-copiar" type="button">Copiar orçamento</button><button type="button" class="cart-add" data-cart-add="cracha">+ Adicionar ao carrinho</button><button id="cracha-limpar" class="secondary" type="button">Limpar campos</button></div>
     <div id="cracha-feedback" class="feedback-orcamento" aria-live="polite"></div>
     <p class="external-price-note">Valores por unidade conforme a faixa de quantidade. O acabamento com ou sem furo não altera o valor. Prazo de produção não informado na tabela.</p>
    </section>
@@ -287,7 +299,7 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
    <div class="field"><label for="cordao-prazo">Prazo de produção</label><input id="cordao-prazo" value="3 a 5 dias úteis" readonly></div>
    <div id="cordao-erro" class="error" aria-live="polite"></div>
    <div class="arte-extra" id="arte-cordao"><label class="arte-opcao"><input type="checkbox" id="arte-cordao-check"> Adicionar criação de arte</label><div class="arte-valor"><label for="arte-cordao-valor">Valor da criação de arte (R$)</label><input type="text" inputmode="decimal" id="arte-cordao-valor" placeholder="Ex.: 30,00" autocomplete="off"><div class="arte-aviso" id="arte-cordao-erro"></div></div></div><div class="result"><div><b>Valor total</b><div class="meta" id="cordao-detalhes">Cálculo conforme quantidade e acabamento</div></div><strong id="cordao-total">R$ 0,00</strong></div>
-   <div class="buttons"><button id="cordao-copiar" type="button">Copiar orçamento</button><button id="cordao-limpar" class="secondary" type="button">Limpar campos</button></div>
+   <div class="buttons"><button id="cordao-copiar" type="button">Copiar orçamento</button><button type="button" class="cart-add" data-cart-add="cordao">+ Adicionar ao carrinho</button><button id="cordao-limpar" class="secondary" type="button">Limpar campos</button></div>
    <div id="cordao-feedback" class="feedback-orcamento" aria-live="polite"></div>
    <p class="external-price-note">Cordão 20 mm, comprimento 90 cm, com argola + jacaré. Mosquetão disponível apenas para pedidos acima de 50 unidades, com acréscimo de R$ 1,90 por unidade.</p>
   </section>
@@ -326,6 +338,23 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
   <div class="error" id="formal-erro" aria-live="polite"></div>
   <div class="buttons"><button type="button" id="formal-pdf">Gerar PDF automaticamente</button><button type="button" class="secondary" id="formal-limpar">Limpar orçamento</button><button type="button" class="secondary" id="formal-voltar">Voltar aos produtos</button></div>
   <div id="formal-feedback" class="feedback-orcamento" aria-live="polite"></div>
+ </section>
+</section>
+
+<section id="setor-carrinho" class="sector-content" hidden aria-label="Carrinho de orçamentos">
+ <section class="panel cart-panel">
+  <h2 style="margin:0 0 7px">Carrinho de Orçamentos</h2>
+  <p class="cart-notice">Itens adicionados de todas as abas. O mínimo de R$ 20,00 dos serviços Roland é aplicado uma única vez ao conjunto de itens Roland.</p>
+  <div id="cart-itens"></div>
+  <div class="cart-total">TOTAL DO PEDIDO: <span id="cart-total">R$ 0,00</span></div>
+  <div class="buttons">
+   <button type="button" id="cart-copiar">Copiar orçamento completo</button>
+   <button type="button" id="cart-formalizar">Enviar para orçamento formalizado / PDF</button>
+   <button type="button" class="secondary" id="cart-esvaziar">Esvaziar carrinho</button>
+   <button type="button" class="secondary" id="cart-voltar">Voltar aos produtos</button>
+  </div>
+  <div id="cart-feedback" class="feedback-orcamento" aria-live="polite"></div>
+  <section class="preview-panel" style="margin-top:15px"><b>Prévia para WhatsApp</b><pre id="cart-previa"></pre></section>
  </section>
 </section>
 </main>
@@ -955,6 +984,7 @@ function abrirSetor(setor, focar=false){
  });
  // A aba formalizada fica fora da barra de setores: exibir explicitamente.
  $('setor-formal').hidden=(setor!=='formal');
+  $('setor-carrinho').hidden=(setor!=='carrinho');
  if(focar) $('tab-'+setor).focus();
 }
 abas.forEach((aba,i)=>{
@@ -1042,4 +1072,96 @@ setoresArte.forEach(setor=>{
  });
 });
 
+
+// Carrinho: dados guardados por navegador (nenhuma informação enviada a servidores).
+const CART_KEY='dc_grafica_carrinho_v1';
+let cart=[];
+try { const saved=JSON.parse(localStorage.getItem(CART_KEY)||'[]'); if(Array.isArray(saved))cart=saved.filter(i=>i&&typeof i.descricao==='string'&&Number.isFinite(i.base)&&Number.isFinite(i.arte)); } catch(e){}
+const cartMoney=n=>money(Math.round((n+Number.EPSILON)*100)/100);
+function cartPersist(){try{localStorage.setItem(CART_KEY,JSON.stringify(cart))}catch(e){} cartRender();}
+function cartTotal(){
+ const roland=cart.filter(x=>x.setor==='roland');
+ const others=cart.filter(x=>x.setor!=='roland');
+ const rolandBase=roland.reduce((a,x)=>a+x.base,0);
+ return (roland.length?Math.max(20,rolandBase):0)+cart.reduce((a,x)=>a+x.arte,0)+others.reduce((a,x)=>a+x.base,0);
+}
+function cartLineItems(){
+ const roland=cart.filter(x=>x.setor==='roland');const rolandBase=roland.reduce((a,x)=>a+x.base,0);
+ const complemento=roland.length?Math.max(0,20-rolandBase):0;
+ return cart.map((x,i)=>({...x,valor:Math.round((x.base+x.arte+(x.setor==='roland'&&roland[0]===x?complemento:0))*100)/100}));
+}
+function cartTexto(){
+ if(!cart.length)return 'O carrinho está vazio. Adicione um produto em qualquer aba.';
+ let texto='Segue orçamento:\n\n';
+ cartLineItems().forEach((x,i)=>{
+  texto+=(i+1)+'. '+x.descricao+'\nQuantidade: '+x.quantidade+'\n'+(x.detalhe?x.detalhe+'\n':'')+
+  (x.arte>0?'Criação de arte: '+cartMoney(x.arte)+'\n':'')+
+  '*Valor do item: '+cartMoney(x.valor)+'*'+(x.prazo?'\nPrazo de produção: '+x.prazo:'')+'\n\n';
+ });
+ texto+='*VALOR TOTAL DO PEDIDO: '+cartMoney(cartTotal())+'*';
+ return texto;
+}
+function cartRender(){
+ $('cart-count').textContent=String(cart.length);
+ $('cart-total').textContent=cartMoney(cartTotal());
+ const wrap=$('cart-itens');wrap.replaceChildren();
+ cartLineItems().forEach((item,i)=>{
+  const div=document.createElement('div');div.className='cart-item';
+  const content=document.createElement('div');
+  const name=document.createElement('div');name.className='cart-item-name';name.textContent=(i+1)+'. '+item.descricao;
+  const desc=document.createElement('div');desc.className='cart-item-desc';desc.textContent='Quantidade: '+item.quantidade+(item.detalhe?' | '+item.detalhe:'')+(item.arte>0?' | Arte: '+cartMoney(item.arte):'');
+  content.append(name,desc);
+  const amount=document.createElement('b');amount.textContent=cartMoney(item.valor);
+  const remove=document.createElement('button');remove.className='secondary';remove.textContent='Remover';remove.addEventListener('click',()=>{cart.splice(i,1);cartPersist();});
+  div.append(content,amount,remove);wrap.append(div);
+ });
+ $('cart-previa').textContent=cartTexto();
+ $('cart-copiar').disabled=!cart.length;$('cart-formalizar').disabled=!cart.length;$('cart-esvaziar').disabled=!cart.length;
+}
+const cartInfos={
+ roland:{msg:()=>mensagem,preview:'previa',val:'total'},
+ externa:{msg:()=>mensagemExterna,preview:'externa-previa',val:'externa-total'},
+ blocos:{msg:()=>mensagemBlocos,preview:'blocos-previa',val:'blocos-total'},
+ imp:{msg:()=>impMensagem,preview:'imp-previa',val:'imp-total'},
+ serv:{msg:()=>servMensagem,preview:'serv-previa',val:'serv-total'},
+ cracha:{msg:()=>crachaMensagem,preview:'cracha-previa',val:'cracha-total'},
+ cordao:{msg:()=>cordaoMensagem,preview:'cordao-previa',val:'cordao-total'}
+};
+function cartAdd(setor){
+ const cfg=cartInfos[setor];let msg=cfg.msg();
+ const copyButton=$(setor==='roland'?'copiar':setor+'-copiar');
+ if(!msg||copyButton.disabled){alert('Preencha um orçamento válido antes de adicionar ao carrinho.');return;}
+ const numeric=txt=>Number(String(txt).replace(/[^\d,.-]/g,'').replace(/\./g,'').replace(',','.'));
+ const total=numeric($(cfg.val).textContent);
+ const arte=valorArte(setor);
+ const original=setor==='roland'?numeric($('roland-original').textContent):total-arte;
+ if(!Number.isFinite(original)||original<0||!Number.isFinite(arte)||!Number.isFinite(total)){alert('Confira o valor do orçamento antes de adicionar.');return;}
+ const lines=msg.split('\n');
+ const get=(label)=>lines.find(l=>l.startsWith(label))?.slice(label.length).trim()||'';
+ const produto=get('Produto: ')||'Produto';
+ const quantidade=get('Quantidade: ')||'1 unidade';
+ const prazo=get('Prazo de produção: ');
+ const detalhe=lines.filter(l=>/^(Impressão:|Acabamento:|Modelo:|Tecido após costura:|Altura:|[0-9]+ folhas por bloco)/.test(l)).join(' | ');
+ cart.push({setor,descricao:produto,quantidade,detalhe,prazo,base:Math.round(original*100)/100,arte:Math.round(arte*100)/100});
+ cartPersist();
+ const feedback=$(setor==='roland'?'feedback':setor+'-feedback');if(feedback)feedback.textContent='Item adicionado ao carrinho!';
+}
+document.querySelectorAll('[data-cart-add]').forEach(btn=>btn.addEventListener('click',()=>cartAdd(btn.dataset.cartAdd)));
+$('abrir-carrinho').addEventListener('click',()=>{abrirSetor('carrinho');window.scrollTo({top:0,behavior:'smooth'});});
+$('cart-voltar').addEventListener('click',()=>abrirSetor('roland'));
+$('cart-esvaziar').addEventListener('click',()=>{if(confirm('Esvaziar o carrinho de orçamentos?')){cart=[];cartPersist();$('cart-feedback').textContent='Carrinho esvaziado.';}});
+$('cart-copiar').addEventListener('click',async()=>{
+ const texto=cartTexto();try{await navigator.clipboard.writeText(texto)}catch(e){const ta=document.createElement('textarea');ta.value=texto;document.body.append(ta);ta.select();document.execCommand('copy');ta.remove();}
+ $('cart-feedback').textContent='Orçamento completo copiado. Cole no WhatsApp com Ctrl + V.';
+});
+$('cart-formalizar').addEventListener('click',()=>{
+ $('formal-itens').replaceChildren();
+ cartLineItems().forEach(item=>{
+  const desc=item.descricao+(item.detalhe?' | '+item.detalhe:'')+(item.arte>0?' | Inclui criação de arte: '+cartMoney(item.arte):'');
+  formalLinha(desc,'1',item.valor.toFixed(2).replace('.',','));
+ });
+ const formalArteCheck=$('arte-formal-check');if(formalArteCheck){formalArteCheck.checked=false;formalArteCheck.dispatchEvent(new Event('change'));}
+ formalAtualizar();abrirSetor('formal');window.scrollTo({top:0,behavior:'smooth'});
+});
+cartRender();
 </script></body></html>
