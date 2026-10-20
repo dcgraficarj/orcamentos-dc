@@ -366,7 +366,7 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
   <h3 style="margin:20px 0 8px">Produtos e serviços</h3>
   <div class="formal-table-wrap"><table class="formal-items"><thead><tr><th style="width:49%">Descrição</th><th>Qtd.</th><th>Valor total (R$)</th><th></th></tr></thead><tbody id="formal-itens"></tbody></table></div>
   <button type="button" class="secondary" id="formal-adicionar">+ Adicionar item</button>
-  <div class="arte-extra" id="arte-formal"><label class="arte-opcao"><input type="checkbox" id="arte-formal-check"> Adicionar criação de arte</label><div class="arte-valor"><label for="arte-formal-valor">Valor da criação de arte (R$)</label><input type="text" inputmode="decimal" id="arte-formal-valor" placeholder="Ex.: 30,00" autocomplete="off"><div class="arte-aviso" id="arte-formal-erro"></div></div></div><div class="formal-total">Total: <span id="formal-total">R$ 0,00</span></div>
+  <div class="arte-extra" id="arte-formal"><label class="arte-opcao"><input type="checkbox" id="arte-formal-check"> Adicionar criação de arte</label><div class="arte-valor"><label for="arte-formal-valor">Valor da criação de arte (R$)</label><input type="text" inputmode="decimal" id="arte-formal-valor" placeholder="Ex.: 30,00" autocomplete="off"><div class="arte-aviso" id="arte-formal-erro"></div><div class="meta">Prazo para criação de arte: até 3 dias úteis.</div></div></div><div class="formal-total">Total: <span id="formal-total">R$ 0,00</span></div>
   <div class="formal-grid">
    <div class="formal-field"><label for="formal-prazo">Prazo de produção</label><input id="formal-prazo" placeholder="Ex.: até 3 dias úteis após aprovação"></div>
    <div class="formal-field"><label for="formal-validade">Validade do orçamento</label><input id="formal-validade" placeholder="Ex.: 7 dias"></div>
@@ -428,7 +428,7 @@ const money=n=>n.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
 const decimal=s=>Number(String(s).trim().replace(',','.'));
 
 // Criação de arte: valor único por orçamento (não multiplica pela quantidade).
-const setoresArte=['roland','externa','blocos','imp','serv','cracha','cordao','formal'];
+const setoresArte=['roland','externa','blocos','imp','serv','cracha','cordao','carimbo','formal'];
 function valorArte(setor){
  const c=document.getElementById('arte-'+setor+'-check');
  if(!c||!c.checked)return 0;
@@ -441,6 +441,19 @@ function valorArte(setor){
  return Number.isFinite(n)&&n>=0?Math.round(n*100)/100:0;
 }
 function linhaArte(setor){const v=valorArte(setor);return v>0?'\nCriação de arte: '+money(v):'';}
+// Mostra o custo do material separadamente do custo da criação de arte.
+// O prazo da arte é informativo e não altera o prazo de produção calculado.
+function detalharArteNoOrcamento(mensagem,setor,base){
+ const adicional=valorArte(setor);
+ if(!(adicional>0)||!mensagem)return mensagem;
+ const linhas=mensagem.split('\n').filter(l=>!l.startsWith('Criação de arte: ')&&!l.startsWith('Prazo para criação de arte: '));
+ const pos=linhas.findIndex(l=>l.startsWith('*VALOR TOTAL: '));
+ if(pos<0)return mensagem;
+ linhas.splice(pos,0,'Valor: '+money(Math.round((base+Number.EPSILON)*100)/100),'Criação de arte: '+money(adicional));
+ // Mantém o prazo do material separado do prazo para a criação da arte.
+ linhas.push('Prazo para criação de arte: até 3 dias úteis');
+ return linhas.join('\n');
+}
 function resetArte(setor){
  const c=document.getElementById('arte-'+setor+'-check'),v=document.getElementById('arte-'+setor+'-valor');
  if(!c)return;c.checked=false;v.value='';document.getElementById('arte-'+setor).classList.remove('ativo');
@@ -474,6 +487,7 @@ function atualiza(){
  const prazoTexto='\nPrazo de produção: até '+prazo+' '+(prazo===1?'dia útil':'dias úteis');
  const nomeOrcamento=codigo==='1'?'Adesivo Vinil '+document.querySelector('input[name="vinil"]:checked').value:item[0];
   mensagem='Segue orçamento:\nProduto: '+nomeOrcamento+' - Medida: '+$('largura').value.trim()+'cm largura × '+$('altura').value.trim()+'cm altura\nQuantidade: '+q+' '+(q===1?'unidade':'unidades')+linhaArte('roland')+'\n*VALOR TOTAL: '+money(total+valorArte("roland"))+'*'+prazoTexto;
+ mensagem=detalharArteNoOrcamento(mensagem,'roland',total);
  $('previa').textContent=mensagem;
 
 }
@@ -551,6 +565,7 @@ function atualizaExterna(){
   $('externa-total').textContent=valido?money(total+valorArte("externa")):'R$ 0,00';
   $('externa-detalhes').textContent=tam==='mini'?'Mini - '+money(dados.valor)+' por unidade':'Grande - '+money(dados.valor)+' por unidade';
   mensagemExterna=valido?'Segue orçamento:\nProduto: '+item.nome+'\nModelo: '+modelo+' - Tamanho: '+(tam==='mini'?'Mini':'Grande')+'\nAltura: '+dados.alturaReta+' reto / '+dados.alturaMontada+' montado\nTecido após costura: '+dados.tecido+'\nQuantidade: '+qtd+' '+(qtd===1?'unidade':'unidades')+linhaArte('externa')+'\n*VALOR TOTAL: '+money(total+valorArte("externa"))+'*\nPrazo de produção: '+item.prazo:'';
+  if(valido)mensagemExterna=detalharArteNoOrcamento(mensagemExterna,'externa',total);
   $('externa-previa').textContent=valido?mensagemExterna:'Informe uma quantidade inteira maior que zero.';
   $('externa-copiar').disabled=!valido;
   $('externa-feedback').textContent='';
@@ -600,6 +615,7 @@ function atualizaExterna(){
  $('externa-total').textContent=money(total+valorArte("externa"));$('externa-prazo').value=prazoExterna;
  $('externa-detalhes').textContent=(gramatura?'Couchê Brilho '+gramatura+'g · ':'')+tipo+' · '+qtd.toLocaleString('pt-BR')+' unidades'+(tag?' · '+(furo==='com'?'com furo de 3 mm':'sem furo'):'');
  mensagemExterna='Segue orçamento:\nProduto: '+item.nome+(gramatura?' '+gramatura+'g':'')+variacao+' - Impressão: '+tipo+'\nQuantidade: '+qtd.toLocaleString('pt-BR')+' unidades\n*VALOR TOTAL: '+money(total+valorArte("externa"))+'*\nPrazo de produção: '+prazoExterna+(item.aviso&&!valorArte('externa')?'\n*'+item.aviso+'*':'');
+ mensagemExterna=detalharArteNoOrcamento(mensagemExterna,'externa',total);
  $('externa-previa').textContent=mensagemExterna;$('externa-copiar').disabled=false;$('externa-feedback').textContent='';
 }
 $('externa-wind-quantidade').addEventListener('input',atualizaExterna);
@@ -731,6 +747,7 @@ function atualizarBlocos(resetQuantidade=false){
  '\nAcabamento: '+nomeAcabamento+(adicional?' ('+grupos500+' '+(grupos500===1?'resma':'resmas')+' de 500 folhas A4 equivalentes) - '+money(adicional):'')+
  linhaArte('blocos')+'\n*VALOR TOTAL: '+money(precoFinal+valorArte("blocos"))+'*'+
  '\nPrazo de produção: '+(produto.carbonado?'a partir de 3 dias úteis':'até 3 dias úteis')+(produto.vias===3?'\n2ª e 3ª vias conforme disponibilidade de estoque: amarelo, rosa, azul ou verde.':'');
+ mensagemBlocos=detalharArteNoOrcamento(mensagemBlocos,'blocos',precoFinal);
  $('blocos-previa').textContent=mensagemBlocos;
  $('blocos-feedback').textContent='';
 }
@@ -854,6 +871,7 @@ function impCalcular(){
  '\nQuantidade: '+q.toLocaleString('pt-BR')+' '+(q===1?'impressão':'impressões')+
  (incluir?'\nValor das impressões: '+money(totalImp)+'\nEncadernação Espiral: '+apostilas+' '+(apostilas===1?'unidade':'unidades')+' ('+(encLados==='frenteVerso'?'frente e verso':'só frente')+', '+folhas+' '+(folhas===1?'folha':'folhas')+' físicas cada) - '+money(totalEnc):'')+
  linhaArte('imp')+'\n*VALOR TOTAL: '+money(total+valorArte("imp"))+'*';
+ impMensagem=detalharArteNoOrcamento(impMensagem,'imp',total);
  $('imp-previa').textContent=impMensagem;
 }
 
@@ -909,6 +927,7 @@ function atualizarServicos(){
  $('serv-total').textContent=money(total+valorArte("serv"));
  $('serv-detalhes').textContent='Faixa: '+faixa+' unidades · '+money(preco)+' por unidade';
  servMensagem='Segue orçamento:\nProduto: '+nome+'\nQuantidade: '+q+' '+(q===1?'unidade':'unidades')+linhaArte('serv')+'\n*VALOR TOTAL: '+money(total+valorArte("serv"))+'*';
+ servMensagem=detalharArteNoOrcamento(servMensagem,'serv',total);
  $('serv-previa').textContent=servMensagem;
 }
 $('serv-tabela').addEventListener('click',e=>{const tr=e.target.closest('tr[data-serv]');if(!tr)return;servTipo=tr.dataset.serv;$('serv-quantidade').value=servTipo==='polaroid'?'2':'1';atualizarServicos();});
@@ -953,6 +972,7 @@ function atualizarCracha(){
  '\nAcabamento: '+(furo==='com'?'Com furo':'Sem furo')+
  '\nQuantidade: '+q.toLocaleString('pt-BR')+' '+(q===1?'unidade':'unidades')+
  linhaArte('cracha')+'\n*VALOR TOTAL: '+money(total+valorArte("cracha"))+'*\nPrazo de produção: 1 a 3 dias úteis';
+ crachaMensagem=detalharArteNoOrcamento(crachaMensagem,'cracha',total);
  $('cracha-previa').textContent=crachaMensagem;
  $('cracha-feedback').textContent='';
 }
@@ -1001,6 +1021,7 @@ function atualizarCordao(){
  '\nQuantidade: '+q.toLocaleString('pt-BR')+' '+(q===1?'unidade':'unidades')+
  linhaArte('cordao')+'\n*VALOR TOTAL: '+money(total+valorArte("cordao"))+'*'+
  '\nPrazo de produção: 3 a 5 dias úteis';
+ cordaoMensagem=detalharArteNoOrcamento(cordaoMensagem,'cordao',total);
  $('cordao-previa').textContent=cordaoMensagem;
 }
 $('cordao-quantidade').addEventListener('input',atualizarCordao);
@@ -1077,7 +1098,7 @@ function formalPdfDownload(dados,itens){
  text('DESCRIÇÃO',left,y,9,true);text('QTD.',375,y,9,true);text('VALOR TOTAL',453,y,9,true);y-=12;rule(y);y-=17;
  for(const item of itens){const linhas=split(item.descricao,51);need(Math.max(28,linhas.length*14+12));linhas.forEach((l,i)=>text(l,left,y-i*14,9));text(String(item.quantidade),375,y,9);text(formalBRL(item.valor),451,y,9);y-=Math.max(28,linhas.length*14+12);rule(y+10);}
  need(50);y-=16;text('VALOR TOTAL:',355,y,12,true);text(formalBRL(itens.reduce((a,i)=>a+i.valor,0)),455,y,14,true,'0.65 0.27 0.04');y-=33;
- para('Prazo de produção',dados.prazo);para('Validade da proposta',dados.validade);para('Condições de pagamento',dados.pagamento);para('Entrega / Retirada',dados.entrega);
+ para('Prazo de produção',dados.prazo);para('Prazo para criação de arte',dados.prazoArte);para('Validade da proposta',dados.validade);para('Condições de pagamento',dados.pagamento);para('Entrega / Retirada',dados.entrega);
  if(dados.obs){need(35);y-=12;text('OBSERVAÇÕES',left,y,11,true);y-=18;for(const line of split(dados.obs,100)){need(16);text(line,left,y,10);y-=16;}}
  finish();objects[catalog-1]=`<< /Type /Catalog /Pages ${pagesObj} 0 R >>`;objects[pagesObj-1]=`<< /Type /Pages /Kids [${pageNums.map(n=>n+' 0 R').join(' ')}] /Count ${pageNums.length} >>`;
  // Encoder Windows-1252 para preservar acentos portugueses em PDF.
@@ -1087,7 +1108,7 @@ function formalPdfDownload(dados,itens){
 $('formal-pdf').addEventListener('click',()=>{const cliente=$('formal-cliente').value.trim();const itens=formalDados();const erro=!cliente?'Preencha o nome da empresa ou cliente.':(!itens.length||itens.some(i=>!i.descricao||!Number.isSafeInteger(i.quantidade)||i.quantidade<=0||!Number.isFinite(i.valor)||i.valor<0))?'Preencha descrição, quantidade inteira e valor total de todos os itens.':'';$('formal-erro').textContent=erro;$('formal-feedback').textContent='';if(erro)return;
  const dia=$('formal-data').value;const data=dia?dia.split('-').reverse().join('/') : new Date().toLocaleDateString('pt-BR');
  const arteExtra=valorArte('formal');if(arteExtra>0)itens.push({descricao:'Criação de arte',quantidade:1,valor:arteExtra});
- const dados={data,cliente,cnpj:$('formal-cnpj').value.trim(),contato:$('formal-contato').value.trim(),email:$('formal-email').value.trim(),prazo:$('formal-prazo').value.trim(),validade:$('formal-validade').value.trim(),pagamento:document.querySelector('input[name="formal-pagamento"]:checked').value,entrega:document.querySelector('input[name="formal-entrega"]:checked').value,obs:$('formal-obs').value.trim()};
+ const dados={data,cliente,cnpj:$('formal-cnpj').value.trim(),contato:$('formal-contato').value.trim(),email:$('formal-email').value.trim(),prazo:$('formal-prazo').value.trim(),prazoArte:arteExtra>0?'até 3 dias úteis':'',validade:$('formal-validade').value.trim(),pagamento:document.querySelector('input[name="formal-pagamento"]:checked').value,entrega:document.querySelector('input[name="formal-entrega"]:checked').value,obs:$('formal-obs').value.trim()};
  try{const blob=formalPdfDownload(dados,itens);const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='Orcamento_DC_'+cliente.replace(/[^a-zA-Z0-9_-]/g,'_').slice(0,35)+'.pdf';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),20000);$('formal-feedback').textContent='PDF gerado. Confira a pasta Downloads.';}catch(e){$('formal-erro').textContent='Falha ao gerar PDF: '+e.message;}
 });
 
@@ -1141,6 +1162,7 @@ function carimboCalcular(){
  $('carimbo-tabela').innerHTML=carimboTabelas[cat].map(([n,v],i)=>`<tr class="${i===idx?'active':''}" data-carimbo="${i}"><td>${n}</td><td>${money(typeof v==='number'?v:v[tipo])}</td></tr>`).join('');
  const descricao=cat==='automatico'?'Carimbo automático':cat==='madeira'?'Carimbo de madeira':'Acessório para carimbo';
  carimboMensagem=valido?'Segue orçamento:\nProduto: '+descricao+' - '+item[0]+(cat==='acessorios'?' - '+({borracha:'Borracha',refil:'Refil com tinta',ambos:'Borracha + refil'}[tipo]):'')+'\nQuantidade: '+q+' '+(q===1?'unidade':'unidades')+(extra?'\nCriação de arte: '+money(extra):'')+'\n*VALOR TOTAL: '+money(total)+'*\nPrazo de produção: até 1 dia útil':'';
+ if(valido)carimboMensagem=detalharArteNoOrcamento(carimboMensagem,'carimbo',q*unitario);
  $('carimbo-previa').textContent=carimboMensagem||'Informe uma quantidade válida.';
 }
 document.querySelectorAll('input[name="carimbo-categoria"]').forEach(x=>x.addEventListener('change',carimboAtualizarModelos));
@@ -1169,8 +1191,9 @@ function cartTexto(){
  let texto='Segue orçamento:\n\n';
  cartLineItems().forEach((x,i)=>{
   texto+=(i+1)+'. '+x.descricao+'\nQuantidade: '+x.quantidade+'\n'+(x.detalhe?x.detalhe+'\n':'')+
-  (x.arte>0?'Criação de arte: '+cartMoney(x.arte)+'\n':'')+
-  '*Valor do item: '+cartMoney(x.valor)+'*'+(x.prazo?'\nPrazo de produção: '+x.prazo:'')+'\n\n';
+  (x.arte>0?'Valor: '+cartMoney(x.base)+'\nCriação de arte: '+cartMoney(x.arte)+'\n':'')+
+  '*VALOR TOTAL DO ITEM: '+cartMoney(x.valor)+'*'+(x.prazo?'\nPrazo de produção: '+x.prazo:'')+
+  (x.arte>0?'\nPrazo para criação de arte: até 3 dias úteis':'')+'\n\n';
  });
  texto+='*VALOR TOTAL DO PEDIDO: '+cartMoney(cartTotal())+'*';
  return texto;
@@ -1183,7 +1206,7 @@ function cartRender(){
   const div=document.createElement('div');div.className='cart-item';
   const content=document.createElement('div');
   const name=document.createElement('div');name.className='cart-item-name';name.textContent=(i+1)+'. '+item.descricao;
-  const desc=document.createElement('div');desc.className='cart-item-desc';desc.textContent='Quantidade: '+item.quantidade+(item.detalhe?' | '+item.detalhe:'')+(item.arte>0?' | Arte: '+cartMoney(item.arte):'');
+  const desc=document.createElement('div');desc.className='cart-item-desc';desc.textContent='Quantidade: '+item.quantidade+(item.detalhe?' | '+item.detalhe:'')+(item.arte>0?' | Material: '+cartMoney(item.base)+' | Criação de arte: '+cartMoney(item.arte)+' | Prazo para criação de arte: até 3 dias úteis':'');
   content.append(name,desc);
   const amount=document.createElement('b');amount.textContent=cartMoney(item.valor);
   const remove=document.createElement('button');remove.className='secondary';remove.textContent='Remover';remove.addEventListener('click',()=>{cart.splice(i,1);cartPersist();});
@@ -1241,10 +1264,11 @@ $('cart-copiar').addEventListener('click',async()=>{
 $('cart-pdf').addEventListener('click',()=>{
  if(!cart.length)return;
  const now=new Date().toLocaleDateString('pt-BR');
- const items=cartLineItems().map(item=>({
-  descricao:item.descricao+(item.detalhe?' | '+item.detalhe:'')+(item.arte>0?' | Criação de arte: '+cartMoney(item.arte):'')+(item.prazo?' | Prazo: '+item.prazo:''),
-  quantidade:1,valor:item.valor
- }));
+ const items=cartLineItems().flatMap(item=>{
+  const linhas=[{descricao:item.descricao+(item.detalhe?' | '+item.detalhe:'')+(item.prazo?' | Prazo de produção: '+item.prazo:''),quantidade:1,valor:item.base}];
+  if(item.arte>0)linhas.push({descricao:'Criação de arte | Prazo para criação de arte: até 3 dias úteis',quantidade:1,valor:item.arte});
+  return linhas;
+ });
  const dados={data:now,cliente:'Cliente não informado',cnpj:'',contato:'',email:'',prazo:'Conforme o prazo informado em cada item',validade:'',pagamento:'',entrega:'',obs:''};
  try{const blob=formalPdfDownload(dados,items),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='Orcamento_DC_Carrinho.pdf';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),20000);$('cart-feedback').textContent='PDF gerado, confira os Downloads.';}
  catch(err){$('cart-feedback').textContent='Não foi possível gerar o PDF: '+err.message;}
@@ -1252,8 +1276,9 @@ $('cart-pdf').addEventListener('click',()=>{
 $('cart-formalizar').addEventListener('click',()=>{
  $('formal-itens').replaceChildren();
  cartLineItems().forEach(item=>{
-  const desc=item.descricao+(item.detalhe?' | '+item.detalhe:'')+(item.arte>0?' | Inclui criação de arte: '+cartMoney(item.arte):'');
-  formalLinha(desc,'1',item.valor.toFixed(2).replace('.',','));
+  const desc=item.descricao+(item.detalhe?' | '+item.detalhe:'')+(item.prazo?' | Prazo de produção: '+item.prazo:'');
+  formalLinha(desc,'1',item.base.toFixed(2).replace('.',','));
+  if(item.arte>0)formalLinha('Criação de arte | Prazo para criação de arte: até 3 dias úteis','1',item.arte.toFixed(2).replace('.',','));
  });
  const formalArteCheck=$('arte-formal-check');if(formalArteCheck){formalArteCheck.checked=false;formalArteCheck.dispatchEvent(new Event('change'));}
  formalAtualizar();abrirSetor('formal');window.scrollTo({top:0,behavior:'smooth'});
