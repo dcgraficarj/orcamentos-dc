@@ -294,11 +294,11 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
    <div class="table-scroll"><table class="external-table"><thead><tr><th>Quantidade</th><th>Só frente</th><th>Frente e verso</th></tr></thead><tbody id="cracha-tabela">
     <tr data-faixa="0"><td>1 a 5</td><td>R$ 15,00</td><td>R$ 22,00</td></tr>
     <tr data-faixa="1"><td>6 a 15</td><td>R$ 13,00</td><td>R$ 18,00</td></tr>
-    <tr data-faixa="2"><td>16 a 50</td><td>R$ 11,00</td><td>R$ 14,00</td></tr>
-    <tr data-faixa="3"><td>50 a 100*</td><td>R$ 9,00</td><td>R$ 12,00</td></tr>
+    <tr data-faixa="2"><td>16 a 49</td><td>R$ 11,00</td><td>R$ 14,00</td></tr>
+    <tr data-faixa="3"><td>50 a 100</td><td>R$ 9,00</td><td>R$ 12,00</td></tr>
     <tr data-faixa="4"><td>Acima de 100</td><td>R$ 7,00</td><td>R$ 9,00</td></tr>
    </tbody></table></div>
-   <p class="external-price-note">*Para evitar sobreposição entre faixas, 50 unidades usam o valor da faixa de 16 a 50; a faixa seguinte começa em 51.</p>
+   
   </aside>
  </div>
 </section>
@@ -923,8 +923,8 @@ atualizarServicos();
 const crachaFaixas=[
  {min:1,max:5,frente:15,frenteVerso:22},
  {min:6,max:15,frente:13,frenteVerso:18},
- {min:16,max:50,frente:11,frenteVerso:14},
- {min:51,max:100,frente:9,frenteVerso:12},
+ {min:16,max:49,frente:11,frenteVerso:14},
+ {min:50,max:100,frente:9,frenteVerso:12},
  {min:101,max:Infinity,frente:7,frenteVerso:9}
 ];
 let crachaMensagem='';
