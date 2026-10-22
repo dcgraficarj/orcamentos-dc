@@ -169,12 +169,18 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
 
 /* Busca global */
 .busca-global{position:relative;z-index:30;background:#fff;border:1px solid var(--border);padding:12px 15px;border-radius:11px;margin-bottom:12px}.busca-global label{display:block;font-size:13px;font-weight:700;margin-bottom:7px}.busca-global input{width:100%;border:1px solid #e2b287;border-radius:8px;padding:11px 13px;font-size:14px}.busca-resultados{position:absolute;left:15px;right:15px;top:calc(100% - 1px);background:#fff;border:1px solid #e2b287;border-radius:0 0 10px 10px;box-shadow:0 12px 22px #0002;max-height:320px;overflow:auto;z-index:50}.busca-resultados[hidden]{display:none!important}.busca-opcao{display:flex;justify-content:space-between;gap:10px;align-items:center;width:100%;padding:10px 12px;background:#fff;color:#382214;text-align:left;font-size:13px;font-weight:400;border:0;border-bottom:1px solid #f4e3d7;border-radius:0}.busca-opcao:hover,.busca-opcao:focus{background:#ffebdb;color:#382214}.busca-opcao small{color:#8e450c;font-size:11px;white-space:nowrap}.busca-vazio{padding:12px;font-size:12px;color:#785b46}@media(max-width:600px){.busca-opcao{flex-direction:column;align-items:flex-start}.busca-global{padding:10px}.busca-resultados{left:10px;right:10px}}
+
+/* Aba de ímãs */
+#setor-ima .catalog .external-table{table-layout:fixed}
+#setor-ima .catalog .external-table th:first-child,#setor-ima .catalog .external-table td:first-child{width:43px}
+#setor-ima .catalog .external-table th:last-child,#setor-ima .catalog .external-table td:last-child{text-align:left;white-space:normal}
+#ima-quantidade-livre[hidden],#ima-quantidade-lista[hidden]{display:none!important}
 </style>
 </head>
 <body><main class="wrap"><header class="topbar"><div class="topbar-logo"><img src="data:image/png;base64,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" alt="DC Gráfica Rápida"></div><div class="topbar-info"><div class="topbar-cnpj">CNPJ 00.915.560/0001-76</div><div class="topbar-phones">(21) 98555-5525 / (21) 985555-5523</div></div><button type="button" class="topbar-action" id="abrir-formal">ORÇAMENTO FORMALIZADO</button></header>
 <button type="button" class="cart-action cart-floating" id="abrir-carrinho" aria-expanded="false" aria-controls="setor-carrinho">🛒 Carrinho (<span id="cart-count">0</span>)</button>
 <div class="busca-global" id="busca-container"><label for="busca-material">🔎 Buscar material ou serviço</label><input id="busca-material" type="search" placeholder="Ex.: placa, adesivo, carimbo, cordão..." autocomplete="off" aria-controls="busca-resultados" aria-expanded="false"><div class="busca-resultados" id="busca-resultados" hidden></div></div>
-<nav class="sector-tabs" role="tablist" aria-label="Setores de orçamento"><button type="button" class="sector-tab active" role="tab" id="tab-roland" aria-controls="setor-roland" aria-selected="true" data-setor="roland">ROLAND</button><button type="button" class="sector-tab" role="tab" id="tab-externa" aria-controls="setor-externa" aria-selected="false" data-setor="externa">PRODUÇÃO EXTERNA</button><button type="button" class="sector-tab" role="tab" id="tab-blocos" aria-controls="setor-blocos" aria-selected="false" data-setor="blocos">BLOCOS</button><button type="button" class="sector-tab" role="tab" id="tab-impressao" aria-controls="setor-impressao" aria-selected="false" data-setor="impressao">BALCÃO</button><button type="button" class="sector-tab" role="tab" id="tab-servicos" aria-controls="setor-servicos" aria-selected="false" data-setor="servicos">REVELAÇÃO DIGITAL</button><button type="button" class="sector-tab" role="tab" id="tab-crachas" aria-controls="setor-crachas" aria-selected="false" data-setor="crachas">CRACHÁS</button><button type="button" class="sector-tab" role="tab" id="tab-cordao" aria-controls="setor-cordao" aria-selected="false" data-setor="cordao">CORDÃO</button><button type="button" class="sector-tab" role="tab" id="tab-carimbo" aria-controls="setor-carimbo" aria-selected="false" data-setor="carimbo">CARIMBO</button></nav>
+<nav class="sector-tabs" role="tablist" aria-label="Setores de orçamento"><button type="button" class="sector-tab active" role="tab" id="tab-roland" aria-controls="setor-roland" aria-selected="true" data-setor="roland">ROLAND</button><button type="button" class="sector-tab" role="tab" id="tab-externa" aria-controls="setor-externa" aria-selected="false" data-setor="externa">PRODUÇÃO EXTERNA</button><button type="button" class="sector-tab" role="tab" id="tab-blocos" aria-controls="setor-blocos" aria-selected="false" data-setor="blocos">BLOCOS</button><button type="button" class="sector-tab" role="tab" id="tab-impressao" aria-controls="setor-impressao" aria-selected="false" data-setor="impressao">BALCÃO</button><button type="button" class="sector-tab" role="tab" id="tab-servicos" aria-controls="setor-servicos" aria-selected="false" data-setor="servicos">REVELAÇÃO DIGITAL</button><button type="button" class="sector-tab" role="tab" id="tab-ima" aria-controls="setor-ima" aria-selected="false" data-setor="ima">ÍMÃ</button><button type="button" class="sector-tab" role="tab" id="tab-crachas" aria-controls="setor-crachas" aria-selected="false" data-setor="crachas">CRACHÁS</button><button type="button" class="sector-tab" role="tab" id="tab-cordao" aria-controls="setor-cordao" aria-selected="false" data-setor="cordao">CORDÃO</button><button type="button" class="sector-tab" role="tab" id="tab-carimbo" aria-controls="setor-carimbo" aria-selected="false" data-setor="carimbo">CARIMBO</button></nav>
 <section id="setor-roland" class="sector-content" role="tabpanel" aria-labelledby="tab-roland">
 <div class="workspace"><div class="maincolumn"><section class="panel"><div class="field"><label for="codigo">Digite o código do produto (1 a 21)</label><input id="codigo" placeholder="Digite 1, 2, 3..." inputmode="numeric" maxlength="3" autocomplete="off" autofocus><div class="error" id="erroCodigo"></div></div><div class="field"><label>Produto aparece automaticamente aqui</label><div id="produto"><span class="muted">Digite um código de 1 a 21</span></div></div><div class="field" id="tipoVinil"><label>Tipo de adesivo vinil</label><div class="vinil-opcoes"><label><input type="radio" name="vinil" value="Branco" checked> Branco</label><label><input type="radio" name="vinil" value="Transparente"> Transparente</label></div></div><div class="grid"><div class="field"><label for="largura">Largura (cm)</label><input id="largura" type="text" inputmode="decimal" placeholder="Ex.: 55"></div><div class="field"><label for="altura">Altura (cm)</label><input id="altura" type="text" inputmode="decimal" placeholder="Ex.: 35"></div><div class="field"><label for="quantidade">Quantidade</label><input id="quantidade" type="number" min="1" step="1" placeholder="Ex.: 1"></div></div><div class="field"><label for="prazo">Prazo de produção (automático)</label><input id="prazo" type="text" placeholder="Calculado pelo valor total" readonly><div class="meta">1 dia útil a cada R$ 160,00 do valor total (arredondado para cima).</div></div><div class="error" id="erroValores"></div><div class="field" style="margin-top:10px"><label>Valor para este orçamento</label>
 <div class="vinil-opcoes" id="roland-modo-valor">
@@ -299,7 +305,32 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
  <aside class="panel catalog"><h2 class="catalog-title">Produtos e preços</h2><p class="catalog-hint">Clique no produto para montar o orçamento.</p><div class="table-scroll"><table class="external-table"><thead><tr><th>Cód.</th><th>Produto</th></tr></thead><tbody id="serv-tabela"><tr data-serv="revelacao" class="active"><td>1</td><td>Revelação 10×15 cm</td></tr><tr data-serv="polaroid"><td>2</td><td>Polaroid</td></tr></tbody></table></div></aside>
  </div></section>
 
-<section id="setor-crachas" class="sector-content" role="tabpanel" aria-labelledby="tab-crachas" hidden>
+
+<section id="setor-ima" class="sector-content" role="tabpanel" aria-labelledby="tab-ima" hidden>
+ <div class="workspace"><div class="maincolumn">
+  <section class="panel">
+   <div class="field"><label>Produto selecionado</label><div class="externa-produto" id="ima-produto">Ímã personalizado (pequenas tiragens)</div></div>
+   <div class="field"><label for="ima-tamanho">Tamanho</label><select class="blocos-select" id="ima-tamanho"></select></div>
+   <div class="field" id="ima-quantidade-livre"><label for="ima-quantidade">Quantidade de ímãs</label><input id="ima-quantidade" type="number" inputmode="numeric" min="1" step="1" value="2"></div>
+   <div class="field" id="ima-quantidade-lista" hidden><label for="ima-tiragem">Tiragem</label><select class="blocos-select" id="ima-tiragem"></select></div>
+   <div class="field"><label for="ima-prazo">Prazo de produção</label><input id="ima-prazo" readonly value="A confirmar"></div>
+   <div class="error" id="ima-erro" aria-live="polite"></div>
+   <div class="arte-extra" id="arte-ima"><label class="arte-opcao"><input type="checkbox" id="arte-ima-check"> Adicionar criação de arte</label><div class="arte-valor"><label for="arte-ima-valor">Valor da criação de arte (R$)</label><input id="arte-ima-valor" type="text" inputmode="decimal" placeholder="Ex.: 30,00" autocomplete="off"><div class="arte-aviso" id="arte-ima-erro"></div></div></div>
+   <div class="result"><div><b>Valor total</b><div class="meta" id="ima-detalhes">Selecione modelo, medida e quantidade</div></div><strong id="ima-total">R$ 0,00</strong></div>
+   <div class="buttons"><button type="button" id="ima-copiar" disabled>Copiar orçamento</button><button type="button" class="cart-add" data-cart-add="ima">+ Adicionar ao carrinho</button><button type="button" class="secondary" id="ima-limpar">Limpar campos</button></div>
+   <div id="ima-feedback" class="feedback-orcamento" aria-live="polite"></div>
+   <p class="notice">Ímãs comerciais: impressão 4/0, manta parcial e preço fechado por tiragem. Quantidades sem preço informado ficam para confirmação.</p>
+  </section>
+  <section class="panel preview-panel"><b>Prévia para copiar e colar no WhatsApp</b><pre id="ima-previa">Escolha o ímã, a medida e a quantidade.</pre></section>
+ </div><aside class="panel catalog"><h2 class="catalog-title">Produtos e preços</h2><p class="catalog-hint">Clique em um modelo para montar o orçamento.</p>
+  <div class="table-scroll"><table class="external-table"><thead><tr><th>Cód.</th><th>Produto</th></tr></thead><tbody id="ima-catalogo">
+   <tr data-ima-codigo="1" class="active"><td>1</td><td>Ímã personalizado (pequenas tiragens)</td></tr>
+   <tr data-ima-codigo="2"><td>2</td><td>Ímã Comercial - Manta Parcial</td></tr>
+   <tr data-ima-codigo="3"><td>3</td><td>Ímã Comercial com Calendário</td></tr>
+  </tbody></table></div><p class="external-price-note" id="ima-ajuda">Preços unitários por medida e quantidade.</p>
+ </aside></div>
+</section>
+<section id="setor-crachas' class="sector-content" role="tabpanel" aria-labelledby="tab-crachas" hidden>
  <div class="workspace">
   <div class="maincolumn">
    <section class="panel">
@@ -457,7 +488,7 @@ const money=n=>n.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
 const decimal=s=>Number(String(s).trim().replace(',','.'));
 
 // Criação de arte: valor único por orçamento (não multiplica pela quantidade).
-const setoresArte=['roland','externa','blocos','imp','serv','cracha','cordao','carimbo','formal'];
+const setoresArte=['roland','externa','blocos','imp','serv','ima','cracha','cordao','carimbo','formal'];
 function valorArte(setor){
  const c=document.getElementById('arte-'+setor+'-check');
  if(!c||!c.checked)return 0;
@@ -1101,6 +1132,87 @@ $('cordao-copiar').addEventListener('click',async()=>{
 });
 atualizarCordao();
 
+
+/* Ímãs: tabela avulsa com preço unitário; comerciais com preço fechado. */
+const imaProdutos={
+ '1':{nome:'Ímã personalizado (pequenas tiragens)',medidas:['10x7','10x15'],prazo:'a confirmar'},
+ '2':{nome:'Ímã Comercial - Manta Parcial (apenas 1 ímã)',medidas:['5x4.5','9x5'],prazo:'5 a 7 dias úteis',tabela:{'5x4.5':{500:150,1000:220,2000:320},'9x5':{500:190,1000:240}}},
+ '3':{nome:'Ímã Comercial com Calendário - Manta Parcial',medidas:['5x4.5'],prazo:'até 12 dias úteis',tabela:{'5x4.5':{1000:320,2000:500}}}
+};
+const imaMedidas={'10x7':'10 × 7 cm','10x15':'10 × 15 cm','5x4.5':'5 × 4,5 cm','9x5':'9 × 5 cm'};
+let imaCodigo='1',imaMensagem='';
+function imaPrecoUnitario(medida,q){
+ if(medida==='10x7'){
+  if(q>=2&&q<=10)return 3.90;
+  if(q>=12&&q<=30)return 3.40;
+  if(q>=32&&q<=50)return 3.10;
+  if(q>52)return 2.90;
+  return null; // Quantidades 1, 11, 31, 51 e 52 não constam na tabela.
+ }
+ if(medida==='10x15'){
+  if(q>=1&&q<=10)return 6;
+  if(q<=30)return 5.50;
+  if(q<=50)return 5.20;
+  return 4.90;
+ }
+ return null;
+}
+function imaEscolher(codigo){
+ if(!imaProdutos[codigo])return;
+ imaCodigo=codigo;
+ const p=imaProdutos[codigo],comercial=!!p.tabela;
+ $('ima-produto').textContent=p.nome;
+ $('ima-tamanho').replaceChildren();
+ p.medidas.forEach(m=>{const o=document.createElement('option');o.value=m;o.textContent=imaMedidas[m];$('ima-tamanho').append(o);});
+ $('ima-quantidade-livre').hidden=comercial;
+ $('ima-quantidade-lista').hidden=!comercial;
+ $('ima-quantidade').value='2';
+ document.querySelectorAll('#ima-catalogo tr[data-ima-codigo]').forEach(tr=>tr.classList.toggle('active',tr.dataset.imaCodigo===codigo));
+ imaRecarregarTiragens();
+}
+function imaRecarregarTiragens(){
+ const p=imaProdutos[imaCodigo],m=$('ima-tamanho').value;
+ $('ima-tiragem').replaceChildren();
+ if(p.tabela)Object.keys(p.tabela[m]).forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=Number(n).toLocaleString('pt-BR')+' unidades';$('ima-tiragem').append(o);});
+ imaCalcular();
+}
+function imaCalcular(){
+ const p=imaProdutos[imaCodigo],m=$('ima-tamanho').value,comercial=!!p.tabela;
+ const input=comercial?$('ima-tiragem'):$('ima-quantidade');
+ const q=Number(input.value),valid=input.value.trim()!==''&&Number.isSafeInteger(q)&&q>=1;
+ const unitario=valid&&!comercial?imaPrecoUnitario(m,q):null;
+ const base=valid?(comercial?p.tabela[m]?.[q]:(unitario===null?null:Math.round(q*unitario*100)/100)):null;
+ const erro=!valid?'Informe uma quantidade inteira maior que zero.':base==null?'Sem preço cadastrado para essa quantidade e medida. Confirme antes de orçar.':'';
+ $('ima-erro').textContent=erro;
+ $('ima-copiar').disabled=!!erro;
+ $('ima-prazo').value=p.prazo;
+ $('ima-ajuda').textContent=comercial?'Valores totais por tiragem. Manta parcial, impressão 4/0.':'Preço unitário por faixa. Prazo a confirmar.';
+ $('ima-feedback').textContent='';
+ if(erro){imaMensagem='';$('ima-total').textContent='R$ 0,00';$('ima-detalhes').textContent='Valor a confirmar';$('ima-previa').textContent=erro;return;}
+ const arte=valorArte('ima'),total=Math.round((base+arte)*100)/100;
+ $('ima-total').textContent=money(total);
+ $('ima-detalhes').textContent=comercial?'Tiragem: '+q.toLocaleString('pt-BR')+' unidades · Preço fechado':'Unitário: '+money(unitario);
+ imaMensagem='Segue orçamento:\nProduto: '+p.nome+' - Medida: '+imaMedidas[m]+
+  (comercial?'\nImpressão: 4/0':'')+
+  '\nQuantidade: '+q.toLocaleString('pt-BR')+' '+(q===1?'unidade':'unidades')+
+  '\nValor: '+money(base)+(arte>0?'\nCriação de arte: '+money(arte):'')+
+  '\n*VALOR TOTAL: '+money(total)+'*'+
+  '\nPrazo de produção: '+p.prazo+
+  (arte>0?'\nPrazo para criação de arte: até 3 dias úteis':'');
+ $('ima-previa').textContent=imaMensagem;
+}
+$('ima-catalogo').addEventListener('click',e=>{const tr=e.target.closest('tr[data-ima-codigo]');if(tr)imaEscolher(tr.dataset.imaCodigo);});
+$('ima-tamanho').addEventListener('change',imaRecarregarTiragens);
+$('ima-quantidade').addEventListener('input',imaCalcular);
+$('ima-tiragem').addEventListener('change',imaCalcular);
+$('ima-limpar').addEventListener('click',()=>{resetArte('ima');imaEscolher('1');});
+$('ima-copiar').addEventListener('click',async()=>{
+ if(!imaMensagem)return;
+ try{await navigator.clipboard.writeText(imaMensagem);$('ima-feedback').textContent='Orçamento copiado! Cole no WhatsApp com Ctrl + V.';}
+ catch(e){const el=document.createElement('textarea');el.value=imaMensagem;document.body.append(el);el.select();const ok=document.execCommand('copy');el.remove();$('ima-feedback').textContent=ok?'Orçamento copiado! Cole no WhatsApp com Ctrl + V.':'Selecione a prévia e copie com Ctrl + C.';}
+});
+imaEscolher('1');
+
 // Alternar setores sem recriar os formulários nem perder dados preenchidos.
 const abas = Array.from(document.querySelectorAll('.sector-tab'));
 function abrirSetor(setor, focar=false){
@@ -1181,7 +1293,7 @@ $('formal-pdf').addEventListener('click',()=>{const cliente=$('formal-cliente').
 
 
 // Ligar os campos adicionais a cada calculadora.
-const arteAtualizadores={roland:atualiza,externa:atualizaExterna,blocos:()=>atualizarBlocos(),imp:impCalcular,serv:atualizarServicos,cracha:atualizarCracha,cordao:atualizarCordao,carimbo:carimboCalcular,formal:formalAtualizar};
+const arteAtualizadores={roland:atualiza,externa:atualizaExterna,blocos:()=>atualizarBlocos(),imp:impCalcular,serv:atualizarServicos,ima:imaCalcular,cracha:atualizarCracha,cordao:atualizarCordao,carimbo:carimboCalcular,formal:formalAtualizar};
 setoresArte.forEach(setor=>{
  const c=document.getElementById('arte-'+setor+'-check');
  const v=document.getElementById('arte-'+setor+'-valor');
@@ -1243,7 +1355,7 @@ $('carimbo-copiar').addEventListener('click',async()=>{if(!carimboMensagem)retur
 carimboAtualizarModelos();
 
 /* Pesquisa unificada com seleção do serviço no orçamento */
-const buscaSetores={roland:'ROLAND',externa:'PRODUÇÃO EXTERNA',blocos:'BLOCOS',impressao:'BALCÃO',servicos:'REVELAÇÃO DIGITAL',crachas:'CRACHÁS',cordao:'CORDÃO',carimbo:'CARIMBO'};
+const buscaSetores={roland:'ROLAND',externa:'PRODUÇÃO EXTERNA',blocos:'BLOCOS',impressao:'BALCÃO',servicos:'REVELAÇÃO DIGITAL',ima:'ÍMÃ',crachas:'CRACHÁS',cordao:'CORDÃO',carimbo:'CARIMBO'};
 const buscaCatalogo=[
  ...Object.entries(produtos).map(([codigo,[nome]])=>({setor:'roland',codigo,nome})),
  ...Object.entries(externaProdutos).map(([codigo,p])=>({setor:'externa',codigo,nome:p.nome})),
@@ -1253,6 +1365,7 @@ const buscaCatalogo=[
  {setor:'impressao',codigo:'3',nome:'Plastificação'},
  {setor:'servicos',codigo:'revelacao',nome:'Revelação de fotos 10×15 cm'},
  {setor:'servicos',codigo:'polaroid',nome:'Foto Polaroid com ou sem ímã'},
+ ...Object.entries(imaProdutos).map(([codigo,p])=>({setor:'ima',codigo,nome:p.nome})),
  {setor:'crachas',nome:'Crachá personalizado 5,4×8,6 cm'},
  {setor:'cordao',nome:'Cordão personalizado 20 mm'},
  ...Object.entries(carimboTabelas).flatMap(([categoria,modelos])=>modelos.map(([nome,preco],indice)=>({setor:'carimbo',categoria,indice,nome:(categoria==='automatico'?'Carimbo automático':categoria==='madeira'?'Carimbo madeira':categoria==='madeira-logo'?'Carimbo MADEIRA LOGO':'Acessório carimbo')+' - '+nome})))
@@ -1276,6 +1389,7 @@ function buscaSelecionar(p){
  if(p.setor==='blocos')selecionarBloco(p.codigo);
  if(p.setor==='impressao')impEscolherProduto(p.codigo);
  if(p.setor==='servicos'){servTipo=p.codigo;$('serv-quantidade').value=servTipo==='polaroid'?'2':'1';atualizarServicos();}
+ if(p.setor==='ima')imaEscolher(p.codigo);
  if(p.setor==='carimbo'){document.querySelector('input[name="carimbo-categoria"][value="'+p.categoria+'"]').checked=true;carimboAtualizarModelos();$('carimbo-modelo').value=String(p.indice);carimboCalcular();}
  buscaCampo.value='';buscaFechar();window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -1334,6 +1448,7 @@ const cartInfos={
  blocos:{msg:()=>mensagemBlocos,preview:'blocos-previa',val:'blocos-total'},
  imp:{msg:()=>impMensagem,preview:'imp-previa',val:'imp-total'},
  serv:{msg:()=>servMensagem,preview:'serv-previa',val:'serv-total'},
+ ima:{msg:()=>imaMensagem,preview:'ima-previa',val:'ima-total'},
  cracha:{msg:()=>crachaMensagem,preview:'cracha-previa',val:'cracha-total'},
  cordao:{msg:()=>cordaoMensagem,preview:'cordao-previa',val:'cordao-total'},
  carimbo:{msg:()=>carimboMensagem,preview:'carimbo-previa',val:'carimbo-total'}
