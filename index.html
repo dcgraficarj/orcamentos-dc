@@ -309,7 +309,7 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
 <section id="setor-ima" class="sector-content" role="tabpanel" aria-labelledby="tab-ima" hidden>
  <div class="workspace"><div class="maincolumn">
   <section class="panel">
-   <div class="field"><label>Produto selecionado</label><div class="externa-produto" id="ima-produto">Ímã personalizado (pequenas tiragens)</div></div>
+   <div class="field"><label>Produto selecionado</label><div class="externa-produto" id="ima-produto">Ímã de aniversário personalizado</div></div>
    <div class="field"><label for="ima-tamanho">Tamanho</label><select class="blocos-select" id="ima-tamanho"></select></div>
    <div class="field" id="ima-quantidade-livre"><label for="ima-quantidade">Quantidade de ímãs</label><input id="ima-quantidade" type="number" inputmode="numeric" min="1" step="1" value="2"></div>
    <div class="field" id="ima-quantidade-lista" hidden><label for="ima-tiragem">Tiragem</label><select class="blocos-select" id="ima-tiragem"></select></div>
@@ -324,7 +324,7 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
   <section class="panel preview-panel"><b>Prévia para copiar e colar no WhatsApp</b><pre id="ima-previa">Escolha o ímã, a medida e a quantidade.</pre></section>
  </div><aside class="panel catalog"><h2 class="catalog-title">Produtos e preços</h2><p class="catalog-hint">Clique em um modelo para montar o orçamento.</p>
   <div class="table-scroll"><table class="external-table"><thead><tr><th>Cód.</th><th>Produto</th></tr></thead><tbody id="ima-catalogo">
-   <tr data-ima-codigo="1" class="active"><td>1</td><td>Ímã personalizado (pequenas tiragens)</td></tr>
+   <tr data-ima-codigo="1" class="active"><td>1</td><td>Ímã de aniversário personalizado</td></tr>
    <tr data-ima-codigo="2"><td>2</td><td>Ímã Comercial - Manta Parcial</td></tr>
    <tr data-ima-codigo="3"><td>3</td><td>Ímã Comercial com Calendário</td></tr>
   </tbody></table></div><p class="external-price-note" id="ima-ajuda">Preços unitários por medida e quantidade.</p>
@@ -1135,7 +1135,7 @@ atualizarCordao();
 
 /* Ímãs: tabela avulsa com preço unitário; comerciais com preço fechado. */
 const imaProdutos={
- '1':{nome:'Ímã personalizado (pequenas tiragens)',medidas:['10x7','10x15'],prazo:'a confirmar'},
+ '1':{nome:'Ímã de aniversário personalizado',medidas:['10x7','10x15'],prazo:'a confirmar'},
  '2':{nome:'Ímã Comercial - Manta Parcial (apenas 1 ímã)',medidas:['5x4.5','9x5'],prazo:'5 a 7 dias úteis',tabela:{'5x4.5':{500:150,1000:220,2000:320},'9x5':{500:190,1000:240}}},
  '3':{nome:'Ímã Comercial com Calendário - Manta Parcial',medidas:['5x4.5'],prazo:'até 12 dias úteis',tabela:{'5x4.5':{1000:320,2000:500}}}
 };
