@@ -357,6 +357,7 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
  <div class="field"><label>Categoria de carimbo</label><div class="vinil-opcoes" id="carimbo-categorias">
  <label><input type="radio" name="carimbo-categoria" value="automatico" checked> Automático</label>
  <label><input type="radio" name="carimbo-categoria" value="madeira"> Madeira</label>
+ <label><input type="radio" name="carimbo-categoria" value="madeira-logo"> MADEIRA LOGO</label>
  <label><input type="radio" name="carimbo-categoria" value="acessorios"> Acessórios</label></div></div>
  <div class="field"><label for="carimbo-modelo">Modelo</label><select id="carimbo-modelo" class="blocos-select"></select></div>
  <div class="field" id="carimbo-acessorio-tipo" hidden><label>Tipo de acessório</label><div class="vinil-opcoes">
@@ -1200,6 +1201,7 @@ setoresArte.forEach(setor=>{
 const carimboTabelas={
  automatico:[['Carimbo nº 301',30],['Carimbo nº 302',40],['Carimbo nº 303',45],['Carimbo nº 304',55],['Carimbo nº 305',70],['CNPJ (355)',80],['Assinatura',56],['Handy Stamp (bolso)',60],['Datador',60]],
  madeira:[...Array.from({length:12},(_,i)=>[`${i+1} ${i===0?'linha':'linhas'} - 7 cm × ${((i+1)*0.05).toFixed(2).replace('.',',')} cm`,[12.50,14.50,16,18.50,20,22,24,28.50,30,35,40,45][i]]),['CNPJ madeira',35]],
+ 'madeira-logo':[['3×3 cm',20],['4×4 cm',23],['5×5 cm',25],['6×6 cm',30],['7×7 cm',38],['8×8 cm',40],['9×9 cm',45],['10×10 cm',62],['12×12 cm',72]],
  acessorios:[['Nº 10, Nº 20 e Handy Stamp',{borracha:20,refil:17,ambos:27}],['Nº 30, Nº 40',{borracha:25,refil:23,ambos:32}],['CNPJ',{borracha:25,refil:25,ambos:45}]]
 };
 let carimboMensagem='';
@@ -1222,7 +1224,7 @@ function carimboCalcular(){
  $('carimbo-erro').textContent=valido?'':'Informe uma quantidade inteira maior que zero.';
  $('carimbo-detalhes').textContent=valido?q+' unidade(s) · '+money(unitario)+' por unidade':'';
  $('carimbo-tabela').innerHTML=carimboTabelas[cat].map(([n,v],i)=>`<tr class="${i===idx?'active':''}" data-carimbo="${i}"><td>${n}</td><td>${money(typeof v==='number'?v:v[tipo])}</td></tr>`).join('');
- const descricao=cat==='automatico'?'Carimbo automático':cat==='madeira'?'Carimbo de madeira':'Acessório para carimbo';
+ const descricao=cat==='automatico'?'Carimbo automático':cat==='madeira'?'Carimbo de madeira':cat==='madeira-logo'?'Carimbo de madeira com logo':'Acessório para carimbo';
  carimboMensagem=valido?'Segue orçamento:\nProduto: '+descricao+' - '+item[0]+(cat==='acessorios'?' - '+({borracha:'Borracha',refil:'Refil com tinta',ambos:'Borracha + refil'}[tipo]):'')+'\nQuantidade: '+q+' '+(q===1?'unidade':'unidades')+(extra?'\nCriação de arte: '+money(extra):'')+'\n*VALOR TOTAL: '+money(total)+'*\nPrazo de produção: até 1 dia útil':'';
  if(valido)carimboMensagem=detalharArteNoOrcamento(carimboMensagem,'carimbo',q*unitario);
  $('carimbo-previa').textContent=carimboMensagem||'Informe uma quantidade válida.';
