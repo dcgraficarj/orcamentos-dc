@@ -1489,11 +1489,18 @@ $('cart-copiar').addEventListener('click',async()=>{
  const texto=cartTexto();try{await navigator.clipboard.writeText(texto)}catch(e){const ta=document.createElement('textarea');ta.value=texto;document.body.append(ta);ta.select();document.execCommand('copy');ta.remove();}
  $('cart-feedback').textContent='Orçamento completo copiado. Cole no WhatsApp com Ctrl + V.';
 });
+function cartQuantidadeNumerica(valor){
+ const texto=String(valor??'').trim();
+ const encontrado=texto.match(/^(?:\d{1,3}(?:\.\d{3})+|\d+)/);
+ const qtd=encontrado?Number(encontrado[0].replace(/\./g,'')):NaN;
+ if(!Number.isSafeInteger(qtd)||qtd<1)throw new Error('Quantidade inválida no carrinho: '+texto);
+ return qtd;
+}
 $('cart-pdf').addEventListener('click',()=>{
  if(!cart.length)return;
  const now=new Date().toLocaleDateString('pt-BR');
  const items=cartLineItems().flatMap(item=>{
-  const linhas=[{descricao:item.descricao+(item.detalhe?' | '+item.detalhe:'')+(item.prazo?' | Prazo de produção: '+item.prazo:''),quantidade:1,valor:item.base}];
+  const linhas=[{descricao:item.descricao+(item.detalhe?' | '+item.detalhe:'')+(item.prazo?' | Prazo de produção: '+item.prazo:''),quantidade:cartQuantidadeNumerica(item.quantidade),valor:item.base}];
   if(item.arte>0)linhas.push({descricao:'Criação de arte | Prazo para criação de arte: até 3 dias úteis',quantidade:1,valor:item.arte});
   return linhas;
  });
@@ -1505,7 +1512,7 @@ $('cart-formalizar').addEventListener('click',()=>{
  $('formal-itens').replaceChildren();
  cartLineItems().forEach(item=>{
   const desc=item.descricao+(item.detalhe?' | '+item.detalhe:'')+(item.prazo?' | Prazo de produção: '+item.prazo:'');
-  formalLinha(desc,'1',item.base.toFixed(2).replace('.',','));
+  formalLinha(desc,String(cartQuantidadeNumerica(item.quantidade)),item.base.toFixed(2).replace('.',','));
   if(item.arte>0)formalLinha('Criação de arte | Prazo para criação de arte: até 3 dias úteis','1',item.arte.toFixed(2).replace('.',','));
  });
  const formalArteCheck=$('arte-formal-check');if(formalArteCheck){formalArteCheck.checked=false;formalArteCheck.dispatchEvent(new Event('change'));}
