@@ -431,7 +431,7 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
     <div class="field"><label for="bottons-tamanho">Tamanho</label><select class="blocos-select" id="bottons-tamanho"><option value="32">32 mm - Pequeno</option><option value="44">44 mm - Médio</option><option value="58">58 mm - Grande</option></select></div>
     <div class="field"><label for="bottons-quantidade">Quantidade</label><select class="blocos-select" id="bottons-quantidade"></select></div>
    </div>
-   <div class="field" id="bottons-outro-campo" hidden><label for="bottons-outra-quantidade">Outra quantidade para consulta</label><input type="number" id="bottons-outra-quantidade" min="1" step="1" inputmode="numeric" placeholder="Informe a quantidade"><div class="meta">Sem preço cadastrado: consulte o atendimento antes de orçar.</div></div>
+   <div class="field" id="bottons-outro-campo" hidden><label for="bottons-outra-quantidade">Outra quantidade</label><input type="number" id="bottons-outra-quantidade" min="1" step="1" inputmode="numeric" placeholder="Informe a quantidade"><div class="meta">Acima de 100 unidades, aplica-se o preço unitário da tiragem de 100. Para quantidades menores sem preço cadastrado, consulte o atendimento.</div></div>
    <div class="bottons-precos">
     <div class="bottons-preco"><div>À vista (promocional)</div><strong id="bottons-preco-promo">R$ 0,00</strong><div class="meta">Valor unitário</div></div>
     <div class="bottons-preco"><div>Outras formas (normal)</div><strong id="bottons-preco-normal">R$ 0,00</strong><div class="meta">Valor unitário</div></div>
@@ -448,7 +448,7 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
    <p class="notice">Prazo estimado de produção: de 2 a 5 dias úteis, conforme a quantidade solicitada. A previsão de entrega será informada após o fechamento do pedido.</p>
   </section>
   <section class="panel preview-panel"><b>Prévia para copiar e colar no WhatsApp</b><pre id="bottons-previa">Selecione o tamanho, a quantidade e a modalidade de preço.</pre></section>
- </div><aside class="panel catalog"><h2 class="catalog-title">Tabela de Bottons</h2><p class="catalog-hint">Valores unitários por tamanho e quantidade. Clique na linha para selecionar.</p><div class="table-scroll"><table class="external-table"><thead><tr><th>Tamanho</th><th>Qtd.</th><th>À vista</th><th>Normal</th></tr></thead><tbody id="bottons-tabela"></tbody></table></div></aside></div>
+ </div><aside class="panel catalog"><h2 class="catalog-title">Tabela de Bottons</h2><p class="catalog-hint">Valores unitários por tamanho e quantidade. Acima de 100 unidades, mantém-se o valor unitário da tiragem de 100. Clique na linha para selecionar.</p><div class="table-scroll"><table class="external-table"><thead><tr><th>Tamanho</th><th>Qtd.</th><th>À vista</th><th>Normal</th></tr></thead><tbody id="bottons-tabela"></tbody></table></div></aside></div>
 </section>
 <section id="setor-formal" class="sector-content" hidden aria-label="Orçamento formalizado">
  <section class="panel formal-panel">
@@ -1455,7 +1455,7 @@ function bottonsQuantidade(){return $('bottons-quantidade').value==='outro'?Numb
 function bottonsAtualizar(){
  const tamanho=$('bottons-tamanho').value, qtd=bottonsQuantidade(),outro=$('bottons-quantidade').value==='outro';
  $('bottons-outro-campo').hidden=!outro;
- const entrada=bottonsPrecos[tamanho],par=Number.isSafeInteger(qtd)&&qtd>0?entrada.tabela[qtd]:undefined;
+ const entrada=bottonsPrecos[tamanho],par=Number.isSafeInteger(qtd)&&qtd>0?(qtd>100?entrada.tabela[100]:entrada.tabela[qtd]):undefined;
  const modalidade=document.querySelector('input[name="bottons-modalidade"]:checked')?.value;
  $('bottons-preco-promo').textContent=par?money(par[0]):'A confirmar';
  $('bottons-preco-normal').textContent=par?money(par[1]):'A confirmar';
@@ -1477,7 +1477,7 @@ function bottonsAtualizar(){
 }
 function bottonsOpcoes(){
  const t=bottonsPrecos[$('bottons-tamanho').value].tabela;
- $('bottons-quantidade').innerHTML=Object.keys(t).map(n=>'<option value="'+n+'">'+n+' unidades</option>').join('')+'<option value="outro">Outra quantidade (a consultar)</option>';
+ $('bottons-quantidade').innerHTML=Object.keys(t).map(n=>'<option value="'+n+'">'+n+' unidades</option>').join('')+'<option value="outro">Outra quantidade (acima de 100: valor de 100)</option>';
  $('bottons-outra-quantidade').value='';bottonsAtualizar();
 }
 $('bottons-tabela').innerHTML=Object.entries(bottonsPrecos).flatMap(([t,p])=>Object.entries(p.tabela).map(([q,v])=>'<tr data-tamanho="'+t+'" data-quantidade="'+q+'"><td>'+t+' mm</td><td>'+q+'</td><td>'+money(v[0])+'</td><td>'+money(v[1])+'</td></tr>')).join('');
