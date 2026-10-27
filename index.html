@@ -741,7 +741,7 @@ const blocosCatalogo={
   {tamanho:'14×20 cm',multiplo:2,precos:[[2,35],[4,68],[6,96],[10,95]]},
   {tamanho:'20×30 cm',multiplo:1,precos:[[1,22],[5,95]]}
  ]},
- '2':{nome:'BLOCO PB 2 VIAS PADRÃO - 100 FOLHAS CADA',vias:2,tamanhos:[
+ '2':{nome:'BLOCO PB 2 VIAS PADRÃO - 100 FOLHAS CADA (50 FOLHAS DE CADA COR)',vias:2,tamanhos:[
   {tamanho:'10×7 cm',multiplo:8,precos:[[8,44],[16,80],[24,96],[40,107.50]]},
   {tamanho:'8×8 ou 9×9 cm',multiplo:6,precos:[[6,36],[30,107.50]]},
   {tamanho:'10×14 cm',multiplo:4,precos:[[4,44],[12,114],[16,120],[20,107.50]]},
@@ -749,7 +749,7 @@ const blocosCatalogo={
   {tamanho:'14×20 cm',multiplo:2,precos:[[2,43],[4,80],[6,102],[10,107.50]]},
   {tamanho:'20×30 cm',multiplo:1,precos:[[1,24],[5,107.50]]}
  ]},
- '3':{nome:'BLOCO PB 3 VIAS PADRÃO - 150 FOLHAS CADA',vias:3,folhas:150,tamanhos:[
+ '3':{nome:'BLOCO PB 3 VIAS PADRÃO - 150 FOLHAS CADA (50 FOLHAS DE CADA COR)',vias:3,folhas:150,tamanhos:[
   {tamanho:'10×7 cm',multiplo:8,precos:[[8,44],[16,80],[24,96],[40,107.60]]},
   {tamanho:'8×8 ou 9×9 cm',multiplo:6,precos:[[6,45],[30,157.50]]},
   {tamanho:'10×14 cm',multiplo:4,precos:[[4,52],[12,132],[16,152],[20,157.50]]},
@@ -801,8 +801,10 @@ function selecionarBloco(codigo){
  document.querySelectorAll('#blocos-tabela tr').forEach(tr=>tr.classList.toggle('active',tr.dataset.produtoBloco===codigo));
  atualizarBlocos(true);
 }
+function blocosComposicao(vias){return vias===2?'100 folhas por bloco (50 folhas de cada cor)':vias===3?'150 folhas por bloco (50 folhas de cada cor)':'100 folhas por bloco';}
 function atualizarBlocos(resetQuantidade=false){
  const produto=blocosCatalogo[blocoCodigo];
+ const vias=produto.carbonado?Number(document.querySelector('input[name="blocos-carbonado-vias"]:checked').value):produto.vias;
  const p=produto.tamanhos[Number($('blocos-tamanho').value)];
  if(!p)return;
  const minimo=produto.carbonado?p.minimo:p.precos[0][0];
@@ -819,7 +821,7 @@ function atualizarBlocos(resetQuantidade=false){
  if(produto.carbonado&&!['nenhum','numeracao'].includes(acabamento))acabamento='nenhum';
  const acabamentos={nenhum:['Sem acabamento adicional',0],serrilhaNumeracao:['Serrilha + Numeração',30],numeracao:['Apenas Numeração',20],serrilha:['Apenas Serrilha',20]};
  const [nomeAcabamento,precoAcabamento]=acabamentos[acabamento];
- $('blocos-produto').textContent=produto.carbonado?produto.nome+' - '+document.querySelector('input[name="blocos-carbonado-vias"]:checked').value+' VIAS':produto.nome;
+ $('blocos-produto').textContent=produto.carbonado?produto.nome+' - '+vias+' VIAS - '+blocosComposicao(vias):produto.nome;
  if(!valido){
   $('blocos-total').textContent='R$ 0,00';
   $('blocos-detalhes').textContent='Quantidade mínima: '+minimo+' blocos · '+(p.multiplo===1?'de 1 em 1':'múltiplos de '+p.multiplo);
@@ -828,7 +830,6 @@ function atualizarBlocos(resetQuantidade=false){
  }
  const faixa=produto.carbonado?[p.referenciaQuantidade||p.minimo,p.preco]:p.precos.filter(([limite])=>q>=limite).at(-1);
  const precoBase=Math.round((q*faixa[1]/faixa[0]+Number.EPSILON)*100)/100;
- const vias=produto.carbonado?Number(document.querySelector('input[name="blocos-carbonado-vias"]:checked').value):produto.vias;
  const folhas=produto.carbonado?(vias===3?150:100):(produto.folhas||100);
  // O aproveitamento por A4 coincide com o múltiplo da produção.
  // Para acabamento, 1, 2 e 3 vias têm a MESMA base de 100 folhas por bloco.
@@ -840,9 +841,9 @@ function atualizarBlocos(resetQuantidade=false){
  const adicional=precoAcabamento*grupos500;
  const precoFinal=Math.round((precoBase+adicional)*100)/100;
  $('blocos-total').textContent=money(precoFinal+valorArte("blocos"));
- $('blocos-detalhes').textContent=q.toLocaleString('pt-BR')+' blocos · Valor unitário: '+money(precoFinal/q)+' · '+folhas+' folhas cada'+(adicional?' · Base acabamento: '+folhasA4Cobranca+' folhas A4 equivalentes ('+grupos500+' '+(grupos500===1?'resma':'resmas')+') · Acabamento: +'+money(adicional):'');
+ $('blocos-detalhes').textContent=q.toLocaleString('pt-BR')+' blocos · Valor unitário: '+money(precoFinal/q)+' · '+blocosComposicao(vias)+(adicional?' · Base acabamento: '+folhasA4Cobranca+' folhas A4 equivalentes ('+grupos500+' '+(grupos500===1?'resma':'resmas')+') · Acabamento: +'+money(adicional):'');
  mensagemBlocos='Segue orçamento:\nProduto: '+produto.nome+(produto.carbonado?' - '+vias+' vias':'')+' - Tamanho: '+p.tamanho+
- '\n'+folhas+' folhas por bloco\nQuantidade: '+q.toLocaleString('pt-BR')+' '+(q===1?'bloco':'blocos')+' - Valor unitário: '+money(precoFinal/q)+
+ '\n'+blocosComposicao(vias)+'\nQuantidade: '+q.toLocaleString('pt-BR')+' '+(q===1?'bloco':'blocos')+' - Valor unitário: '+money(precoFinal/q)+
  '\nAcabamento: '+nomeAcabamento+(adicional?' ('+grupos500+' '+(grupos500===1?'resma':'resmas')+' de 500 folhas A4 equivalentes) - '+money(adicional):'')+
  linhaArte('blocos')+'\n*VALOR TOTAL: '+money(precoFinal+valorArte("blocos"))+'*'+
  '\nPrazo de produção: '+(produto.carbonado?'a partir de 3 dias úteis':'até 3 dias úteis')+(produto.vias===3?'\n2ª e 3ª vias conforme disponibilidade de estoque: amarelo, rosa, azul ou verde.':'');
