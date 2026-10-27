@@ -348,13 +348,17 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
     <div class="field"><label>Produto selecionado</label><div class="externa-produto">Crachá personalizado - 54 × 86 mm</div></div>
     <div class="field"><label>Tipo de impressão</label><div class="vinil-opcoes"><label><input type="radio" name="cracha-impressao" value="frente" checked> Só frente</label><label><input type="radio" name="cracha-impressao" value="frenteVerso"> Frente e verso</label></div></div>
     <div class="field"><label>Acabamento</label><div class="vinil-opcoes"><label><input type="radio" name="cracha-furo" value="com" checked> Com furo</label><label><input type="radio" name="cracha-furo" value="sem"> Sem furo</label></div><div class="meta">O furo não altera o preço.</div></div>
+    <div class="field"><label>Dados variáveis</label><div class="vinil-opcoes">
+    <label><input type="radio" name="cracha-dados" value="nao" checked> Sem dados variáveis</label>
+    <label><input type="radio" name="cracha-dados" value="sim"> Com dados variáveis (+ R$ 1,50 por crachá)</label>
+    </div><div class="meta">O adicional é cobrado por crachá, independentemente da impressão só frente ou frente e verso.</div></div>
     <div class="field"><label for="cracha-quantidade">Quantidade de crachás</label><input type="number" id="cracha-quantidade" min="1" step="1" value="1" inputmode="numeric"></div>
     <div class="field"><label for="cracha-prazo">Prazo de produção</label><input id="cracha-prazo" type="text" value="1 a 3 dias úteis" readonly></div>
     <div class="error" id="cracha-erro" aria-live="polite"></div>
     <div class="arte-extra" id="arte-cracha"><label class="arte-opcao"><input type="checkbox" id="arte-cracha-check"> Adicionar criação de arte</label><div class="arte-valor"><label for="arte-cracha-valor">Valor da criação de arte (R$)</label><input type="text" inputmode="decimal" id="arte-cracha-valor" placeholder="Ex.: 30,00" autocomplete="off"><div class="arte-aviso" id="arte-cracha-erro"></div></div></div><div class="result"><div><b>Valor total</b><div class="meta" id="cracha-detalhes">Preço calculado pela quantidade</div></div><strong id="cracha-total">R$ 0,00</strong></div>
     <div class="buttons"><button id="cracha-copiar" type="button">Copiar orçamento</button><button type="button" class="cart-add" data-cart-add="cracha">+ Adicionar ao carrinho</button><button id="cracha-limpar" class="secondary" type="button">Limpar campos</button></div>
     <div id="cracha-feedback" class="feedback-orcamento" aria-live="polite"></div>
-    <p class="external-price-note">Valores por unidade conforme a faixa de quantidade. O acabamento com ou sem furo não altera o valor. Prazo de produção: 1 a 3 dias úteis.</p>
+    <p class="external-price-note">Valores por unidade conforme a faixa de quantidade. O acabamento com ou sem furo não altera o valor. Dados variáveis: acréscimo de R$ 1,50 por crachá, em ambos os tipos de impressão. Prazo de produção: 1 a 3 dias úteis.</p>
    </section>
    <section class="panel preview-panel"><b>Prévia para copiar e colar no WhatsApp</b><pre id="cracha-previa"></pre></section>
   </div>
@@ -1091,6 +1095,7 @@ function atualizarCracha(){
  const valido=campo.value.trim()!==''&&Number.isSafeInteger(q)&&q>=1;
  const impressao=document.querySelector('input[name="cracha-impressao"]:checked').value;
  const furo=document.querySelector('input[name="cracha-furo"]:checked').value;
+ const dadosVariaveis=document.querySelector('input[name="cracha-dados"]:checked').value==='sim';
  const faixa=valido?crachaFaixas.find(f=>q>=f.min&&q<=f.max):null;
  $('cracha-erro').textContent=valido?'':'Digite uma quantidade inteira maior que zero.';
  $('cracha-copiar').disabled=!valido;
@@ -1101,13 +1106,17 @@ function atualizarCracha(){
   $('cracha-previa').textContent='Digite uma quantidade válida para calcular o orçamento.';
   crachaMensagem='';$('cracha-feedback').textContent='';return;
  }
- const unitario=faixa[impressao];
- const total=Math.round((q*unitario+Number.EPSILON)*100)/100;
+ const valorTabela=faixa[impressao];
+ const adicionalUnitario=dadosVariaveis?1.50:0;
+ const unitario=valorTabela+adicionalUnitario;
+ const adicionalDados=Math.round((q*adicionalUnitario+Number.EPSILON)*100)/100;
+ const total=Math.round((q*valorTabela+adicionalDados+Number.EPSILON)*100)/100;
  $('cracha-total').textContent=money(total+valorArte("cracha"));
- $('cracha-detalhes').textContent=q.toLocaleString('pt-BR')+' '+(q===1?'crachá':'crachás')+' · Valor por unidade: '+money(unitario);
+ $('cracha-detalhes').textContent=q.toLocaleString('pt-BR')+' '+(q===1?'crachá':'crachás')+' · Valor por unidade: '+money(unitario)+(dadosVariaveis?' (inclui '+money(1.50)+' de dados variáveis)':'');
  crachaMensagem='Segue orçamento:\nProduto: Crachá personalizado - Medida: 54 × 86 mm'+
  '\nImpressão: '+(impressao==='frente'?'Só frente':'Frente e verso')+
  '\nAcabamento: '+(furo==='com'?'Com furo':'Sem furo')+
+ '\nDados variáveis: '+(dadosVariaveis?'Com (+'+money(1.50)+' por crachá; adicional total: '+money(adicionalDados)+')':'Sem')+
  '\nQuantidade: '+q.toLocaleString('pt-BR')+' '+(q===1?'unidade':'unidades')+
  linhaArte('cracha')+'\n*VALOR TOTAL: '+money(total+valorArte("cracha"))+'*\nPrazo de produção: 1 a 3 dias úteis';
  crachaMensagem=detalharArteNoOrcamento(crachaMensagem,'cracha',total);
@@ -1115,11 +1124,12 @@ function atualizarCracha(){
  $('cracha-feedback').textContent='';
 }
 $('cracha-quantidade').addEventListener('input',atualizarCracha);
-document.querySelectorAll('input[name="cracha-impressao"],input[name="cracha-furo"]').forEach(el=>el.addEventListener('change',atualizarCracha));
+document.querySelectorAll('input[name="cracha-impressao"],input[name="cracha-furo"],input[name="cracha-dados"]').forEach(el=>el.addEventListener('change',atualizarCracha));
 $('cracha-limpar').addEventListener('click',()=>{resetArte('cracha');
  $('cracha-quantidade').value='1';
  document.querySelector('input[name="cracha-impressao"][value="frente"]').checked=true;
  document.querySelector('input[name="cracha-furo"][value="com"]').checked=true;
+ document.querySelector('input[name="cracha-dados"][value="nao"]').checked=true;
  atualizarCracha();
 });
 $('cracha-copiar').addEventListener('click',async()=>{
@@ -1558,7 +1568,7 @@ function cartAdd(setor){
  const produto=get('Produto: ')||'Produto';
  const quantidade=get('Quantidade: ')||'1 unidade';
  const prazo=setor==='bottons'?get('Prazo estimado de produção: '):get('Prazo de produção: ');
- const detalhe=lines.filter(l=>/^(Impressão:|Acabamento:|Modelo:|Tecido após costura:|Altura:|[0-9]+ folhas por bloco)/.test(l)||(setor==='bottons'&&/^(Preço unitário:|Condição de preço:|Criação de arte:)/.test(l))).join(' | ');
+ const detalhe=lines.filter(l=>/^(Impressão:|Acabamento:|Dados variáveis:|Modelo:|Tecido após costura:|Altura:|[0-9]+ folhas por bloco)/.test(l)||(setor==='bottons'&&/^(Preço unitário:|Condição de preço:|Criação de arte:)/.test(l))).join(' | ');
  cart.push({setor,descricao:produto,quantidade,detalhe,prazo,base:Math.round(original*100)/100,arte:Math.round(arte*100)/100});
  cartPersist();
  const feedback=$(setor==='roland'?'feedback':setor+'-feedback');if(feedback)feedback.textContent='Item adicionado ao carrinho!';
