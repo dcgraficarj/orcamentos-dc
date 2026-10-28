@@ -1585,7 +1585,7 @@ $('cart-minimizar').addEventListener('click',()=>cartToggle(false));
 document.addEventListener('pointerdown',event=>{if(!$('setor-carrinho').hidden&&!$('setor-carrinho').contains(event.target)&&!$('abrir-carrinho').contains(event.target))cartToggle(false);});
 $('cart-voltar').addEventListener('click',()=>cartToggle(false));
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('setor-carrinho').hidden)cartToggle(false);});
-$('cart-esvaziar').addEventListener('click',()=>{if(confirm('Esvaziar o carrinho de orçamentos?')){cart=[];cartPersist();$('cart-feedback').textContent='Carrinho esvaziado.';}});
+$('cart-esvaziar').addEventListener('click',()=>{cart=[];cartPersist();$('cart-feedback').textContent='Carrinho esvaziado.';});
 $('cart-copiar').addEventListener('click',async()=>{
  const texto=cartTexto();try{await navigator.clipboard.writeText(texto)}catch(e){const ta=document.createElement('textarea');ta.value=texto;document.body.append(ta);ta.select();document.execCommand('copy');ta.remove();}
  $('cart-feedback').textContent='Orçamento completo copiado. Cole no WhatsApp com Ctrl + V.';
