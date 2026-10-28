@@ -483,6 +483,28 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
  </section>
 </section>
 
+
+<section id="setor-pedido" class="sector-content" hidden aria-label="Gerar pedido numerado">
+ <section class="panel formal-panel">
+  <h2>GERAR PEDIDO Nº <span id="pedido-numero">3821</span></h2>
+  <p class="notice"><strong>TESTE:</strong> a numeração é salva apenas neste navegador e pode se repetir em outros computadores. Para uso com toda a equipe será necessário um controle centralizado.</p>
+  <div class="formal-grid">
+   <div class="formal-field"><label for="pedido-data">Data</label><input type="date" id="pedido-data"></div>
+   <div class="formal-field"><label for="pedido-cliente">Cliente *</label><input id="pedido-cliente" placeholder="Nome do cliente ou empresa"></div>
+   <div class="formal-field"><label for="pedido-telefone">WhatsApp / telefone</label><input type="tel" id="pedido-telefone" placeholder="(21) 99999-9999"></div>
+   <div class="formal-field"><label for="pedido-pagamento">Forma de pagamento</label><select id="pedido-pagamento" class="blocos-select"><option>PIX</option><option>Débito</option><option>Crédito</option><option>Link de pagamento</option><option>Dinheiro</option></select></div>
+   <div class="formal-field"><label for="pedido-sinal">Sinal recebido (R$)</label><input id="pedido-sinal" inputmode="decimal" value="0,00" placeholder="Ex.: 100,00"></div>
+  </div>
+  <h3>Produtos do carrinho</h3>
+  <pre id="pedido-itens" style="white-space:pre-wrap;background:#fffaf6;border:1px solid #e2b287;border-radius:9px;padding:13px;max-height:280px;overflow:auto"></pre>
+  <div class="formal-total">Total: <span id="pedido-total">R$ 0,00</span></div>
+  <div class="formal-total">Sinal recebido: <span id="pedido-sinal-valor">R$ 0,00</span></div>
+  <div class="formal-total">Saldo a pagar: <span id="pedido-saldo">R$ 0,00</span></div>
+  <div class="error" id="pedido-erro" aria-live="polite"></div>
+  <div class="buttons"><button type="button" id="pedido-gerar">Gerar PDF do pedido</button><button type="button" class="secondary" id="pedido-voltar">Voltar ao carrinho</button></div>
+  <div id="pedido-feedback" class="feedback-orcamento" aria-live="polite"></div>
+ </section>
+</section>
 <section id="setor-carrinho" class="sector-content" hidden aria-label="Carrinho de orçamentos">
  <section class="panel cart-panel">
   <div class="cart-head"><h2 style="margin:0">Carrinho de Orçamentos</h2><button type="button" class="secondary cart-close" id="cart-minimizar" aria-label="Minimizar carrinho">− Minimizar</button><button type="button" class="secondary cart-close" id="cart-fechar" aria-label="Fechar carrinho">✕</button></div>
@@ -493,6 +515,7 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
    <button type="button" id="cart-copiar">Copiar orçamento completo</button>
    <button type="button" id="cart-pdf">Imprimir / Salvar PDF do carrinho</button>
    <button type="button" id="cart-formalizar">Enviar para orçamento formalizado / PDF</button>
+   <button type="button" id="cart-pedido">Gerar pedido numerado (teste)</button>
    <button type="button" class="secondary" id="cart-esvaziar">Esvaziar carrinho</button>
    <button type="button" class="secondary" id="cart-voltar">Fechar carrinho</button>
   </div>
@@ -1274,6 +1297,7 @@ function abrirSetor(setor, focar=false){
  });
  // A aba formalizada fica fora da barra de setores: exibir explicitamente.
  $('setor-formal').hidden=(setor!=='formal');
+ $('setor-pedido').hidden=(setor!=='pedido');
   // O carrinho funciona como painel flutuante independente das abas.
  if(focar) $('tab-'+setor).focus();
 }
@@ -1322,11 +1346,12 @@ function formalPdfDownload(dados,itens){
  function finish(){text('DC GRÁFICA RÁPIDA  |  Documento gerado eletronicamente',left,29,8,false,'0.52 0.40 0.32');const stream=cmds.join('\n')+'\n';const bytes=[...new TextEncoder().encode(stream)];const content=add(`<< /Length ${bytes.length} >>\nstream\n${stream}endstream`);const page=add(`<< /Type /Page /Parent ${pagesObj} 0 R /MediaBox [0 0 ${fmt(width)} ${fmt(height)}] /Resources << /Font << /F1 ${regular} 0 R /F2 ${bold} 0 R >> >> /Contents ${content} 0 R >>`);pageNums.push(page);}
  function need(h){if(y-h<55){finish();start();}}
  function para(label,value){if(!value)return;const lines=split(label+': '+value,99);need(lines.length*15+5);for(let j=0;j<lines.length;j++){text(lines[j],left,y,10,j===0&&false);y-=15;}y-=4;}
- start();text('ORÇAMENTO COMERCIAL',left,y,16,true);y-=24;
- para('Data',dados.data);para('Cliente',dados.cliente);para('CNPJ/CPF',dados.cnpj);para('Contato',dados.contato);para('E-mail / Telefone',dados.email);y-=5;need(45);rule(y);y-=22;
+ start();text(dados.numeroPedido?'PEDIDO Nº '+dados.numeroPedido:'ORÇAMENTO COMERCIAL',left,y,16,true);y-=24;
+ para('Data',dados.data);para('Cliente',dados.cliente);para('CNPJ/CPF',dados.cnpj);para('Contato',dados.contato);para('Telefone / WhatsApp',dados.telefone);para('E-mail / Telefone',dados.email);y-=5;need(45);rule(y);y-=22;
  text('DESCRIÇÃO',left,y,9,true);text('QTD.',375,y,9,true);text('VALOR TOTAL',453,y,9,true);y-=12;rule(y);y-=17;
  for(const item of itens){const linhas=split(item.descricao,51);need(Math.max(28,linhas.length*14+12));linhas.forEach((l,i)=>text(l,left,y-i*14,9));text(String(item.quantidade),375,y,9);text(formalBRL(item.valor),451,y,9);y-=Math.max(28,linhas.length*14+12);rule(y+10);}
  need(50);y-=16;text('VALOR TOTAL:',355,y,12,true);text(formalBRL(itens.reduce((a,i)=>a+i.valor,0)),455,y,14,true,'0.65 0.27 0.04');y-=33;
+ para('Sinal recebido',dados.sinalRecebido);para('Saldo a pagar',dados.saldoRestante);
  para('Prazo de produção',dados.prazo);para('Prazo para criação de arte',dados.prazoArte);para('Validade da proposta',dados.validade);para('Condições de pagamento',dados.pagamento);para('Entrega / Retirada',dados.entrega);
  if(dados.obs){need(35);y-=12;text('OBSERVAÇÕES',left,y,11,true);y-=18;for(const line of split(dados.obs,100)){need(16);text(line,left,y,10);y-=16;}}
  finish();objects[catalog-1]=`<< /Type /Catalog /Pages ${pagesObj} 0 R >>`;objects[pagesObj-1]=`<< /Type /Pages /Kids [${pageNums.map(n=>n+' 0 R').join(' ')}] /Count ${pageNums.length} >>`;
@@ -1618,6 +1643,67 @@ $('cart-formalizar').addEventListener('click',()=>{
  });
  const formalArteCheck=$('arte-formal-check');if(formalArteCheck){formalArteCheck.checked=false;formalArteCheck.dispatchEvent(new Event('change'));}
  formalAtualizar();abrirSetor('formal');window.scrollTo({top:0,behavior:'smooth'});
+});
+
+/* Pedidos numerados em modo TESTE: localStorage, sem sincronização entre computadores. */
+const PEDIDO_KEY='dc_grafica_proximo_pedido_teste_v1';
+function pedidoNumero(){
+ let n;
+ try{n=Number(localStorage.getItem(PEDIDO_KEY));}catch(e){return 3821;}
+ return Number.isSafeInteger(n)&&n>=2000&&n<=4000?n:3821;
+}
+function pedidoSeguinte(n){return n===4000?2000:n+1;}
+function pedidoResumo(){
+ const total=cartTotal(),txt=$('pedido-sinal').value.trim();
+ const sinal=txt===''?0:formalNum(txt);
+ const valido=Number.isFinite(sinal)&&sinal>=0&&sinal<=total;
+ $('pedido-total').textContent=money(total);
+ $('pedido-sinal-valor').textContent=Number.isFinite(sinal)&&sinal>=0?money(sinal):'Inválido';
+ $('pedido-saldo').textContent=valido?money(Math.round((total-sinal)*100)/100):'Verifique o sinal';
+ $('pedido-gerar').disabled=!cart.length||!valido;
+ return {total,sinal,valido};
+}
+function pedidoItensPdf(){
+ return cartLineItems().flatMap(item=>{
+  const desc=item.descricao+(item.detalhe?' | '+item.detalhe:'')+(item.prazo?' | '+(item.setor==='bottons'?'Prazo estimado de produção: ':'Prazo de produção: ')+item.prazo:'');
+  const linhas=[{descricao:desc,quantidade:cartQuantidadeNumerica(item.quantidade),valor:item.base}];
+  if(item.arte>0)linhas.push({descricao:'Criação de arte | Prazo para criação de arte: até 3 dias úteis',quantidade:1,valor:item.arte});
+  return linhas;
+ });
+}
+$('cart-pedido').addEventListener('click',()=>{
+ if(!cart.length)return;
+ cartToggle(false);
+ const hoje=new Date();
+ $('pedido-data').value=[hoje.getFullYear(),String(hoje.getMonth()+1).padStart(2,'0'),String(hoje.getDate()).padStart(2,'0')].join('-');
+ $('pedido-numero').textContent=String(pedidoNumero());
+ $('pedido-erro').textContent='';$('pedido-feedback').textContent='';
+ $('pedido-itens').textContent=pedidoItensPdf().map(i=>i.quantidade+' × '+i.descricao+' | '+money(i.valor)).join('\n');
+ pedidoResumo();abrirSetor('pedido');window.scrollTo({top:0,behavior:'smooth'});
+});
+$('pedido-sinal').addEventListener('input',pedidoResumo);
+$('pedido-voltar').addEventListener('click',()=>{abrirSetor('roland');cartToggle(true);});
+$('pedido-gerar').addEventListener('click',()=>{
+ const cliente=$('pedido-cliente').value.trim(),resumo=pedidoResumo();
+ const erro=!cart.length?'O carrinho está vazio.':!cliente?'Informe o nome do cliente.':!$('pedido-data').value?'Informe a data.':!resumo.valido?'O sinal deve estar entre R$ 0,00 e o valor total.':'';
+ $('pedido-erro').textContent=erro;$('pedido-feedback').textContent='';if(erro)return;
+ const numero=pedidoNumero();
+ const dados={
+  numeroPedido:numero,data:$('pedido-data').value.split('-').reverse().join('/'),
+  cliente,telefone:$('pedido-telefone').value.trim(),cnpj:'',contato:'',email:'',
+  prazo:'Conforme informado em cada item',validade:'',pagamento:$('pedido-pagamento').value,
+  entrega:'',obs:'',sinalRecebido:money(resumo.sinal),
+  saldoRestante:money(Math.round((resumo.total-resumo.sinal)*100)/100)
+ };
+ try{
+  const blob=formalPdfDownload(dados,pedidoItensPdf());
+  localStorage.setItem(PEDIDO_KEY,String(pedidoSeguinte(numero)));
+  const url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download='Pedido_DC_'+numero+'.pdf';document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),20000);
+  $('pedido-numero').textContent=String(pedidoNumero());
+  $('pedido-feedback').textContent='Pedido nº '+numero+' gerado. Próximo número neste navegador: '+pedidoNumero()+'.';
+ }catch(e){$('pedido-erro').textContent='Não foi possível gerar o pedido: '+e.message;}
 });
 cartRender();
 </script></body></html>
