@@ -146,7 +146,6 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
 #setor-carrinho .cart-panel{padding:17px;margin:0;border:0;box-shadow:none}
 .cart-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
 .cart-head h2{font-size:19px}
-.cart-close{padding:7px 11px}
 #setor-carrinho .cart-item{grid-template-columns:minmax(0,1fr) auto auto;gap:8px}
 #setor-carrinho .cart-item button{grid-column:auto}
 @media(max-width:600px){.cart-floating{bottom:14px;right:14px;padding:13px 16px}#setor-carrinho{right:14px;bottom:75px;max-height:calc(100dvh - 92px)}#setor-carrinho .cart-item{grid-template-columns:minmax(0,1fr) auto}#setor-carrinho .cart-item button{grid-column:2}}
@@ -187,54 +186,6 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
 #bottons-outro-campo[hidden]{display:none!important}
 @media(max-width:600px){.bottons-opcoes,.bottons-precos{grid-template-columns:1fr}}
 
-/* Pedidos: visual compacto e integrado à identidade DC. */
-#pedido-numero{font-variant-numeric:tabular-nums}
-.pedido-shell{max-width:1190px;margin:0 auto}
-.pedido-hero{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:19px 23px;margin:0 0 16px;background:#fff;border:1px solid #edd6c3;border-left:5px solid var(--brand);border-radius:13px}
-.pedido-kicker{font-size:11px;color:#a34e18;text-transform:uppercase;letter-spacing:1.2px;font-weight:800}
-.pedido-hero h2{font-size:25px;margin:4px 0;color:#3d291c}
-.pedido-hero p{font-size:13px;color:#806148;margin:0}
-.pedido-numbox{background:#fff1e4;border:1px solid #f4c7a5;border-radius:12px;min-width:145px;padding:13px 20px;text-align:center}
-.pedido-numbox small{display:block;font-size:11px;color:#88512f;font-weight:700;margin-bottom:2px}
-.pedido-numbox strong{font-size:30px;color:#b65312}
-.pedido-layout{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(315px,1fr);gap:17px;align-items:start}
-.pedido-column{display:grid;gap:17px;min-width:0}
-.pedido-card{background:#fff;border:1px solid #edd8c8;border-radius:13px;padding:21px;box-shadow:0 2px 9px #67432c08;min-width:0}
-.pedido-card h3{font-size:17px;margin:0 0 6px;color:#51321e}
-.pedido-subtitle{color:#80634f;font-size:12px;margin:0 0 17px}
-.pedido-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
-.pedido-field label{display:block;font-size:12px;color:#5b3e2a;font-weight:750;margin-bottom:6px}
-.pedido-field input,.pedido-field select{display:block;width:100%;min-width:0;border:1px solid #dec4b1;border-radius:8px;padding:11px 12px;background:white;font:14px Arial,sans-serif;color:#302117}
-.pedido-field input:focus,.pedido-field select:focus{outline:2px solid #f6bb8f;outline-offset:1px;border-color:#e27629}
-.pedido-doc-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:9px;align-items:end}
-.pedido-linkbtn{border:1px solid #dba47c;background:#fff7ef;color:#9f4e12;border-radius:8px;padding:11px 13px;white-space:nowrap;font-size:12px;font-weight:700;cursor:pointer}
-.pedido-linkbtn:hover{background:#ffebdd}
-.pedido-lookup{font-size:12px;min-height:18px;margin:7px 0 13px;color:#82644c}
-.pedido-lookup.ok{color:#147244}.pedido-lookup.warn{color:#99511b}
-.pedido-register{margin-top:14px;padding:17px;border:1px solid #efcbb0;background:#fff9f4;border-radius:10px}
-.pedido-register[hidden]{display:none!important}
-.pedido-register h4{margin:0 0 12px;font-size:14px;color:#633a21}
-.pedido-register-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
-.pedido-register-actions button{font-size:12px}
-.pedido-helper{font-size:11px;color:#81634f;line-height:1.5;margin:11px 0 0}
-.pedido-items-wrap{width:100%;overflow-x:auto}
-.pedido-items-table{width:100%;border-collapse:collapse;table-layout:fixed}
-.pedido-items-table th{background:#fff4eb;color:#79421c;text-align:left;font-size:11px;letter-spacing:.3px;text-transform:uppercase;padding:12px 10px}
-.pedido-items-table th:nth-child(2),.pedido-items-table td:nth-child(2){width:68px;text-align:center}
-.pedido-items-table th:nth-child(3),.pedido-items-table td:nth-child(3){width:112px;text-align:right}
-.pedido-items-table td{border-bottom:1px solid #f2e5d9;padding:12px 10px;font-size:12px;vertical-align:top;overflow-wrap:anywhere}
-.pedido-items-table tr:last-child td{border-bottom:0}
-.pedido-items-table .pedido-item-desc{font-weight:650;color:#3e2a1d;line-height:1.45}
-.pedido-payment-box{padding:15px;background:#fff9f3;border:1px solid #f0ddcb;border-radius:10px;margin:17px 0 13px}
-.pedido-moneyline{display:flex;justify-content:space-between;gap:10px;padding:7px 0;font-size:13px}
-.pedido-moneyline strong{font-variant-numeric:tabular-nums}
-.pedido-moneyline.balance{border-top:1px solid #e7cdb8;margin-top:8px;padding-top:14px;font-weight:800;font-size:15px;color:#a24e12}
-.pedido-moneyline.balance strong{font-size:21px}
-.pedido-actions{display:grid;gap:9px}
-.pedido-actions button{width:100%;min-height:42px}
-.pedido-local-note{border:1px solid #efdfd0;background:#fffaf5;padding:12px 14px;border-radius:10px;color:#7a614d;font-size:11px;line-height:1.55}
-@media(max-width:900px){.pedido-layout{grid-template-columns:1fr}}
-@media(max-width:560px){.pedido-hero{padding:15px;align-items:stretch}.pedido-hero h2{font-size:20px}.pedido-numbox{min-width:92px;padding:10px}.pedido-numbox strong{font-size:22px}.pedido-card{padding:14px}.pedido-grid{grid-template-columns:1fr}.pedido-doc-row{grid-template-columns:1fr}.pedido-linkbtn{width:100%}.pedido-items-table td,.pedido-items-table th{padding:9px 6px}}
 </style>
 </head>
 <body><main class="wrap"><header class="topbar"><div class="topbar-logo"><a href="#setor-roland" id="voltar-roland-logo" title="Voltar para ROLAND" aria-label="Voltar à página inicial da ROLAND"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKkAAACrCAYAAAAdHbwkAAATs0lEQVR4Xu2de3AV1RnAvwRCCMkNCY8QCAxGIVDeoFRbtZZqlVEYi3Z89aEtdqZ/MK0dZjq2Yx+2nU6n1rGddqZ26os+8NGCtTCIbRW1YHWoEASUFBAtIWJECIQYQ0LofJuc7clhz+45e8+ePXvz/f7KzYXcvWd/++35vvPYovav158BgnCYIpKUcB2SlHAekpRwHpKUcB6SlHAekpRwHpKUcB6SlHAekpRwHpKUcB6SlHAekpRwHpKUcB6SlHAekpRwHpKUcB6SlHAekpRwnrwlfbs3B809Zf7rJJk57DhUQZf/mkiONiiF3adG+q95Kou7YfbQY/7rpMlb0p+3ToKfr9vuv7bFlHMnwcTROajNlUBteTFMz/XAR0pPwuTidluHkDlYQGnqKIUT3QCHO3rhcHu39z127G2GY20nlL7TJxfOgEfmtPqvkyazksqorqqEi2dNhgU1Q+HykW2DVloU8pWOSvjPiWLY934XPL/1db+N8oUkNcyCWVNgSUOu4IXF2/Pf2sfAtiMAz2w7oBwV40CSJsiSS2bDzfWn4eJh9m5VSfNEex282NIL6zfv9H+XNCSpBTC6rpw/LLOy4q389+9UwZqX9ycaMWWQpBbBxl45w26mmg8o56/froTHntvh/y4NSNIUuH3xfFhR1+p0eQurKKv+mU7kFCFJUwK7AHefX2S1/qfCzp5q+N6rZ2Dbrn3+79KGJE2Zn94wF27IHUr5KPp46Ngk+MFa+zXoKEhSB7jpU3PhJ/XpiYrlpLuaRlnN2HUgSR0Bb/8PXdhpvZ/q4u1dhCR1CNuioqBffOrdVMpKOpCkjmFL1KwISpI6StKiZklQhCKpo6Coay9sM350WRMUIUkdxnTWj1n8ZzcVw743D/q/ywIkqeOYrKPe9lqN0Sl0tiBJHQfnq/7u2nF5j0ylNVncBCRpBsi3f7rlVA187vfZi6AMkjQj3LF0PtxRE68vecWmssz1Q3lI0oyAt/2/LButvTwly7d5BkmaIXSzfczmF61pd35EKQqSNGO88KV65WhaCFEUIUklYNTCpcv7jvVAS1unM/MrVaOpq1EUuy1zp070l4YjlSUA08rlo2u07l7CH78wY8CaJLY6csOB7tRrjY3L6yKHTF2JoliZWDAxB4vGdmVms43MrLsXJeXBtT/37K1Ibf7ld6+bD1+uDs/008zoMVreeul5sGxMNvchKAhJGRs7x8O3NrxtPTHB3VT+sajTPw4RPK6vrra35JjB5Lytxu31W1EUlKRIWpOG1906VToKdeeBOusrPPG2ft/C08pJncsUnKRIGklKWHF//ppTVqO7ajKXFQpSUgQj6tJVe62dB9lQqe3jwF1afjXtHf/zC4GClRSxnVG/tXzMWU7YXPGJfeM/L+qNrDRkjYKW1PZtP6gCsaJpvLWqg8lphC5R0JIiNqNpUL/UVukpqsKQZQpeUqyhXvbwASvnKChhOefBI/7PSaJSq80qBS8pYiuaiWPaNpMmnTkEWWNQSGqrTilm+LYmNxfyrR4ZFJLa7JfyGb4tScUIXmgMCkltDkvyktoqP+HWlXfVFWZ/FBkUktqKaAgvqa0IHlRVKCRIUsOQpOYZFJKmdbunSGqGQSGpLVkQSpzMMygktVWCwvmb268f5jeurb6wWPoqNAaFpGkV821JiqgsYckqBS+pzWHRoHqlrWHRQp1cghS8pD86NAke2Gjn4QhBpSBbE56DLpBCoaAltT1VLyia2dw5L2wJS5YpaEltRlEkSBKblYVCjaYFK6nN2igiZvYMm8kTEtTlyDoFKWkaW3yHrS2ylTwxgrodWabgJMXItWJds9XVmUiYGDaXkDAKKaIWlKQ2+38iYZOO8Zn033zC/pOVsY9696xO6XFlhYKQFPufP3u5LbWNacNu9YjtKoMILmv53KQPzkrqskJmJcUi/bPHq2B145HU5GSE3eoZtoZmw8Dh0yUNOViYO5kpYTMnaVrb6MiQZfUiNke+VGBbPs6rLYUJZb1QV9ptfUtHVTInqe2SThQ6CYrNwn6S2K7HkqR5gNFo0/U55Ykdrl1gcSFJJbDdQVw60TpRlOFC3zRfSFIJrkmqG0UZ2Df9zJPvW6/jmoQkleCapCoZvQxbq0iTgiSV4JKkJk5SlpMoE99fB0qcNMHbfJyHjImkXeDPB5JUgiuRNJ/bvIhLSaAOJKkEFyQN2jUvX9Ia188HklRC2pImuSLT9uTsfCFJJaQpKQr60IWd2uUmHbJUPyVJJaQlqQ1BGVkRlSSVkIakNgVlZKGPSpJKsC1pGoIy0nqynyokqQSbkmIWf2f9kUT7oFHg8Ok3tg5x5mnUPCSpBFuSuvaABBczf5JUQtKS4r7z91063MkZ6/id791+ypmoSpJKSFJS3M57RZ37TzLGiSm/fG5/6jOoSFIJSUiKjb1yRreT0VMGjvk/0loD63ent7aLJJVgUlJs5K9Mh7MesZg1sFz1YkuvtcdCMkhSCflKirOXrlpQn+mlvTLYytltrT1WhCVJJcSRlIm5YAzAlbl0S0o2wTrrnvah0Hi4C57fqtZWOpCkElQkxQJ8Q005NFQVZ25teZLgMvBD3cM9cQ939MLh9m7YsTf+VkSZkxSl2dpW6n+BpFg2ps2baIy3tiePVHm/Y+vFJw7N/lYyaYGJ2O5TI/2Pb+oohRPd/stAsN1NzalVIe+Z+QSRNCQp4TwkKeE8JKkwPc61sXuCbvde5rt01V7fhftvmQ2Ly+TbOBL2GfSR9OrNFfB601tey8fZNodInkEtKb8z9MfmT4NHF7yffIsT2gxaSbE+OO/BvlpfRcUI2HxjdaqTnAk5iUrKCu8nuwFee6cDTp/uhWElQ+DCiSNgeq5Hqe/HhvhEWCE/7iQRlHTtsRpY/592mFBVBgtqhsKXq/Vv9Th9Lqr4HfZd2awm5PJR+jswY5/62aMVsOdoD7x3vNP7HbbxzHEj4IJRPXBR2VGti4+1C36nhVVdsdvXJIlIig3349eK4V/bm/zfBVFeXgYbbqgN3bIm6vEyE8aPhe8uqpVKEAYfTZE4u5NEHR9y/qwpsEayZp/vcugMN6q28RUXzYQHZr7rv46C30xtRNlweP2Wiv530sO4pCqrHYuKiuDMmb6PZWPyMlQkQOIIJh6r7glFVI7vo3Mb4IkLjvqveeJIisf9/XVN0Plhl9+OMsIukCAu3TgEDh76fxu4UO0wKql40hGc9b5obJc3vt7cUwbtp4fAv48OhdUvvAEfdH6oJSlm3wzsQuDfYCeqbHgpbLx5QmhUFuEze0bYo26CkB0fT9jtXlfSoAk2139yLnx6Qi/UlXzovT7RWwKb3iuF9dv/C7Pqa5UvPLEch8S5cE1jTFLsfy5+tMWTBsHb8G+urJL2sdjEhjBBEV6Ct5aP8X9G8DMve/iA/1onmgadEES3mB92fCroSIptdsnjx+DkyQ+819hduvfaKdILQBfZ5hSNy+u0+rWmMSbpyv11sPaF17yoho235aZRRr5YlAT80+Ywat9VpyYYrsJ88JlG73hxEd6+N/v+H15cL12t3iRRxxeFjqT8v0V0o34UM1af9O5uSGWuHE60d3g/6164pjEiqYkEREaUBPySX51i/MzHOqCjoy8bxi4HfwsNetqyjKjji0JH0ovWn4HD7/bVcm+9ch7cPam5/5384btqM6adA5+dWe0nUPh6wyUnvZ/TwIik/BesHTcaXl5S1P9O/oRJgBfH1RtOQcs773mvVS8O/gnOLHLinWDN8zu8pO66y+bAvedF/x0k7PhUUJVU7J6YvgXfvnsc/OPl3d7PGDmvq24dEHh0LlzTGJGUb2idW64KMglQtFVvnPJLMFgueemW0Uonjj8hLPry4uqUXvjjw4gcxMxhx6XHpSopHwh0M/YoxL4960awdsILd/lV84yeVx2MSBp1y8Uo8MPGIq+YL3JNQy60v8NLEIZqFBW7Jny/ju8CqP49leMLq2CoSsr/O9Ob+fK1UT6b5y8MnQvXNEYk5R9SECRpUNmEEXZikCgJ8HZ9zxVjpRKI8CdE7GvxyZRq6SXq+BDTkkY9cFeXj28oknaZ+GQqrZqpEUn5DNu2pJPqxsG6xUOlt1MRvjaKUuCzNRm4SI0vwahkz7yksjopW58VRBxJTU6GEfu62F2rKPFfwl93tsKBt1u0LlzTGJEUG/AX69UjkOqJQXgJWJ8UI/Ptf9rv12RVM13xhEShUnoJOj4dVNuC7zMjcT4rCL50qILphE0FI5KKDRgVgVRPDCKTQHxgV9RnIvztPAw2bKtSM5UdnyqqbSEmN+JtOS787VwFlQvXNEYkRdiXVSnhqJ4YJEwC1pdS+UyEPyGYfNSWF/e/MxB2bEhU6SXs+FTQaYulWyph5543vZ9VLqAo+MQIB2C+8qnp/e8MhN9kQuzH28CYpHxjI2GlKJ0TEyaBGMHDEhSdEtPN20Z7pS0V+cOOTwWdthC/7+KLZ8NPputNxePhv2dYiUmM4lEXrmmMSYqlnaUbewbMoMGr7mvn5waMLWND/6GpBza/+ob3OurEREnAGhoJSyj42ihOyAgTT6f0EnV8UehIinx1z3jYuKVPVJRrfO0YuOPSCQO2EcK+99b2CnjgX80wY3JNYI6gKx5LOKOETgJjkiLYODevOeRPgFAhqpwSJYFY3gqKpuIJCfo3PHjBfXz1+37XIKz/F3V8UehKisd2y+aSs2ZvyZAV/vnPxQrJPxef7n8nGJ0L1zRGJUWwEVc0VnqREq+6sCQFI9+35/SGXsEqEvDRNKi6wCdZqsO2bJgUCfqbDJXjC0NXUgTb+L6DY2HV3xr938m49hNz4BdTW/zXDH7eqEoyJA6CRF3oJjEuKQOj6lPvVsD25nZoeqvFi67Tp06G6orh8On6EXD5SHntkIdfniEOEjDws3AJBRK0TxG/X1XY3E6eqL/JQMmQyhKIPNFBYJRne1vpLtdg//el/3ZAc+sxL4nEhGpiTTXMGV/uzeOV/T2MjC2dfYnjbTVqu1xjV40t5Qmr/ZomMUkJwhQkKeE8mZY0amILURhkVlIxq48qoRDZJZOSYqYZZ7IzkU0yKSlfHooqzBPZJ5OSstokjmitvqRbqXxCZBdjkmIf8bd7/Jc+U0aXevMT42whIwM/69EDQ6ClrdN7kEO+D6vFeuM9eyvgZNfAUReca4r1z4W5+MeOy4TxQQrYDjpDiVin/c3+4WcdU22uxJ8Yo1tXVQG7Unc1jfI+9+r6Eie6UcYk5Wfny8Bb83fOy08oRBzmVBkxCUNMwoJQGR0LIu6IFD8SFQabvWSqssFXTHTWjSWJcUnDhkLxvY80TM57qpc4lzTf6WMqkiJ40p6+abzWSEvSkjJMdX34ZdOIC0mpcUkRnKu5tK5vLBO31fl7S7Gf6CD5Rj5+TQ4jnxIULyk+C2rl/GHez4e6SuCVVvCPHS+yi+Y1SGdaBWFCUr49ERziPdjeC0+/0uRPgmEBIB9RxamASNjMMlskImlQYZ1/P2zCRhTYVxOXgOQ7fYyXNGiSh3jydGQzIWlQeyLYf/zh/jEDAoDs36rAV014VFY9JIk1SfmpXrhp7a4bR/Qfgh58Q2LU27Zrn/cz9s1231Tu/axLlKQIv9xZJ2onKSmDb5O40+jEWU6zp5/rrwKI+vyksSYpLwLOhtr4ib59hnTAhuTneaIsNz5x0H8dd8mtiqTXv1IFr/ZfEDrT1GxIKgoWpx34IIK3+GVTh/uvVac3JoU1ST/fONafjY/LHu6frteICN+QLFnCEs/jm/pWO8b9u1GSihLorJi0ISnCz6mNE/n4pd6YLOFMfz4g6FyYpklEUrGj/6tdp/0GRHRulzz8iWDJl9hH1RGIESUpvyWi7gI4W5LqdA9ExJIea0NXRvYSkTSMuJm92JB8Z57P9uP8fV5Slt1jVQIn+D6797jfN0N0b6VpSBp0oYXB10b5YWZx8WJaNVNrkuJ+lz9deq7WCebhI4VYHeDfi1Mz5SUNI848gTQk1d0riq+Nihch/15aNdNEJMVb4vjRI+HQe8cGFIbFBtCBj5a46e3E0bn+dwBOdJ7ys3xEtzsRJSlWDr53TUOsIUJbkvJdEp3bvVhewyjMs2NvM7Qdb/f6/GnVTBORlDUSJhx37hnlL8GNuwN0lEQ8cWqm/N/HC2DJzP+XinB9E79cWBdbkoZFwzBktVEZadRME5UUEctGOlc5Q7chdWumUYlTPtiQlO/uIKrJo1i1UCHO+cuXxCVF+EbU7YCLkmNiNK08+P/y0VYnmmRZUr66gXeRqB1XePg5EGwLzSDwSSYssUqjZmpFUoTvU+okIHxtNCpC8hFXp2aaRUnx4sUn6fERFNsn6uFtPKoP/xUrK7ZrptYk5WVDVPs2qvsVIWISoHrbc11S7ILw+6ji5JItbzQPSEoRHXnE+nLU+dDZpsg01iRFdHfBE69glaydH2NXrZm6LmkUeKsOe2ZWEPw2mCplOz7I6HbZ8iURSWVyiNE0asKF2GdSGenhC9OqJZOsSoptcsMFE5V3IOHR3WYHER8rpBq188WYpPy2NGGNxrbNUdmWBiMp24JGdfkJ66shqssr+P+j+jmqsO+rur0Pgz8mEfxe+BjMsNtzFGzLHJXzwMCLmW1XFHaOTWNMUoJICpKUcB6SlHAekpRwHpKUcB6SlHAekpRwHpKUcB6SlHAekpRwHpKUcB6SlHAekpRwHpKUcB6SlHAekpRwHpKUcJ7/AR9gXnJEIgeYAAAAAElFTkSuQmCC" alt="DC Gráfica Rápida"></a></div><div class="topbar-info"><div class="topbar-cnpj">CNPJ 00.915.560/0001-76</div><div class="topbar-phones">(21) 98555-5525 / (21) 985555-5523</div></div><button type="button" class="topbar-action" id="abrir-formal">ORÇAMENTO FORMALIZADO</button></header>
@@ -533,80 +484,16 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
 </section>
 
 
-<section id="setor-pedido" class="sector-content" hidden aria-label="Gerar pedido numerado">
- <div class="pedido-shell">
-  <header class="pedido-hero">
-   <div><div class="pedido-kicker">DC Gráfica Rápida · Gestão de pedidos</div><h2>Novo pedido</h2><p>Identifique o cliente, confira os produtos e gere o PDF.</p></div>
-   <div class="pedido-numbox"><small>Número do pedido</small><strong id="pedido-numero">3821</strong></div>
-  </header>
-  <div class="pedido-layout">
-   <div class="pedido-column">
-    <section class="pedido-card">
-     <h3>Dados do cliente</h3><p class="pedido-subtitle">Digite o CPF ou CNPJ para localizar um cliente já cadastrado.</p>
-     <div class="pedido-doc-row">
-      <div class="pedido-field"><label for="pedido-documento">CPF ou CNPJ</label><input id="pedido-documento" inputmode="numeric" maxlength="18" autocomplete="off" placeholder="CPF ou CNPJ do cliente"></div>
-      <button id="pedido-cadastrar" type="button" class="pedido-linkbtn">+ Cadastrar cliente</button>
-     </div>
-     <div id="pedido-consulta-feedback" class="pedido-lookup" aria-live="polite">O cadastro é consultado neste navegador.</div>
-     <div class="pedido-grid">
-      <div class="pedido-field"><label for="pedido-cliente">Nome / Razão social *</label><input id="pedido-cliente" placeholder="Nome do cliente ou empresa" autocomplete="off"></div>
-      <div class="pedido-field"><label for="pedido-telefone">WhatsApp / Telefone</label><input type="tel" id="pedido-telefone" placeholder="(21) 99999-9999"></div>
-     </div>
-     <div class="pedido-register" id="pedido-cadastro" hidden>
-      <h4>Cadastrar ou atualizar cliente</h4>
-      <div class="pedido-grid">
-       <div class="pedido-field"><label for="pedido-cad-documento">CPF / CNPJ *</label><input id="pedido-cad-documento" inputmode="numeric" maxlength="18" autocomplete="off" placeholder="Somente números ou formatado"></div>
-       <div class="pedido-field"><label for="pedido-cad-nome">Nome / Razão social *</label><input id="pedido-cad-nome" placeholder="Nome do cliente"></div>
-       <div class="pedido-field"><label for="pedido-cad-telefone">WhatsApp / Telefone</label><input id="pedido-cad-telefone" type="tel" placeholder="(21) 99999-9999"></div>
-      </div>
-      <div id="pedido-cadastro-erro" class="error" aria-live="polite"></div>
-      <div class="pedido-register-actions"><button id="pedido-cad-salvar" type="button">Salvar cliente</button><button id="pedido-cad-cancelar" type="button" class="secondary">Cancelar</button></div>
-      <p class="pedido-helper">Cadastro de teste armazenado somente neste navegador. Não é uma consulta automática à Receita Federal ou a bases de CPF.</p>
-     </div>
-    </section>
-    <section class="pedido-card">
-     <h3>Produtos do pedido</h3><p class="pedido-subtitle">Itens importados do carrinho, sem recalcular os valores.</p>
-     <div class="pedido-items-wrap"><table class="pedido-items-table">
-      <thead><tr><th>Descrição</th><th>Qtd.</th><th>Valor total</th></tr></thead>
-      <tbody id="pedido-itens"></tbody>
-     </table></div>
-    </section>
-   </div>
-   <div class="pedido-column">
-    <section class="pedido-card">
-     <h3>Pagamento</h3><p class="pedido-subtitle">Defina a forma de pagamento e o valor recebido.</p>
-     <div class="pedido-grid">
-      <div class="pedido-field"><label for="pedido-data">Data do pedido</label><input type="date" id="pedido-data"></div>
-      <div class="pedido-field"><label for="pedido-pagamento">Forma de pagamento</label><select id="pedido-pagamento"><option value="PIX">PIX</option><option value="Débito">Débito</option><option value="Crédito">Crédito</option><option value="Link de pagamento">Link de pagamento</option><option value="Dinheiro">Dinheiro</option></select></div>
-     </div>
-     <div class="pedido-field" style="margin-top:15px"><label for="pedido-sinal">Sinal recebido (R$)</label><input id="pedido-sinal" inputmode="decimal" value="0,00" placeholder="Ex.: 100,00"></div>
-     <div class="pedido-payment-box">
-      <div class="pedido-moneyline"><span>Total do pedido</span><strong id="pedido-total">R$ 0,00</strong></div>
-      <div class="pedido-moneyline"><span>Sinal recebido</span><strong id="pedido-sinal-valor">R$ 0,00</strong></div>
-      <div class="pedido-moneyline balance"><span>Saldo a pagar</span><strong id="pedido-saldo">R$ 0,00</strong></div>
-     </div>
-     <div id="pedido-erro" class="error" aria-live="polite"></div>
-     <div class="pedido-actions"><button type="button" id="pedido-gerar">Gerar PDF do pedido</button><button type="button" class="secondary" id="pedido-voltar">Voltar ao carrinho</button></div>
-     <div id="pedido-feedback" class="feedback-orcamento" aria-live="polite"></div>
-    </section>
-    <p class="pedido-local-note"><strong>Versão de teste:</strong> os clientes cadastrados e a sequência de pedidos ficam salvos neste navegador, sem sincronização. Para usar dados reais da gráfica em vários computadores, será necessário um cadastro centralizado com acesso protegido.</p>
-   </div>
-  </div>
- </div>
-</section>
-<section id="setor-carrinho" class="sector-content" hidden aria-label="Carrinho de orçamentos">
+<section id="setor-carrinho" class="sector-content" hidden tabindex="-1" aria-label="Carrinho de orçamentos">
  <section class="panel cart-panel">
-  <div class="cart-head"><h2 style="margin:0">Carrinho de Orçamentos</h2><button type="button" class="secondary cart-close" id="cart-minimizar" aria-label="Minimizar carrinho">− Minimizar</button><button type="button" class="secondary cart-close" id="cart-fechar" aria-label="Fechar carrinho">✕</button></div>
+  <div class="cart-head"><h2 style="margin:0">Carrinho de Orçamentos</h2></div>
   <p class="cart-notice">Os valores são os escolhidos em cada aba. Na ROLAND, você decide entre valor original e mínimo de R$ 20,00 antes de adicionar.</p>
   <div id="cart-itens"></div>
   <div class="cart-total">TOTAL DO PEDIDO: <span id="cart-total">R$ 0,00</span></div>
   <div class="buttons">
-   <button type="button" id="cart-copiar">Copiar orçamento completo</button>
-   <button type="button" id="cart-pdf">Imprimir / Salvar PDF do carrinho</button>
-   <button type="button" id="cart-formalizar">Enviar para orçamento formalizado / PDF</button>
-   <button type="button" id="cart-pedido">Gerar pedido numerado (teste)</button>
-   <button type="button" class="secondary" id="cart-esvaziar">Esvaziar carrinho</button>
-   <button type="button" class="secondary" id="cart-voltar">Fechar carrinho</button>
+   <button type="button" id="cart-copiar">Copiar Orçamento</button>
+   <button type="button" id="cart-pdf">Salvar PDF</button>
+   <button type="button" id="cart-formalizar">Orçamento Formalizado</button>
   </div>
   <div id="cart-feedback" class="feedback-orcamento" aria-live="polite"></div>
   <section class="preview-panel" style="margin-top:15px"><b>Prévia para WhatsApp</b><pre id="cart-previa"></pre></section>
@@ -1386,7 +1273,6 @@ function abrirSetor(setor, focar=false){
  });
  // A aba formalizada fica fora da barra de setores: exibir explicitamente.
  $('setor-formal').hidden=(setor!=='formal');
- $('setor-pedido').hidden=(setor!=='pedido');
   // O carrinho funciona como painel flutuante independente das abas.
  if(focar) $('tab-'+setor).focus();
 }
@@ -1436,12 +1322,11 @@ function formalPdfDownload(dados,itens){
  function finish(){text('DC GRÁFICA RÁPIDA  |  Documento gerado eletronicamente',left,29,8,false,'0.52 0.40 0.32');const stream=cmds.join('\n')+'\n';const bytes=[...new TextEncoder().encode(stream)];const content=add(`<< /Length ${bytes.length} >>\nstream\n${stream}endstream`);const page=add(`<< /Type /Page /Parent ${pagesObj} 0 R /MediaBox [0 0 ${fmt(width)} ${fmt(height)}] /Resources << /Font << /F1 ${regular} 0 R /F2 ${bold} 0 R >> >> /Contents ${content} 0 R >>`);pageNums.push(page);}
  function need(h){if(y-h<55){finish();start();}}
  function para(label,value){if(!value)return;const lines=split(label+': '+value,99);need(lines.length*15+5);for(let j=0;j<lines.length;j++){text(lines[j],left,y,10,j===0&&false);y-=15;}y-=4;}
- start();text(dados.numeroPedido?'PEDIDO Nº '+dados.numeroPedido:'ORÇAMENTO COMERCIAL',left,y,16,true);y-=24;
- para('Data',dados.data);para('Cliente',dados.cliente);para('CNPJ/CPF',dados.cnpj);para('Contato',dados.contato);para('Telefone / WhatsApp',dados.telefone);para('E-mail / Telefone',dados.email);y-=5;need(45);rule(y);y-=22;
+ start();text('ORÇAMENTO COMERCIAL',left,y,16,true);y-=24;
+ para('Data',dados.data);para('Cliente',dados.cliente);para('CNPJ/CPF',dados.cnpj);para('Contato',dados.contato);para('E-mail / Telefone',dados.email);y-=5;need(45);rule(y);y-=22;
  text('DESCRIÇÃO',left,y,9,true);text('QTD.',375,y,9,true);text('VALOR TOTAL',453,y,9,true);y-=12;rule(y);y-=17;
  for(const item of itens){const linhas=split(item.descricao,51);need(Math.max(28,linhas.length*14+12));linhas.forEach((l,i)=>text(l,left,y-i*14,9));text(String(item.quantidade),375,y,9);text(formalBRL(item.valor),451,y,9);y-=Math.max(28,linhas.length*14+12);rule(y+10);}
  need(50);y-=16;text('VALOR TOTAL:',355,y,12,true);text(formalBRL(itens.reduce((a,i)=>a+i.valor,0)),455,y,14,true,'0.65 0.27 0.04');y-=33;
- para('Sinal recebido',dados.sinalRecebido);para('Saldo a pagar',dados.saldoRestante);
  para('Prazo de produção',dados.prazo);para('Prazo para criação de arte',dados.prazoArte);para('Validade da proposta',dados.validade);para('Condições de pagamento',dados.pagamento);para('Entrega / Retirada',dados.entrega);
  if(dados.obs){need(35);y-=12;text('OBSERVAÇÕES',left,y,11,true);y-=18;for(const line of split(dados.obs,100)){need(16);text(line,left,y,10);y-=16;}}
  finish();objects[catalog-1]=`<< /Type /Catalog /Pages ${pagesObj} 0 R >>`;objects[pagesObj-1]=`<< /Type /Pages /Kids [${pageNums.map(n=>n+' 0 R').join(' ')}] /Count ${pageNums.length} >>`;
@@ -1655,7 +1540,7 @@ function cartRender(){
   div.append(content,amount,remove);wrap.append(div);
  });
  $('cart-previa').textContent=cartTexto();
- $('cart-copiar').disabled=!cart.length;$('cart-pdf').disabled=!cart.length;$('cart-formalizar').disabled=!cart.length;$('cart-esvaziar').disabled=!cart.length;
+ $('cart-copiar').disabled=!cart.length;$('cart-pdf').disabled=!cart.length;$('cart-formalizar').disabled=!cart.length;
 }
 const cartInfos={
  roland:{msg:()=>mensagem,preview:'previa',val:'total'},
@@ -1692,15 +1577,11 @@ document.querySelectorAll('[data-cart-add]').forEach(btn=>btn.addEventListener('
 function cartToggle(open){
  $('setor-carrinho').hidden=!open;
  $('abrir-carrinho').setAttribute('aria-expanded',String(open));
- if(open) $('cart-fechar').focus();
+ if(open) $('setor-carrinho').focus();
 }
 $('abrir-carrinho').addEventListener('click',()=>cartToggle($('setor-carrinho').hidden));
-$('cart-fechar').addEventListener('click',()=>cartToggle(false));
-$('cart-minimizar').addEventListener('click',()=>cartToggle(false));
 document.addEventListener('pointerdown',event=>{if(!$('setor-carrinho').hidden&&!$('setor-carrinho').contains(event.target)&&!$('abrir-carrinho').contains(event.target))cartToggle(false);});
-$('cart-voltar').addEventListener('click',()=>cartToggle(false));
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('setor-carrinho').hidden)cartToggle(false);});
-$('cart-esvaziar').addEventListener('click',()=>{cart=[];cartPersist();$('cart-feedback').textContent='Carrinho esvaziado.';});
 $('cart-copiar').addEventListener('click',async()=>{
  const texto=cartTexto();try{await navigator.clipboard.writeText(texto)}catch(e){const ta=document.createElement('textarea');ta.value=texto;document.body.append(ta);ta.select();document.execCommand('copy');ta.remove();}
  $('cart-feedback').textContent='Orçamento completo copiado. Cole no WhatsApp com Ctrl + V.';
@@ -1735,156 +1616,5 @@ $('cart-formalizar').addEventListener('click',()=>{
  formalAtualizar();abrirSetor('formal');window.scrollTo({top:0,behavior:'smooth'});
 });
 
-/* Pedido numerado e cadastro de clientes em modo teste, armazenados neste navegador. */
-const PEDIDO_KEY='dc_grafica_proximo_pedido_teste_v1';
-const CLIENTES_KEY='dc_grafica_clientes_teste_v1';
-let pedidoClientePreenchido='';
-function pedidoNumero(){
- let n;
- try{n=Number(localStorage.getItem(PEDIDO_KEY));}catch(e){return 3821;}
- return Number.isSafeInteger(n)&&n>=2000&&n<=4000?n:3821;
-}
-function pedidoSeguinte(n){return n===4000?2000:n+1;}
-function pedidoSomenteDigitos(valor){return String(valor||'').replace(/\D/g,'').slice(0,14);}
-function pedidoFormatarDocumento(valor){
- const d=pedidoSomenteDigitos(valor);
- if(d.length===11)return d.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/,'$1.$2.$3-$4');
- if(d.length===14)return d.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/,'$1.$2.$3/$4-$5');
- return d;
-}
-function pedidoClientesLer(){
- try{
-  const registros=JSON.parse(localStorage.getItem(CLIENTES_KEY)||'[]');
-  return Array.isArray(registros)?registros.filter(c=>c&&typeof c.documento==='string'&&typeof c.nome==='string'):[];
- }catch(e){return [];}
-}
-function pedidoConsultaStatus(texto,ok=false){
- const campo=$('pedido-consulta-feedback');
- campo.textContent=texto;campo.className='pedido-lookup'+(ok?' ok':'');
-}
-function pedidoBuscarCliente(){
- const doc=pedidoSomenteDigitos($('pedido-documento').value);
- if(pedidoClientePreenchido&&doc!==pedidoClientePreenchido){
-  $('pedido-cliente').value='';$('pedido-telefone').value='';pedidoClientePreenchido='';
- }
- const valido=doc.length===11||doc.length===14;
- if(!valido){
-  pedidoConsultaStatus(doc?'Complete os 11 dígitos do CPF ou 14 do CNPJ.':'Digite o CPF/CNPJ de um cliente cadastrado para preencher o nome.');
-  return;
- }
- const existente=pedidoClientesLer().find(c=>c.documento===doc);
- if(existente){
-  $('pedido-cliente').value=existente.nome;
-  $('pedido-telefone').value=existente.telefone||'';
-  pedidoClientePreenchido=doc;
-  pedidoConsultaStatus('Cliente encontrado no cadastro: '+existente.nome+'.',true);
- }else{
-  pedidoConsultaStatus('Cliente não cadastrado neste navegador. Use “Cadastrar cliente” para salvá-lo.');
- }
-}
-function pedidoCadastroAbrir(){
- $('pedido-cadastro').hidden=false;
- const doc=pedidoSomenteDigitos($('pedido-documento').value);
- const existente=pedidoClientesLer().find(c=>c.documento===doc);
- $('pedido-cad-documento').value=pedidoFormatarDocumento(doc);
- $('pedido-cad-nome').value=existente?.nome||$('pedido-cliente').value;
- $('pedido-cad-telefone').value=existente?.telefone||$('pedido-telefone').value;
- $('pedido-cadastro-erro').textContent='';
- $('pedido-cad-documento').focus();
-}
-function pedidoCadastroSalvar(){
- const documento=pedidoSomenteDigitos($('pedido-cad-documento').value);
- const nome=$('pedido-cad-nome').value.trim();
- const telefone=$('pedido-cad-telefone').value.trim();
- const erro=![11,14].includes(documento.length)?'Informe um CPF de 11 dígitos ou um CNPJ de 14 dígitos.':!nome?'Informe o nome ou razão social.':'';
- $('pedido-cadastro-erro').textContent=erro;if(erro)return;
- const clientes=pedidoClientesLer();
- const registro={documento,nome,telefone};
- const indice=clientes.findIndex(c=>c.documento===documento);
- if(indice>=0)clientes[indice]=registro;else clientes.push(registro);
- try{localStorage.setItem(CLIENTES_KEY,JSON.stringify(clientes));}
- catch(e){$('pedido-cadastro-erro').textContent='Não foi possível salvar o cadastro neste navegador.';return;}
- $('pedido-documento').value=pedidoFormatarDocumento(documento);
- $('pedido-cliente').value=nome;$('pedido-telefone').value=telefone;
- pedidoClientePreenchido=documento;
- $('pedido-cadastro').hidden=true;
- pedidoConsultaStatus('Cliente '+(indice>=0?'atualizado':'cadastrado')+' com sucesso: '+nome+'.',true);
-}
-function pedidoResumo(){
- const total=cartTotal(),txt=$('pedido-sinal').value.trim();
- const sinal=txt===''?0:formalNum(txt);
- const valido=Number.isFinite(sinal)&&sinal>=0&&sinal<=total;
- $('pedido-total').textContent=money(total);
- $('pedido-sinal-valor').textContent=Number.isFinite(sinal)&&sinal>=0?money(sinal):'Inválido';
- $('pedido-saldo').textContent=valido?money(Math.round((total-sinal)*100)/100):'Verifique o sinal';
- $('pedido-gerar').disabled=!cart.length||!valido;
- return {total,sinal,valido};
-}
-function pedidoItensPdf(){
- return cartLineItems().flatMap(item=>{
-  const desc=item.descricao+(item.detalhe?' | '+item.detalhe:'')+(item.prazo?' | '+(item.setor==='bottons'?'Prazo estimado de produção: ':'Prazo de produção: ')+item.prazo:'');
-  const linhas=[{descricao:desc,quantidade:cartQuantidadeNumerica(item.quantidade),valor:item.base}];
-  if(item.arte>0)linhas.push({descricao:'Criação de arte | Prazo para criação de arte: até 3 dias úteis',quantidade:1,valor:item.arte});
-  return linhas;
- });
-}
-function pedidoItensExibir(){
- const corpo=$('pedido-itens');corpo.replaceChildren();
- for(const item of pedidoItensPdf()){
-  const tr=document.createElement('tr');
-  for(const [texto,classe] of [[item.descricao,'pedido-item-desc'],[String(item.quantidade),''],[money(item.valor),'']]){
-   const td=document.createElement('td');td.textContent=texto;if(classe)td.className=classe;tr.appendChild(td);
-  }
-  corpo.appendChild(tr);
- }
-}
-$('cart-pedido').addEventListener('click',()=>{
- if(!cart.length)return;
- cartToggle(false);
- const hoje=new Date();
- $('pedido-data').value=[hoje.getFullYear(),String(hoje.getMonth()+1).padStart(2,'0'),String(hoje.getDate()).padStart(2,'0')].join('-');
- $('pedido-numero').textContent=String(pedidoNumero());
- $('pedido-documento').value='';$('pedido-cliente').value='';$('pedido-telefone').value='';
- $('pedido-sinal').value='0,00';$('pedido-pagamento').value='PIX';
- pedidoClientePreenchido='';$('pedido-cadastro').hidden=true;
- pedidoConsultaStatus('Digite o CPF/CNPJ de um cliente cadastrado para preencher o nome.');
- $('pedido-erro').textContent='';$('pedido-feedback').textContent='';
- pedidoItensExibir();pedidoResumo();abrirSetor('pedido');window.scrollTo({top:0,behavior:'smooth'});
-});
-$('pedido-documento').addEventListener('input',pedidoBuscarCliente);
-$('pedido-documento').addEventListener('blur',()=>{
- $('pedido-documento').value=pedidoFormatarDocumento($('pedido-documento').value);
-});
-$('pedido-cadastrar').addEventListener('click',pedidoCadastroAbrir);
-$('pedido-cad-cancelar').addEventListener('click',()=>{$('pedido-cadastro').hidden=true;$('pedido-cadastro-erro').textContent='';});
-$('pedido-cad-salvar').addEventListener('click',pedidoCadastroSalvar);
-$('pedido-cad-documento').addEventListener('blur',()=>{
- $('pedido-cad-documento').value=pedidoFormatarDocumento($('pedido-cad-documento').value);
-});
-$('pedido-sinal').addEventListener('input',pedidoResumo);
-$('pedido-voltar').addEventListener('click',()=>{abrirSetor('roland');cartToggle(true);});
-$('pedido-gerar').addEventListener('click',()=>{
- const cliente=$('pedido-cliente').value.trim(),resumo=pedidoResumo();
- const documento=pedidoSomenteDigitos($('pedido-documento').value);
- const erro=!cart.length?'O carrinho está vazio.':!cliente?'Informe o nome do cliente.':documento&&![11,14].includes(documento.length)?'Confira o CPF ou CNPJ informado.':!$('pedido-data').value?'Informe a data.':!resumo.valido?'O sinal deve estar entre R$ 0,00 e o valor total.':'';
- $('pedido-erro').textContent=erro;$('pedido-feedback').textContent='';if(erro)return;
- const numero=pedidoNumero();
- const dados={
-  numeroPedido:numero,data:$('pedido-data').value.split('-').reverse().join('/'),
-  cliente,cnpj:pedidoFormatarDocumento(documento),telefone:$('pedido-telefone').value.trim(),contato:'',email:'',
-  prazo:'Conforme informado em cada item',validade:'',pagamento:$('pedido-pagamento').value,
-  entrega:'',obs:'',sinalRecebido:money(resumo.sinal),
-  saldoRestante:money(Math.round((resumo.total-resumo.sinal)*100)/100)
- };
- try{
-  const blob=formalPdfDownload(dados,pedidoItensPdf());
-  localStorage.setItem(PEDIDO_KEY,String(pedidoSeguinte(numero)));
-  const url=URL.createObjectURL(blob),a=document.createElement('a');
-  a.href=url;a.download='Pedido_DC_'+numero+'.pdf';document.body.appendChild(a);a.click();a.remove();
-  setTimeout(()=>URL.revokeObjectURL(url),20000);
-  $('pedido-numero').textContent=String(pedidoNumero());
-  $('pedido-feedback').textContent='Pedido nº '+numero+' gerado. Próximo número neste navegador: '+pedidoNumero()+'.';
- }catch(e){$('pedido-erro').textContent='Não foi possível gerar o pedido: '+e.message;}
-});
 cartRender();
 </script></body></html>
