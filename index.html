@@ -487,7 +487,8 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
 <section id="setor-finalano" class="sector-content" role="tabpanel" aria-labelledby="tab-finalano" hidden>
  <div class="workspace"><div class="maincolumn">
   <section class="panel">
-   <div class="field"><label for="finalano-produto">Produto de final de ano</label><select class="blocos-select" id="finalano-produto"><option value="calendario-parede">Calendário de Parede | 21x30cm | 4/0 | UV 1/0</option></select></div>
+   <div class="field"><label for="finalano-codigo">Digite o código do produto</label><input id="finalano-codigo" type="text" inputmode="numeric" maxlength="3" placeholder="Digite 1, 2, 3..." autocomplete="off"><div class="error" id="finalano-codigo-erro"></div></div>
+   <div class="field"><label>Produto selecionado</label><div id="finalano-produto" class="externa-produto"><span class="muted">Digite um código ou clique no produto da lista</span></div></div>
    <div class="field"><label for="finalano-quantidade">Quantidade</label><select class="blocos-select" id="finalano-quantidade"></select></div>
    <div class="field"><label for="finalano-prazo">Prazo de produção</label><input type="text" id="finalano-prazo" value="até 4 dias úteis" readonly></div>
    <div class="arte-extra" id="arte-finalano"><label class="arte-opcao"><input type="checkbox" id="arte-finalano-check"> Adicionar criação de arte</label><div class="arte-valor"><label for="arte-finalano-valor">Valor da criação de arte (R$)</label><input type="text" inputmode="decimal" id="arte-finalano-valor" placeholder="Ex.: 30,00"><div class="arte-aviso" id="arte-finalano-erro"></div></div></div>
@@ -500,8 +501,11 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
   <section class="panel preview-panel"><b>Prévia para copiar e colar no WhatsApp</b><pre id="finalano-previa"></pre></section>
  </div>
  <aside class="panel catalog">
-  <h2 class="catalog-title" id="finalano-titulo">Calendário de Parede 21x30cm</h2>
-  <p class="catalog-hint">Impressão 4/0 · UV 1/0. Clique na quantidade para selecionar.</p>
+  <h2 class="catalog-title">Produtos de Final de Ano</h2>
+  <p class="catalog-hint">Digite o código do produto à esquerda ou clique na lista abaixo.</p>
+  <div class="table-scroll"><table class="external-table"><thead><tr><th>Cód.</th><th>Produto</th></tr></thead><tbody id="finalano-catalogo"></tbody></table></div>
+  <h3 class="catalog-title" id="finalano-titulo" style="margin-top:20px">Tabela de preços</h3>
+  <p class="catalog-hint">Clique na tiragem desejada para selecioná-la.</p>
   <div class="table-scroll"><table class="external-table"><thead><tr><th>Quantidade</th><th>Valor total</th></tr></thead><tbody id="finalano-tabela"></tbody></table></div>
  </aside></div>
 </section>
@@ -1315,40 +1319,67 @@ $('ima-copiar').addEventListener('click',async()=>{
 imaEscolher('1');
 
 
-/* FINAL DE ANO: valores totais fixos por quantidade */
+/* FINAL DE ANO: catálogo numerado, como o setor ROLAND. */
 const finalAnoProdutos={
- 'calendario-parede':{nome:'Calendário de Parede | 21x30cm | 4/0 | UV 1/0',prazo:'até 4 dias úteis',valores:{25:162,50:242,100:384,250:728,500:1030,1000:1192}}
+ '1':{nome:'Calendário de Parede | 21×30 cm | 4/0 | UV 1/0',prazo:'até 4 dias úteis',valores:{25:162,50:242,100:384,250:728,500:1030,1000:1192}}
 };
 let finalanoMensagem='';
 function finalanoCalcular(){
- const produto=finalAnoProdutos[$('finalano-produto').value];
+ const codigo=$('finalano-codigo').value.trim();
+ const produto=finalAnoProdutos[codigo];
  const qtd=Number($('finalano-quantidade').value),base=produto?.valores[qtd];
- const valido=Number.isSafeInteger(qtd)&&qtd>0&&Number.isFinite(base);
- $('finalano-erro').textContent=valido?'':'Selecione uma quantidade com preço cadastrado.';
+ const valido=!!produto&&Number.isSafeInteger(qtd)&&qtd>0&&Number.isFinite(base);
  $('finalano-copiar').disabled=!valido;
- if(!valido){finalanoMensagem='';$('finalano-total').textContent='R$ 0,00';$('finalano-detalhes').textContent='Quantidade sem preço cadastrado.';$('finalano-previa').textContent='Selecione uma quantidade válida.';return;}
+ $('finalano-erro').textContent=produto&&!valido?'Selecione uma quantidade com preço cadastrado.':'';
+ if(!valido){
+  finalanoMensagem='';
+  $('finalano-total').textContent='R$ 0,00';
+  $('finalano-detalhes').textContent=produto?'Quantidade sem preço cadastrado.':'Selecione um produto pelo código.';
+  $('finalano-previa').textContent=produto?'Selecione uma quantidade válida.':'Digite um código ou clique na lista de produtos.';
+  return;
+ }
  const total=Math.round((base+valorArte('finalano'))*100)/100;
  $('finalano-prazo').value=produto.prazo;
  $('finalano-total').textContent=money(total);
  $('finalano-detalhes').textContent=qtd.toLocaleString('pt-BR')+' unidades · Valor total da tiragem';
  finalanoMensagem='Segue orçamento:\nProduto: '+produto.nome+'\nQuantidade: '+qtd.toLocaleString('pt-BR')+' unidades'+'\n*VALOR TOTAL: '+money(total)+'*'+'\nPrazo de produção: '+produto.prazo;
  finalanoMensagem=detalharArteNoOrcamento(finalanoMensagem,'finalano',base);
- $('finalano-previa').textContent=finalanoMensagem;$('finalano-feedback').textContent='';
+ $('finalano-previa').textContent=finalanoMensagem;
+ $('finalano-feedback').textContent='';
 }
-function finalanoTrocarProduto(){
- const produto=finalAnoProdutos[$('finalano-produto').value];if(!produto)return;
- $('finalano-quantidade').innerHTML=Object.keys(produto.valores).map(q=>'<option value="'+q+'">'+Number(q).toLocaleString('pt-BR')+' unidades</option>').join('');
- $('finalano-quantidade').value=Object.keys(produto.valores)[0];
- $('finalano-titulo').textContent=produto.nome;
- $('finalano-tabela').innerHTML=Object.entries(produto.valores).map(([q,v])=>'<tr data-qtd="'+q+'"><td>'+Number(q).toLocaleString('pt-BR')+' un.</td><td>'+money(v)+'</td></tr>').join('');
+function finalanoSelecionarProduto(valor){
+ const raw=String(valor??'').trim();
+ const codigo=/^\d+$/.test(raw)?String(Number(raw)):'';
+ const produto=finalAnoProdutos[codigo];
+ $('finalano-codigo').value=raw;
+ $('finalano-codigo-erro').textContent=raw&&!produto?'Código não encontrado. Confira a lista de produtos.':'';
+ $('finalano-produto').textContent=produto?codigo+' - '+produto.nome:'Digite um código ou clique no produto da lista';
+ $('finalano-quantidade').innerHTML=produto?Object.keys(produto.valores).map(q=>'<option value="'+q+'">'+Number(q).toLocaleString('pt-BR')+' unidades</option>').join(''):'';
+ if(produto)$('finalano-quantidade').value=Object.keys(produto.valores)[0];
+ $('finalano-prazo').value=produto?produto.prazo:'';
+ $('finalano-titulo').textContent=produto?'Preços · '+produto.nome:'Tabela de preços';
+ $('finalano-tabela').innerHTML=produto?Object.entries(produto.valores).map(([q,v])=>'<tr data-qtd="'+q+'"><td>'+Number(q).toLocaleString('pt-BR')+' un.</td><td>'+money(v)+'</td></tr>').join(''):'';
+ document.querySelectorAll('#finalano-catalogo tr[data-finalano-codigo]').forEach(tr=>tr.classList.toggle('active',!!produto&&tr.dataset.finalanoCodigo===codigo));
  finalanoCalcular();
 }
-$('finalano-produto').addEventListener('change',finalanoTrocarProduto);
+$('finalano-catalogo').innerHTML=Object.entries(finalAnoProdutos).map(([codigo,produto])=>'<tr data-finalano-codigo="'+codigo+'"><td>'+codigo+'</td><td>'+produto.nome+'</td></tr>').join('');
+$('finalano-codigo').addEventListener('input',()=>finalanoSelecionarProduto($('finalano-codigo').value));
+$('finalano-catalogo').addEventListener('click',event=>{
+ const linha=event.target.closest('tr[data-finalano-codigo]');if(linha)finalanoSelecionarProduto(linha.dataset.finalanoCodigo);
+});
 $('finalano-quantidade').addEventListener('change',finalanoCalcular);
-$('finalano-tabela').addEventListener('click',event=>{const tr=event.target.closest('tr[data-qtd]');if(!tr)return;$('finalano-quantidade').value=tr.dataset.qtd;finalanoCalcular();});
-$('finalano-limpar').addEventListener('click',()=>{resetArte('finalano');$('finalano-produto').value='calendario-parede';finalanoTrocarProduto();});
-$('finalano-copiar').addEventListener('click',async()=>{if(!finalanoMensagem)return;try{await navigator.clipboard.writeText(finalanoMensagem)}catch(e){const ta=document.createElement('textarea');ta.value=finalanoMensagem;document.body.append(ta);ta.select();document.execCommand('copy');ta.remove();}$('finalano-feedback').textContent='Orçamento copiado!';});
-finalanoTrocarProduto();
+$('finalano-tabela').addEventListener('click',event=>{
+ const linha=event.target.closest('tr[data-qtd]');if(!linha)return;
+ $('finalano-quantidade').value=linha.dataset.qtd;finalanoCalcular();
+});
+$('finalano-limpar').addEventListener('click',()=>{resetArte('finalano');finalanoSelecionarProduto('');});
+$('finalano-copiar').addEventListener('click',async()=>{
+ if(!finalanoMensagem)return;
+ try{await navigator.clipboard.writeText(finalanoMensagem)}
+ catch(e){const ta=document.createElement('textarea');ta.value=finalanoMensagem;document.body.append(ta);ta.select();document.execCommand('copy');ta.remove();}
+ $('finalano-feedback').textContent='Orçamento copiado!';
+});
+finalanoSelecionarProduto('');
 
 // Alternar setores sem recriar os formulários nem perder dados preenchidos.
 const abas = Array.from(document.querySelectorAll('.sector-tab'));
@@ -1531,7 +1562,7 @@ function buscaSelecionar(p){
  if(p.setor==='servicos'){servTipo=p.codigo;$('serv-quantidade').value=servTipo==='polaroid'?'2':'1';atualizarServicos();}
  if(p.setor==='ima')imaEscolher(p.codigo);
  if(p.setor==='bottons'){$('bottons-tamanho').value='32';bottonsOpcoes();}
- if(p.setor==='finalano'){$('finalano-produto').value=p.codigo;finalanoTrocarProduto();}
+ if(p.setor==='finalano')finalanoSelecionarProduto(p.codigo);
  if(p.setor==='carimbo'){document.querySelector('input[name="carimbo-categoria"][value="'+p.categoria+'"]').checked=true;carimboAtualizarModelos();$('carimbo-modelo').value=String(p.indice);carimboCalcular();}
  buscaCampo.value='';buscaFechar();window.scrollTo({top:0,behavior:'smooth'});
 }
