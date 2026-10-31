@@ -242,7 +242,8 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
 <label><input type="radio" name="roland-valor" value="minimo" checked> Aplicar mínimo de R$ 20,00</label>
 <label><input type="radio" name="roland-valor" value="original"> Valor original (item adicional no mesmo pedido)</label>
 </div><div class="meta">O valor original pode ser usado quando o pedido já possui outro serviço. A opção selecionada será usada no texto copiado.</div></div>
-<div class="field" style="border:1px solid var(--border);border-radius:9px;padding:10px;background:#fffaf6"><div style="display:flex;justify-content:space-between;gap:10px"><span>Valor original, sem mínimo</span><b id="roland-original">R$ 0,00</b></div><div style="display:flex;justify-content:space-between;gap:10px;margin-top:7px"><span>Valor com mínimo</span><b id="roland-com-minimo">R$ 0,00</b></div></div><div class="arte-extra" id="arte-roland"><label class="arte-opcao"><input type="checkbox" id="arte-roland-check"> Adicionar criação de arte</label><div class="arte-valor"><label for="arte-roland-valor">Valor da criação de arte (R$)</label><input type="text" inputmode="decimal" id="arte-roland-valor" placeholder="Ex.: 30,00" autocomplete="off"><div class="arte-aviso" id="arte-roland-erro"></div></div></div><div class="result"><div><b>Valor total</b><div class="meta" id="detalhes">Preço por m² conforme o produto escolhido · mínimo por orçamento: R$ 20,00</div></div><strong id="total">R$ 0,00</strong></div><div class="buttons"><button id="copiar" disabled>Copiar orçamento</button><button type="button" class="cart-add" data-cart-add="roland">+ Adicionar ao carrinho</button><button id="limpar" class="secondary" type="button">Limpar campos</button></div><div id="feedback" class="feedback-orcamento" aria-live="polite"></div><div class="notice">O valor mínimo é de R$ 20,00 para um pedido avulso. Para um serviço adicional no mesmo pedido, selecione o valor original. O cálculo considera altura × largura × quantidade × preço/m² ÷ 10.000.</div></section>
+<div class="field" style="border:1px solid var(--border);border-radius:9px;padding:10px;background:#fffaf6"><div style="display:flex;justify-content:space-between;gap:10px"><span>Valor original, sem mínimo</span><b id="roland-original">R$ 0,00</b></div><div style="display:flex;justify-content:space-between;gap:10px;margin-top:7px"><span>Valor com mínimo</span><b id="roland-com-minimo">R$ 0,00</b></div></div><div class="arte-extra" id="arte-roland"><label class="arte-opcao"><input type="checkbox" id="arte-roland-check"> Adicionar criação de arte</label><div class="arte-valor"><label for="arte-roland-valor">Valor da criação de arte (R$)</label><input type="text" inputmode="decimal" id="arte-roland-valor" placeholder="Ex.: 30,00" autocomplete="off"><div class="arte-aviso" id="arte-roland-erro"></div></div></div><div class="result"><div><b>Valor total</b><div class="meta" id="detalhes">Preço por m² conforme o produto escolhido · mínimo por orçamento: R$ 20,00</div></div><strong id="total">R$ 0,00</strong></div><div class="field"><label><input type="checkbox" id="loja-pix-roland"> Incluir chave PIX da loja no final do orçamento</label><p class="catalog-hint">delcastilholoja@gmail.com — Moura Reproduções Ltda</p></div>
+<div class="buttons"><button id="copiar" disabled>Copiar orçamento</button><button type="button" class="cart-add" data-cart-add="roland">+ Adicionar ao carrinho</button><button id="limpar" class="secondary" type="button">Limpar campos</button></div><div id="feedback" class="feedback-orcamento" aria-live="polite"></div><div class="notice">O valor mínimo é de R$ 20,00 para um pedido avulso. Para um serviço adicional no mesmo pedido, selecione o valor original. O cálculo considera altura × largura × quantidade × preço/m² ÷ 10.000.</div></section>
 <section class="panel preview-panel"><b>Prévia do item atual</b><pre id="previa">Preencha o código, as medidas e a quantidade.</pre></section>
 </div>
 <aside class="panel catalog"><h2 class="catalog-title">Produtos e preços</h2><p class="catalog-hint">Digite o código no formulário ou clique em um produto.</p><div class="table-scroll"><table><thead><tr><th>Cód.</th><th>Produto</th><th>R$/m²</th></tr></thead><tbody id="tabela"></tbody></table></div></aside></div></section>
@@ -264,7 +265,8 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
     </div>
     <div class="field"><label for="externa-prazo">Prazo de produção</label><input id="externa-prazo" readonly value="até 3 dias úteis"></div>
     <div class="arte-extra" id="arte-externa"><label class="arte-opcao"><input type="checkbox" id="arte-externa-check"> Adicionar criação de arte</label><div class="arte-valor"><label for="arte-externa-valor">Valor da criação de arte (R$)</label><input type="text" inputmode="decimal" id="arte-externa-valor" placeholder="Ex.: 30,00" autocomplete="off"><div class="arte-aviso" id="arte-externa-erro"></div></div></div><div class="result"><div><b>Valor total</b><div class="meta" id="externa-detalhes">Preço conforme tiragem e tipo de impressão</div></div><strong id="externa-total">R$ 50,00</strong></div>
-    <div class="buttons"><button id="externa-copiar">Copiar orçamento</button><button type="button" class="cart-add" data-cart-add="externa">+ Adicionar ao carrinho</button><button class="secondary" id="externa-limpar" type="button">Limpar campos</button></div>
+    <div class="field"><label><input type="checkbox" id="loja-pix-externa"> Incluir chave PIX da loja no final do orçamento</label><p class="catalog-hint">delcastilholoja@gmail.com — Moura Reproduções Ltda</p></div>
+<div class="buttons"><button id="externa-copiar">Copiar orçamento</button><button type="button" class="cart-add" data-cart-add="externa">+ Adicionar ao carrinho</button><button class="secondary" id="externa-limpar" type="button">Limpar campos</button></div>
     <div id="externa-feedback" class="feedback-orcamento" aria-live="polite"></div>
     <p class="external-price-note">Valores e prazos conforme a tabela cadastrada para cada produto.</p>
    </section>
@@ -293,7 +295,8 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
       <div id="blocos-carbonado-aviso" class="meta" hidden style="margin-bottom:9px">Papel autocopiativo: não fazemos serrilha. Numeração opcional: R$ 20,00 a cada 500 folhas.</div>
       <div class="field"><label for="blocos-prazo">Prazo de produção</label><input id="blocos-prazo" value="até 3 dias úteis" readonly></div>
       <div class="arte-extra" id="arte-blocos"><label class="arte-opcao"><input type="checkbox" id="arte-blocos-check"> Adicionar criação de arte</label><div class="arte-valor"><label for="arte-blocos-valor">Valor da criação de arte (R$)</label><input type="text" inputmode="decimal" id="arte-blocos-valor" placeholder="Ex.: 30,00" autocomplete="off"><div class="arte-aviso" id="arte-blocos-erro"></div></div></div><div class="result"><div><b>Valor total</b><div class="meta" id="blocos-detalhes">Escolha o tamanho e a tiragem</div></div><strong id="blocos-total">R$ 0,00</strong></div>
-      <div class="buttons"><button id="blocos-copiar">Copiar orçamento</button><button type="button" class="cart-add" data-cart-add="blocos">+ Adicionar ao carrinho</button><button type="button" id="blocos-limpar" class="secondary">Limpar campos</button></div>
+      <div class="field"><label><input type="checkbox" id="loja-pix-blocos"> Incluir chave PIX da loja no final do orçamento</label><p class="catalog-hint">delcastilholoja@gmail.com — Moura Reproduções Ltda</p></div>
+<div class="buttons"><button id="blocos-copiar">Copiar orçamento</button><button type="button" class="cart-add" data-cart-add="blocos">+ Adicionar ao carrinho</button><button type="button" id="blocos-limpar" class="secondary">Limpar campos</button></div>
       <div id="blocos-feedback" class="feedback-orcamento" aria-live="polite"></div>
       <p class="external-price-note">Blocos PB, 100 ou 150 folhas conforme o produto. Acabamentos cobrados por grupos iniciados de 500 folhas A4 equivalentes (base de 100 folhas por bloco), conforme o aproveitamento do tamanho. O bloco de 3 vias tem 150 folhas reais, mas mantém a mesma base de cobrança dos blocos de 1 e 2 vias. O preço unitário é aplicado conforme a faixa de quantidade do tamanho selecionado.</p>
     </section>
@@ -335,7 +338,8 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
    </div>
    <div class="error" id="imp-erro" aria-live="polite"></div>
    <div class="arte-extra" id="arte-imp"><label class="arte-opcao"><input type="checkbox" id="arte-imp-check"> Adicionar criação de arte</label><div class="arte-valor"><label for="arte-imp-valor">Valor da criação de arte (R$)</label><input type="text" inputmode="decimal" id="arte-imp-valor" placeholder="Ex.: 30,00" autocomplete="off"><div class="arte-aviso" id="arte-imp-erro"></div></div></div><div class="result"><div><b>Valor total</b><div class="meta" id="imp-detalhes">Preço conforme quantidade e papel</div></div><strong id="imp-total">R$ 0,00</strong></div>
-   <div class="buttons"><button id="imp-copiar" disabled>Copiar orçamento</button><button type="button" class="cart-add" data-cart-add="imp">+ Adicionar ao carrinho</button><button id="imp-limpar" class="secondary" type="button">Limpar campos</button></div>
+   <div class="field"><label><input type="checkbox" id="loja-pix-imp"> Incluir chave PIX da loja no final do orçamento</label><p class="catalog-hint">delcastilholoja@gmail.com — Moura Reproduções Ltda</p></div>
+<div class="buttons"><button id="imp-copiar" disabled>Copiar orçamento</button><button type="button" class="cart-add" data-cart-add="imp">+ Adicionar ao carrinho</button><button id="imp-limpar" class="secondary" type="button">Limpar campos</button></div>
    <div class="feedback-orcamento" id="imp-feedback" aria-live="polite"></div>
    <p class="notice" id="imp-aviso">Preços conforme o tipo de impressão e a quantidade. Plastificação: valor unitário por tamanho, multiplicado pela quantidade selecionada.</p>
   </section>
@@ -355,7 +359,8 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
  <div class="field"><label for="serv-quantidade">Quantidade de unidades</label><input id="serv-quantidade" type="number" min="1" step="1" value="1" inputmode="numeric"></div>
  <div class="error" id="serv-erro" aria-live="polite"></div>
  <div class="arte-extra" id="arte-serv"><label class="arte-opcao"><input type="checkbox" id="arte-serv-check"> Adicionar criação de arte</label><div class="arte-valor"><label for="arte-serv-valor">Valor da criação de arte (R$)</label><input type="text" inputmode="decimal" id="arte-serv-valor" placeholder="Ex.: 30,00" autocomplete="off"><div class="arte-aviso" id="arte-serv-erro"></div></div></div><div class="result"><div><b>Valor total</b><div class="meta" id="serv-detalhes">Selecione o produto e a quantidade</div></div><strong id="serv-total">R$ 0,00</strong></div>
- <div class="buttons"><button id="serv-copiar" disabled>Copiar orçamento</button><button type="button" class="cart-add" data-cart-add="serv">+ Adicionar ao carrinho</button><button id="serv-limpar" class="secondary" type="button">Limpar campos</button></div>
+ <div class="field"><label><input type="checkbox" id="loja-pix-serv"> Incluir chave PIX da loja no final do orçamento</label><p class="catalog-hint">delcastilholoja@gmail.com — Moura Reproduções Ltda</p></div>
+<div class="buttons"><button id="serv-copiar" disabled>Copiar orçamento</button><button type="button" class="cart-add" data-cart-add="serv">+ Adicionar ao carrinho</button><button id="serv-limpar" class="secondary" type="button">Limpar campos</button></div>
  <div class="feedback-orcamento" id="serv-feedback" aria-live="polite"></div>
  <p class="notice">Tabela para pagamento em dinheiro ou PIX. Quantidades sem preço na tabela original ficam para confirmação.</p>
  </section><section class="panel preview-panel"><b>Prévia para copiar e colar no WhatsApp</b><pre id="serv-previa">Selecione o produto e informe a quantidade.</pre></section></div>
@@ -374,7 +379,8 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
    <div class="error" id="ima-erro" aria-live="polite"></div>
    <div class="arte-extra" id="arte-ima"><label class="arte-opcao"><input type="checkbox" id="arte-ima-check"> Adicionar criação de arte</label><div class="arte-valor"><label for="arte-ima-valor">Valor da criação de arte (R$)</label><input id="arte-ima-valor" type="text" inputmode="decimal" placeholder="Ex.: 30,00" autocomplete="off"><div class="arte-aviso" id="arte-ima-erro"></div></div></div>
    <div class="result"><div><b>Valor total</b><div class="meta" id="ima-detalhes">Selecione modelo, medida e quantidade</div></div><strong id="ima-total">R$ 0,00</strong></div>
-   <div class="buttons"><button type="button" id="ima-copiar" disabled>Copiar orçamento</button><button type="button" class="cart-add" data-cart-add="ima">+ Adicionar ao carrinho</button><button type="button" class="secondary" id="ima-limpar">Limpar campos</button></div>
+   <div class="field"><label><input type="checkbox" id="loja-pix-ima"> Incluir chave PIX da loja no final do orçamento</label><p class="catalog-hint">delcastilholoja@gmail.com — Moura Reproduções Ltda</p></div>
+<div class="buttons"><button type="button" id="ima-copiar" disabled>Copiar orçamento</button><button type="button" class="cart-add" data-cart-add="ima">+ Adicionar ao carrinho</button><button type="button" class="secondary" id="ima-limpar">Limpar campos</button></div>
    <div id="ima-feedback" class="feedback-orcamento" aria-live="polite"></div>
    <p class="notice">Ímãs comerciais: impressão 4/0, manta parcial e preço fechado por tiragem. Quantidades sem preço informado ficam para confirmação.</p>
   </section>
@@ -402,7 +408,8 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
     <div class="field"><label for="cracha-prazo">Prazo de produção</label><input id="cracha-prazo" type="text" value="1 a 3 dias úteis" readonly></div>
     <div class="error" id="cracha-erro" aria-live="polite"></div>
     <div class="arte-extra" id="arte-cracha"><label class="arte-opcao"><input type="checkbox" id="arte-cracha-check"> Adicionar criação de arte</label><div class="arte-valor"><label for="arte-cracha-valor">Valor da criação de arte (R$)</label><input type="text" inputmode="decimal" id="arte-cracha-valor" placeholder="Ex.: 30,00" autocomplete="off"><div class="arte-aviso" id="arte-cracha-erro"></div></div></div><div class="result"><div><b>Valor total</b><div class="meta" id="cracha-detalhes">Preço calculado pela quantidade</div></div><strong id="cracha-total">R$ 0,00</strong></div>
-    <div class="buttons"><button id="cracha-copiar" type="button">Copiar orçamento</button><button type="button" class="cart-add" data-cart-add="cracha">+ Adicionar ao carrinho</button><button id="cracha-limpar" class="secondary" type="button">Limpar campos</button></div>
+    <div class="field"><label><input type="checkbox" id="loja-pix-cracha"> Incluir chave PIX da loja no final do orçamento</label><p class="catalog-hint">delcastilholoja@gmail.com — Moura Reproduções Ltda</p></div>
+<div class="buttons"><button id="cracha-copiar" type="button">Copiar orçamento</button><button type="button" class="cart-add" data-cart-add="cracha">+ Adicionar ao carrinho</button><button id="cracha-limpar" class="secondary" type="button">Limpar campos</button></div>
     <div id="cracha-feedback" class="feedback-orcamento" aria-live="polite"></div>
     <p class="external-price-note">Valores por unidade conforme a faixa de quantidade. O acabamento com ou sem furo não altera o valor. Dados variáveis: acréscimo de R$ 1,50 por crachá, em ambos os tipos de impressão. Prazo de produção: 1 a 3 dias úteis.</p>
    </section>
@@ -435,7 +442,8 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
    <div class="field"><label for="cordao-prazo">Prazo de produção</label><input id="cordao-prazo" value="3 a 5 dias úteis" readonly></div>
    <div id="cordao-erro" class="error" aria-live="polite"></div>
    <div class="arte-extra" id="arte-cordao"><label class="arte-opcao"><input type="checkbox" id="arte-cordao-check"> Adicionar criação de arte</label><div class="arte-valor"><label for="arte-cordao-valor">Valor da criação de arte (R$)</label><input type="text" inputmode="decimal" id="arte-cordao-valor" placeholder="Ex.: 30,00" autocomplete="off"><div class="arte-aviso" id="arte-cordao-erro"></div></div></div><div class="result"><div><b>Valor total</b><div class="meta" id="cordao-detalhes">Cálculo conforme quantidade e acabamento</div></div><strong id="cordao-total">R$ 0,00</strong></div>
-   <div class="buttons"><button id="cordao-copiar" type="button">Copiar orçamento</button><button type="button" class="cart-add" data-cart-add="cordao">+ Adicionar ao carrinho</button><button id="cordao-limpar" class="secondary" type="button">Limpar campos</button></div>
+   <div class="field"><label><input type="checkbox" id="loja-pix-cordao"> Incluir chave PIX da loja no final do orçamento</label><p class="catalog-hint">delcastilholoja@gmail.com — Moura Reproduções Ltda</p></div>
+<div class="buttons"><button id="cordao-copiar" type="button">Copiar orçamento</button><button type="button" class="cart-add" data-cart-add="cordao">+ Adicionar ao carrinho</button><button id="cordao-limpar" class="secondary" type="button">Limpar campos</button></div>
    <div id="cordao-feedback" class="feedback-orcamento" aria-live="polite"></div>
    <p class="external-price-note">Cordão 20 mm, comprimento 90 cm, com argola + jacaré. Mosquetão disponível apenas para pedidos acima de 50 unidades, com acréscimo de R$ 1,90 por unidade.</p>
   </section>
@@ -465,7 +473,8 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
  <div class="arte-extra" id="arte-carimbo"><label class="arte-opcao"><input type="checkbox" id="arte-carimbo-check"> Adicionar criação de arte</label><div class="arte-valor"><label for="arte-carimbo-valor">Valor da criação de arte (R$)</label><input type="text" inputmode="decimal" id="arte-carimbo-valor" placeholder="Ex.: 30,00"><div class="arte-aviso" id="arte-carimbo-erro"></div></div></div>
  <div id="carimbo-erro" class="error" aria-live="polite"></div>
  <div class="result"><div><b>Valor total</b><div class="meta" id="carimbo-detalhes">Selecione um modelo</div></div><strong id="carimbo-total">R$ 0,00</strong></div>
- <div class="buttons"><button type="button" id="carimbo-copiar">Copiar orçamento</button><button type="button" class="cart-add" data-cart-add="carimbo">+ Adicionar ao carrinho</button><button type="button" class="secondary" id="carimbo-limpar">Limpar campos</button></div>
+ <div class="field"><label><input type="checkbox" id="loja-pix-carimbo"> Incluir chave PIX da loja no final do orçamento</label><p class="catalog-hint">delcastilholoja@gmail.com — Moura Reproduções Ltda</p></div>
+<div class="buttons"><button type="button" id="carimbo-copiar">Copiar orçamento</button><button type="button" class="cart-add" data-cart-add="carimbo">+ Adicionar ao carrinho</button><button type="button" class="secondary" id="carimbo-limpar">Limpar campos</button></div>
  <div class="feedback-orcamento" id="carimbo-feedback" aria-live="polite"></div>
  <p class="external-price-note">Automático: consultar cores disponíveis em estoque. Nº 50 somente sob encomenda. Prazo de produção: até 1 dia útil.</p>
  </section><section class="panel preview-panel"><b>Prévia para WhatsApp</b><pre id="carimbo-previa"></pre></section></div>
@@ -493,7 +502,8 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
    <div class="field"><label>Preço unitário selecionado</label><div id="bottons-unitario" class="externa-produto">Selecione a modalidade de preço.</div></div>
    <div id="bottons-erro" class="error" aria-live="polite"></div>
    <div class="result"><div><b>Valor total</b><div class="meta">Criação de arte inclusa, sem cobrança adicional.</div></div><strong id="bottons-total">R$ 0,00</strong></div>
-   <div class="buttons"><button type="button" id="bottons-copiar" disabled>Copiar orçamento</button><button type="button" class="cart-add" data-cart-add="bottons">+ Adicionar ao carrinho</button><button type="button" class="secondary" id="bottons-limpar">Limpar campos</button></div>
+   <div class="field"><label><input type="checkbox" id="loja-pix-bottons"> Incluir chave PIX da loja no final do orçamento</label><p class="catalog-hint">delcastilholoja@gmail.com — Moura Reproduções Ltda</p></div>
+<div class="buttons"><button type="button" id="bottons-copiar" disabled>Copiar orçamento</button><button type="button" class="cart-add" data-cart-add="bottons">+ Adicionar ao carrinho</button><button type="button" class="secondary" id="bottons-limpar">Limpar campos</button></div>
    <div id="bottons-feedback" class="feedback-orcamento" aria-live="polite"></div>
    <p class="notice">Prazo estimado de produção: de 2 a 5 dias úteis, conforme a quantidade solicitada. A previsão de entrega será informada após o fechamento do pedido.</p>
   </section>
@@ -511,7 +521,8 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
    <div class="arte-extra" id="arte-finalano"><label class="arte-opcao"><input type="checkbox" id="arte-finalano-check"> Adicionar criação de arte</label><div class="arte-valor"><label for="arte-finalano-valor">Valor da criação de arte (R$)</label><input type="text" inputmode="decimal" id="arte-finalano-valor" placeholder="Ex.: 30,00"><div class="arte-aviso" id="arte-finalano-erro"></div></div></div>
    <div id="finalano-erro" class="error" aria-live="polite"></div>
    <div class="result"><div><b>Valor total</b><div class="meta" id="finalano-detalhes">Selecione a quantidade</div></div><strong id="finalano-total">R$ 0,00</strong></div>
-   <div class="buttons"><button type="button" id="finalano-copiar">Copiar orçamento</button><button type="button" class="cart-add" data-cart-add="finalano">+ Adicionar ao carrinho</button><button type="button" class="secondary" id="finalano-limpar">Limpar campos</button></div>
+   <div class="field"><label><input type="checkbox" id="loja-pix-finalano"> Incluir chave PIX da loja no final do orçamento</label><p class="catalog-hint">delcastilholoja@gmail.com — Moura Reproduções Ltda</p></div>
+<div class="buttons"><button type="button" id="finalano-copiar">Copiar orçamento</button><button type="button" class="cart-add" data-cart-add="finalano">+ Adicionar ao carrinho</button><button type="button" class="secondary" id="finalano-limpar">Limpar campos</button></div>
    <div id="finalano-feedback" class="feedback-orcamento" aria-live="polite"></div>
    <p class="external-price-note">Valores totais por tiragem. Prazo de produção: até 4 dias úteis.</p>
   </section>
@@ -597,6 +608,15 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
 <aside class="panel catalog"><h2 class="catalog-title">Produtos e preços</h2><p class="catalog-hint">Valores unitários; torre de xícaras por conjunto. Clique para selecionar o produto.</p><div class="table-scroll"><table class="external-table"><thead><tr><th>Cód.</th><th>Produto / Descrição</th><th>Só frente / Opções</th><th>Frente e verso</th><th>Cada manga</th></tr></thead><tbody id="grafemimos-catalogo"></tbody></table></div></aside></div></section></main>
 <script>
 'use strict';
+
+const lojaPix="*Nossa chave PIX é nosso e-mail*  📧\ndelcastilholoja@gmail.com\n\n➤ _Moura Reproduções Ltda_.\n\n*Após o pagamento, favor enviar*:\n✅ *Comprovante*\n✅ *Nome que ficará no pedido*\n\n_Obs.: Esse nome poderá ser usado para localizar o seu material na retirada._";
+function lojaFormatarPix(texto,setor){
+ if(!texto)return texto;
+ const fim='\n\n'+lojaPix;
+ if(texto.endsWith(fim))texto=texto.slice(0,-fim.length);
+ return texto+($('loja-pix-'+setor)?.checked?fim:'');
+}
+
 const produtos={
 '1':['Adesivo Vinil Branco ou Transparente',80],
 '2':['Banner Tubete e Corda',80],
@@ -671,7 +691,7 @@ function atualiza(){
  $('copiar').disabled=!pronto;
 
  $('feedback').textContent='';
- if(!pronto){$('prazo').value='';$('roland-original').textContent='R$ 0,00';$('roland-com-minimo').textContent='R$ 0,00';$('total').textContent='R$ 0,00';$('detalhes').textContent='Preço por m² conforme o produto escolhido · mínimo por orçamento: R$ 20,00';$('previa').textContent='Preencha o código, as medidas e a quantidade.';mensagem='';return;}
+ if(!pronto){$('prazo').value='';$('roland-original').textContent='R$ 0,00';$('roland-com-minimo').textContent='R$ 0,00';$('total').textContent='R$ 0,00';$('detalhes').textContent='Preço por m² conforme o produto escolhido · mínimo por orçamento: R$ 20,00';mensagem=lojaFormatarPix(mensagem,'roland');$('previa').textContent='Preencha o código, as medidas e a quantidade.';mensagem='';return;}
  const area=h*w*q/10000, bruto=area*item[1], original=Math.round((bruto+Number.EPSILON)*100)/100, comMinimo=Math.max(20,original);
  $('roland-original').textContent=money(original);
  $('roland-com-minimo').textContent=money(comMinimo);
@@ -685,7 +705,7 @@ function atualiza(){
  const nomeOrcamento=codigo==='1'?'Adesivo Vinil '+document.querySelector('input[name="vinil"]:checked').value:item[0];
   mensagem='Segue orçamento:\nProduto: '+nomeOrcamento+' - Medida: '+$('largura').value.trim()+'cm largura × '+$('altura').value.trim()+'cm altura\nQuantidade: '+q+' '+(q===1?'unidade':'unidades')+linhaArte('roland')+'\n*VALOR TOTAL: '+money(total+valorArte("roland"))+'*'+prazoTexto;
  mensagem=detalharArteNoOrcamento(mensagem,'roland',total);
- $('previa').textContent=mensagem;
+ mensagem=lojaFormatarPix(mensagem,'roland');$('previa').textContent=mensagem;
 
 }
 ['codigo','altura','largura','quantidade'].forEach(id=>$(id).addEventListener('input',atualiza));
@@ -763,7 +783,7 @@ function atualizaExterna(){
   $('externa-detalhes').textContent=tam==='mini'?'Mini - '+money(dados.valor)+' por unidade':'Grande - '+money(dados.valor)+' por unidade';
   mensagemExterna=valido?'Segue orçamento:\nProduto: '+item.nome+'\nModelo: '+modelo+' - Tamanho: '+(tam==='mini'?'Mini':'Grande')+'\nAltura: '+dados.alturaReta+' reto / '+dados.alturaMontada+' montado\nTecido após costura: '+dados.tecido+'\nQuantidade: '+qtd+' '+(qtd===1?'unidade':'unidades')+linhaArte('externa')+'\n*VALOR TOTAL: '+money(total+valorArte("externa"))+'*\nPrazo de produção: '+item.prazo:'';
   if(valido)mensagemExterna=detalharArteNoOrcamento(mensagemExterna,'externa',total);
-  $('externa-previa').textContent=valido?mensagemExterna:'Informe uma quantidade inteira maior que zero.';
+  mensagemExterna=lojaFormatarPix(mensagemExterna,'externa');$('externa-previa').textContent=valido?mensagemExterna:'Informe uma quantidade inteira maior que zero.';
   $('externa-copiar').disabled=!valido;
   $('externa-feedback').textContent='';
   externaCodigoAnterior=codigo;
@@ -773,7 +793,7 @@ function atualizaExterna(){
  $('externa-tag-tamanho-campo').hidden=!tag;
  const tamanho=tag?document.querySelector('input[name="externa-tag-tamanho"]:checked').value:null;
  $('externa-tag-furo-campo').hidden=!(tag&&tamanho==='4.5x5');
- if(!item){externaCodigoAnterior=codigo;$('externa-copiar').disabled=true;$('externa-total').textContent='R$ 0,00';$('externa-prazo').value='';$('externa-detalhes').textContent='Selecione um produto válido';$('externa-previa').textContent='Selecione um produto para calcular o orçamento.';mensagemExterna='';return;}
+ if(!item){externaCodigoAnterior=codigo;$('externa-copiar').disabled=true;$('externa-total').textContent='R$ 0,00';$('externa-prazo').value='';$('externa-detalhes').textContent='Selecione um produto válido';mensagemExterna=lojaFormatarPix(mensagemExterna,'externa');$('externa-previa').textContent='Selecione um produto para calcular o orçamento.';mensagemExterna='';return;}
  if(codigo!==externaCodigoAnterior){
   if(item.gramaturas)document.querySelector('input[name="externa-gramatura"][value="70"]').checked=true;
   if(tag){document.querySelector('input[name="externa-tag-tamanho"][value="4.5x5"]').checked=true;document.querySelector('input[name="externa-tag-furo"][value="sem"]').checked=true;}
@@ -787,7 +807,7 @@ function atualizaExterna(){
  if(!valores){
   $('externa-copiar').disabled=true;$('externa-total').textContent='Valor a definir';$('externa-prazo').value='a confirmar';
   $('externa-detalhes').textContent='Tag 4,5 × 5 cm com furo: preços não cadastrados';
-  $('externa-previa').textContent='Preços para a tag 4,5 × 5 cm com furo ainda não informados.';mensagemExterna='';$('externa-feedback').textContent='';return;
+  mensagemExterna=lojaFormatarPix(mensagemExterna,'externa');$('externa-previa').textContent='Preços para a tag 4,5 × 5 cm com furo ainda não informados.';mensagemExterna='';$('externa-feedback').textContent='';return;
  }
  const antigasQuantidades=Array.from($('externa-quantidade').options).map(o=>o.value).join(',');
  const quantidades=Object.keys(valores).map(Number).sort((a,b)=>a-b);
@@ -813,7 +833,7 @@ function atualizaExterna(){
  $('externa-detalhes').textContent=(gramatura?'Couchê Brilho '+gramatura+'g · ':'')+tipo+' · '+qtd.toLocaleString('pt-BR')+' unidades'+(tag?' · '+(furo==='com'?'com furo de 3 mm':'sem furo'):'');
  mensagemExterna='Segue orçamento:\nProduto: '+item.nome+(gramatura?' '+gramatura+'g':'')+variacao+' - Impressão: '+tipo+'\nQuantidade: '+qtd.toLocaleString('pt-BR')+' unidades\n*VALOR TOTAL: '+money(total+valorArte("externa"))+'*\nPrazo de produção: '+prazoExterna+(item.aviso&&!valorArte('externa')?'\n*'+item.aviso+'*':'');
  mensagemExterna=detalharArteNoOrcamento(mensagemExterna,'externa',total);
- $('externa-previa').textContent=mensagemExterna;$('externa-copiar').disabled=false;$('externa-feedback').textContent='';
+ mensagemExterna=lojaFormatarPix(mensagemExterna,'externa');$('externa-previa').textContent=mensagemExterna;$('externa-copiar').disabled=false;$('externa-feedback').textContent='';
 }
 $('externa-wind-quantidade').addEventListener('input',atualizaExterna);
 ['externa-codigo','externa-quantidade'].forEach(id=>$(id).addEventListener(id==='externa-codigo'?'input':'change',atualizaExterna));
@@ -923,7 +943,7 @@ function atualizarBlocos(resetQuantidade=false){
  if(!valido){
   $('blocos-total').textContent='R$ 0,00';
   $('blocos-detalhes').textContent='Quantidade mínima: '+minimo+' blocos · '+(p.multiplo===1?'de 1 em 1':'múltiplos de '+p.multiplo);
-  $('blocos-previa').textContent='Informe uma quantidade válida para calcular o orçamento.';
+  mensagemBlocos=lojaFormatarPix(mensagemBlocos,'blocos');$('blocos-previa').textContent='Informe uma quantidade válida para calcular o orçamento.';
   mensagemBlocos='';$('blocos-feedback').textContent='';return;
  }
  const faixa=produto.carbonado?[p.referenciaQuantidade||p.minimo,p.preco]:p.precos.filter(([limite])=>q>=limite).at(-1);
@@ -946,7 +966,7 @@ function atualizarBlocos(resetQuantidade=false){
  linhaArte('blocos')+'\n*VALOR TOTAL: '+money(precoFinal+valorArte("blocos"))+'*'+
  '\nPrazo de produção: '+(produto.carbonado?'a partir de 3 dias úteis':'até 3 dias úteis')+(produto.vias===3?'\n2ª e 3ª vias conforme disponibilidade de estoque: amarelo, rosa, azul ou verde.':'');
  mensagemBlocos=detalharArteNoOrcamento(mensagemBlocos,'blocos',precoFinal);
- $('blocos-previa').textContent=mensagemBlocos;
+ mensagemBlocos=lojaFormatarPix(mensagemBlocos,'blocos');$('blocos-previa').textContent=mensagemBlocos;
  $('blocos-feedback').textContent='';
 }
 $('blocos-tamanho').addEventListener('change',()=>atualizarBlocos(true));
@@ -1062,7 +1082,7 @@ function impCalcular(){
   $('imp-erro').textContent=valido?'':'Informe uma quantidade inteira maior que zero.';
   $('imp-copiar').disabled=!valido;
   $('imp-feedback').textContent='';
-  if(!valido){$('imp-total').textContent='R$ 0,00';$('imp-detalhes').textContent='Informe uma quantidade válida.';$('imp-previa').textContent='Informe a quantidade para calcular a plastificação.';impMensagem='';return;}
+  if(!valido){$('imp-total').textContent='R$ 0,00';$('imp-detalhes').textContent='Informe uma quantidade válida.';impMensagem=lojaFormatarPix(impMensagem,'imp');$('imp-previa').textContent='Informe a quantidade para calcular a plastificação.';impMensagem='';return;}
   const base=Math.round(q*item.preco*100)/100;
   const total=Math.round((base+valorArte('imp'))*100)/100;
   $('imp-total').textContent=money(total);
@@ -1071,7 +1091,7 @@ function impCalcular(){
    '\nQuantidade: '+q.toLocaleString('pt-BR')+' '+(q===1?'unidade':'unidades')+
    linhaArte('imp')+'\n*VALOR TOTAL: '+money(total)+'*';
   impMensagem=detalharArteNoOrcamento(impMensagem,'imp',base);
-  $('imp-previa').textContent=impMensagem;
+  impMensagem=lojaFormatarPix(impMensagem,'imp');$('imp-previa').textContent=impMensagem;
   return;
  }
  const tam=impMarcado('imp-tamanho'),papel=impMarcado('imp-papel');
@@ -1093,7 +1113,7 @@ function impCalcular(){
  $('imp-erro').textContent=erro;
  $('imp-copiar').disabled=!!erro;
  $('imp-feedback').textContent='';
- if(erro){$('imp-total').textContent='R$ 0,00';$('imp-detalhes').textContent='Aguardando dados válidos';$('imp-previa').textContent=erro;impMensagem='';return;}
+ if(erro){$('imp-total').textContent='R$ 0,00';$('imp-detalhes').textContent='Aguardando dados válidos';impMensagem=lojaFormatarPix(impMensagem,'imp');$('imp-previa').textContent=erro;impMensagem='';return;}
  const totalImp=Math.round((q*faixa.preco+Number.EPSILON)*100)/100;
  const totalEnc=incluir?Math.round(precoEnc*apostilas*100)/100:0;
  const total=Math.round((totalImp+totalEnc)*100)/100;
@@ -1106,7 +1126,7 @@ function impCalcular(){
  (incluir?'\nValor das impressões: '+money(totalImp)+'\nEncadernação Espiral: '+apostilas+' '+(apostilas===1?'unidade':'unidades')+' ('+(encLados==='frenteVerso'?'frente e verso':'só frente')+', '+folhas+' '+(folhas===1?'folha':'folhas')+' físicas cada) - '+money(totalEnc):'')+
  linhaArte('imp')+'\n*VALOR TOTAL: '+money(total+valorArte("imp"))+'*';
  impMensagem=detalharArteNoOrcamento(impMensagem,'imp',total);
- $('imp-previa').textContent=impMensagem;
+ impMensagem=lojaFormatarPix(impMensagem,'imp');$('imp-previa').textContent=impMensagem;
 }
 
 document.querySelectorAll('input[name="imp-tamanho"]').forEach(el=>el.addEventListener('change',impMontarOpcoes));
@@ -1157,14 +1177,14 @@ function atualizarServicos(){
  $('serv-erro').textContent=erro;
  $('serv-copiar').disabled=!!erro;
  $('serv-feedback').textContent='';
- if(erro){$('serv-total').textContent='R$ 0,00';$('serv-detalhes').textContent='Preço a confirmar';$('serv-previa').textContent=erro;servMensagem='';return;}
+ if(erro){$('serv-total').textContent='R$ 0,00';$('serv-detalhes').textContent='Preço a confirmar';servMensagem=lojaFormatarPix(servMensagem,'serv');$('serv-previa').textContent=erro;servMensagem='';return;}
  const total=Math.round((preco*q+Number.EPSILON)*100)/100;
  const nome=pol?'Polaroid - '+(variante==='ima'?'Com imã':'Sem imã'):'Revelação 10×15 cm';
  $('serv-total').textContent=money(total+valorArte("serv"));
  $('serv-detalhes').textContent='Faixa: '+faixa+' unidades · '+money(preco)+' por unidade';
  servMensagem='Segue orçamento:\nProduto: '+nome+'\nQuantidade: '+q+' '+(q===1?'unidade':'unidades')+linhaArte('serv')+'\n*VALOR TOTAL: '+money(total+valorArte("serv"))+'*';
  servMensagem=detalharArteNoOrcamento(servMensagem,'serv',total);
- $('serv-previa').textContent=servMensagem;
+ servMensagem=lojaFormatarPix(servMensagem,'serv');$('serv-previa').textContent=servMensagem;
 }
 $('serv-tabela').addEventListener('click',e=>{const tr=e.target.closest('tr[data-serv]');if(!tr)return;servTipo=tr.dataset.serv;$('serv-quantidade').value=servTipo==='polaroid'?'2':'1';atualizarServicos();});
 $('serv-quantidade').addEventListener('input',atualizarServicos);
@@ -1197,7 +1217,7 @@ function atualizarCracha(){
  if(!valido){
   $('cracha-total').textContent='R$ 0,00';
   $('cracha-detalhes').textContent='Informe uma quantidade válida.';
-  $('cracha-previa').textContent='Digite uma quantidade válida para calcular o orçamento.';
+  crachaMensagem=lojaFormatarPix(crachaMensagem,'cracha');$('cracha-previa').textContent='Digite uma quantidade válida para calcular o orçamento.';
   crachaMensagem='';$('cracha-feedback').textContent='';return;
  }
  const valorTabela=faixa[impressao];
@@ -1214,7 +1234,7 @@ function atualizarCracha(){
  '\nQuantidade: '+q.toLocaleString('pt-BR')+' '+(q===1?'unidade':'unidades')+
  linhaArte('cracha')+'\n*VALOR TOTAL: '+money(total+valorArte("cracha"))+'*\nPrazo de produção: 1 a 3 dias úteis';
  crachaMensagem=detalharArteNoOrcamento(crachaMensagem,'cracha',total);
- $('cracha-previa').textContent=crachaMensagem;
+ crachaMensagem=lojaFormatarPix(crachaMensagem,'cracha');$('cracha-previa').textContent=crachaMensagem;
  $('cracha-feedback').textContent='';
 }
 $('cracha-quantidade').addEventListener('input',atualizarCracha);
@@ -1253,7 +1273,7 @@ function atualizarCordao(){
  $('cordao-copiar').disabled=!!erro;
  document.querySelectorAll('#cordao-tabela tr').forEach((tr,i)=>tr.classList.toggle('active',!erro&&cordaoFaixas[i]===faixa));
  $('cordao-feedback').textContent='';
- if(erro){ $('cordao-total').textContent='R$ 0,00';$('cordao-detalhes').textContent='Aguardando quantidade e acabamento válidos';$('cordao-previa').textContent=erro;cordaoMensagem='';return; }
+ if(erro){ $('cordao-total').textContent='R$ 0,00';$('cordao-detalhes').textContent='Aguardando quantidade e acabamento válidos';cordaoMensagem=lojaFormatarPix(cordaoMensagem,'cordao');$('cordao-previa').textContent=erro;cordaoMensagem='';return; }
  const unitario=faixa.preco+(mosquetao?1.90:0);
  const total=Math.round((unitario*q+Number.EPSILON)*100)/100;
  $('cordao-total').textContent=money(total+valorArte("cordao"));
@@ -1264,7 +1284,7 @@ function atualizarCordao(){
  linhaArte('cordao')+'\n*VALOR TOTAL: '+money(total+valorArte("cordao"))+'*'+
  '\nPrazo de produção: 3 a 5 dias úteis';
  cordaoMensagem=detalharArteNoOrcamento(cordaoMensagem,'cordao',total);
- $('cordao-previa').textContent=cordaoMensagem;
+ cordaoMensagem=lojaFormatarPix(cordaoMensagem,'cordao');$('cordao-previa').textContent=cordaoMensagem;
 }
 $('cordao-quantidade').addEventListener('input',atualizarCordao);
 document.querySelectorAll('input[name="cordao-acabamento"]').forEach(el=>el.addEventListener('change',atualizarCordao));
@@ -1343,7 +1363,7 @@ function imaCalcular(){
   '\n*VALOR TOTAL: '+money(total)+'*'+
   '\nPrazo de produção: '+p.prazo+
   (arte>0?'\nPrazo para criação de arte: até 3 dias úteis':'');
- $('ima-previa').textContent=imaMensagem;
+ imaMensagem=lojaFormatarPix(imaMensagem,'ima');$('ima-previa').textContent=imaMensagem;
 }
 $('ima-catalogo').addEventListener('click',e=>{const tr=e.target.closest('tr[data-ima-codigo]');if(tr)imaEscolher(tr.dataset.imaCodigo);});
 $('ima-tamanho').addEventListener('change',imaRecarregarTiragens);
@@ -1399,7 +1419,7 @@ function finalanoCalcular(){
  $('finalano-detalhes').textContent=qtd.toLocaleString('pt-BR')+' unidades · Valor total da tiragem';
  finalanoMensagem='Segue orçamento:\nProduto: '+produto.nome+'\nQuantidade: '+qtd.toLocaleString('pt-BR')+' unidades'+'\n*VALOR TOTAL: '+money(total)+'*'+'\nPrazo de produção: '+produto.prazo;
  finalanoMensagem=detalharArteNoOrcamento(finalanoMensagem,'finalano',base);
- $('finalano-previa').textContent=finalanoMensagem;
+ finalanoMensagem=lojaFormatarPix(finalanoMensagem,'finalano');$('finalano-previa').textContent=finalanoMensagem;
  $('finalano-feedback').textContent='';
 }
 function finalanoSelecionarProduto(valor){
@@ -1568,7 +1588,7 @@ function carimboCalcular(){
  const descricao=cat==='automatico'?'Carimbo automático':cat==='madeira'?'Carimbo de madeira':cat==='madeira-logo'?'Carimbo de madeira com logo':'Acessório para carimbo';
  carimboMensagem=valido?'Segue orçamento:\nProduto: '+descricao+' - '+item[0]+(cat==='acessorios'?' - '+({borracha:'Borracha',refil:'Refil com tinta',ambos:'Borracha + refil'}[tipo]):'')+'\nQuantidade: '+q+' '+(q===1?'unidade':'unidades')+(extra?'\nCriação de arte: '+money(extra):'')+'\n*VALOR TOTAL: '+money(total)+'*\nPrazo de produção: até 1 dia útil':'';
  if(valido)carimboMensagem=detalharArteNoOrcamento(carimboMensagem,'carimbo',q*unitario);
- $('carimbo-previa').textContent=carimboMensagem||'Informe uma quantidade válida.';
+ carimboMensagem=lojaFormatarPix(carimboMensagem,'carimbo');$('carimbo-previa').textContent=carimboMensagem||'Informe uma quantidade válida.';
 }
 document.querySelectorAll('input[name="carimbo-categoria"]').forEach(x=>x.addEventListener('change',carimboAtualizarModelos));
 $('carimbo-modelo').addEventListener('change',carimboCalcular);
@@ -1748,7 +1768,7 @@ function bottonsAtualizar(){
  '\nCriação de arte: inclusa'+
  '\n*VALOR TOTAL: '+money(total)+'*'+
  '\nPrazo estimado de produção: '+bottonsPrazo;
- $('bottons-previa').textContent=bottonsMensagem;
+ bottonsMensagem=lojaFormatarPix(bottonsMensagem,'bottons');$('bottons-previa').textContent=bottonsMensagem;
 }
 function bottonsOpcoes(){
  const t=bottonsPrecos[$('bottons-tamanho').value].tabela;
@@ -1788,6 +1808,7 @@ function cartTexto(){
   (x.arte>0?'\nPrazo para criação de arte: até 3 dias úteis':'')+'\n\n';
  });
  texto+='*VALOR TOTAL DO PEDIDO: '+cartMoney(cartTotal())+'*';
+ if(cart.some(x=>x.setor!=='grafemimos'&&x.incluirPixLoja))texto+='\n\n'+lojaPix;
  if(cart.some(x=>x.setor==='grafemimos'&&x.incluirPixGrafemimos))texto+='\n\n'+grafemimosPix;
  return texto;
 }
@@ -1847,7 +1868,7 @@ function cartAdd(setor){
  const quantidade=get('Quantidade: ')||'1 unidade';
  const prazo=setor==='bottons'?get('Prazo estimado de produção: '):get('Prazo de produção: ');
  const detalhe=lines.filter(l=>/^(Impressão:|Acabamento:|Dados variáveis:|Modelo:|Tecido após costura:|Altura:|[0-9]+ folhas por bloco)/.test(l)||(setor==='bottons'&&/^(Preço unitário:|Condição de preço:|Criação de arte:)/.test(l))).join(' | ');
- cart.push({setor,incluirPixGrafemimos:setor==='grafemimos'&&$('grafemimos-incluir-pix').checked,descricao:produto,quantidade,detalhe,prazo,base:Math.round(original*100)/100,arte:Math.round(arte*100)/100});
+ cart.push({setor,incluirPixLoja:setor!=='grafemimos'&&!!$('loja-pix-'+setor)?.checked,incluirPixGrafemimos:setor==='grafemimos'&&$('grafemimos-incluir-pix').checked,descricao:produto,quantidade,detalhe,prazo,base:Math.round(original*100)/100,arte:Math.round(arte*100)/100});
  cartPersist();
  const feedback=$(setor==='roland'?'feedback':setor+'-feedback');if(feedback)feedback.textContent='Item adicionado ao carrinho!';
 }
@@ -1895,5 +1916,16 @@ $('cart-formalizar').addEventListener('click',()=>{
  formalAtualizar();abrirSetor('formal');window.scrollTo({top:0,behavior:'smooth'});
 });
 
+$('loja-pix-roland').addEventListener('change',()=>{mensagem=lojaFormatarPix(mensagem,'roland');if(mensagem)$('previa').textContent=mensagem;});
+$('loja-pix-externa').addEventListener('change',()=>{mensagemExterna=lojaFormatarPix(mensagemExterna,'externa');if(mensagemExterna)$('externa-previa').textContent=mensagemExterna;});
+$('loja-pix-blocos').addEventListener('change',()=>{mensagemBlocos=lojaFormatarPix(mensagemBlocos,'blocos');if(mensagemBlocos)$('blocos-previa').textContent=mensagemBlocos;});
+$('loja-pix-imp').addEventListener('change',()=>{impMensagem=lojaFormatarPix(impMensagem,'imp');if(impMensagem)$('imp-previa').textContent=impMensagem;});
+$('loja-pix-serv').addEventListener('change',()=>{servMensagem=lojaFormatarPix(servMensagem,'serv');if(servMensagem)$('serv-previa').textContent=servMensagem;});
+$('loja-pix-ima').addEventListener('change',()=>{imaMensagem=lojaFormatarPix(imaMensagem,'ima');if(imaMensagem)$('ima-previa').textContent=imaMensagem;});
+$('loja-pix-cracha').addEventListener('change',()=>{crachaMensagem=lojaFormatarPix(crachaMensagem,'cracha');if(crachaMensagem)$('cracha-previa').textContent=crachaMensagem;});
+$('loja-pix-cordao').addEventListener('change',()=>{cordaoMensagem=lojaFormatarPix(cordaoMensagem,'cordao');if(cordaoMensagem)$('cordao-previa').textContent=cordaoMensagem;});
+$('loja-pix-carimbo').addEventListener('change',()=>{carimboMensagem=lojaFormatarPix(carimboMensagem,'carimbo');if(carimboMensagem)$('carimbo-previa').textContent=carimboMensagem;});
+$('loja-pix-bottons').addEventListener('change',()=>{bottonsMensagem=lojaFormatarPix(bottonsMensagem,'bottons');if(bottonsMensagem)$('bottons-previa').textContent=bottonsMensagem;});
+$('loja-pix-finalano').addEventListener('change',()=>{finalanoMensagem=lojaFormatarPix(finalanoMensagem,'finalano');if(finalanoMensagem)$('finalano-previa').textContent=finalanoMensagem;});
 cartRender();
 </script></body></html>
