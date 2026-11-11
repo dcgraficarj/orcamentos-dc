@@ -1070,8 +1070,10 @@ function impMontarOpcoes(){
  if(impProdutoAtual==='3'){impCalcular();return;}
  const tam=impMarcado('imp-tamanho');
  const papelAnterior=impMarcado('imp-papel');
- $('imp-papeis').innerHTML=impOpcao('imp-papel','offset','Offset / Sulfite 75g',papelAnterior!=='cartao')+
- impOpcao('imp-papel','cartao',tam==='A3'?'Couchê / Cartão':(impProdutoAtual==='2'?'Couchê / Cartão / Adesivo':'Cartão'),papelAnterior==='cartao');
+ const temAdesivo=impProdutoAtual==='2'&&tam==='A4';
+ $('imp-papeis').innerHTML=impOpcao('imp-papel','offset','Offset / Sulfite 75g',papelAnterior!=='cartao'&&!(temAdesivo&&papelAnterior==='adesivo'))+
+ impOpcao('imp-papel','cartao',tam==='A3'||impProdutoAtual==='2'?'Couchê / Cartão':'Cartão',papelAnterior==='cartao')+
+ (temAdesivo?impOpcao('imp-papel','adesivo','Adesivo',papelAnterior==='adesivo'):'');
  impAtualizarPapel();
 }
 function impAtualizarPapel(){
@@ -1126,7 +1128,7 @@ function impCalcular(){
  const q=Number($('imp-quantidade').value);
  const gram=impMarcado('imp-gramatura'),lado=impMarcado('imp-lado');
  const ehCor=impProdutoAtual==='2';
- const faixas=ehCor?(papel==='offset'?impTabelaCor[tam].offset:impTabelaCor[tam].cartao[gram]):(papel==='offset'?impTabela[tam].offset:impTabela[tam].cartao[gram]?.[lado]);
+ const faixas=ehCor?(papel==='offset'?impTabelaCor[tam].offset:impTabelaCor[tam].cartao[papel==='adesivo'?'170':gram]):(papel==='offset'?impTabela[tam].offset:impTabela[tam].cartao[gram]?.[lado]);
  const indiceCor=q<10?0:q<50?1:q<100?2:q<200?3:4;
  const faixa=Number.isSafeInteger(q)&&q>0?(ehCor?{preco:faixas?.[indiceCor]}:faixas?.find(f=>q>=f.min&&q<=f.max)):null;
  const incluir=impMarcado('imp-encadernar')==='sim';
@@ -1145,7 +1147,7 @@ function impCalcular(){
  const totalImp=Math.round((q*faixa.preco+Number.EPSILON)*100)/100;
  const totalEnc=incluir?Math.round(precoEnc*apostilas*100)/100:0;
  const total=Math.round((totalImp+totalEnc)*100)/100;
- const nomePapel=papel==='offset'?'Offset / Sulfite 75g':(tam==='A3'?'Couchê / Cartão ':impProdutoAtual==='2'?'Couchê / Cartão / Adesivo ':'Cartão ')+gram+'g';
+ const nomePapel=papel==='offset'?'Offset / Sulfite 75g':papel==='adesivo'?'Adesivo':(tam==='A3'||impProdutoAtual==='2'?'Couchê / Cartão ':'Cartão ')+gram+'g';
  const nomeLado=papel==='offset'||impProdutoAtual==='2'?'':lado==='frente'?' - Frente':' - Frente e Verso';
  $('imp-total').textContent=money(total+valorArte("imp"));
  $('imp-detalhes').textContent=incluir?'Impressão: '+money(totalImp)+' · Encadernação: '+money(totalEnc):'Valor por impressão: '+money(faixa.preco)+' · '+q.toLocaleString('pt-BR')+' impressões';
