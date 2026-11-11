@@ -1064,6 +1064,7 @@ function impEscolherProduto(codigo){
 }
 $('imp-catalogo').addEventListener('click',e=>{const tr=e.target.closest('tr[data-imp-codigo]');if(tr)impEscolherProduto(tr.dataset.impCodigo)});
 const impOpcao=(name,value,rotulo,checked)=>`<label><input type="radio" name="${name}" value="${value}"${checked?' checked':''}> ${rotulo}</label>`;
+const impRotuloCartao=tam=>impProdutoAtual==='2'&&tam==='A3'?'Couchê / Cartão / Adesivo':(tam==='A3'||impProdutoAtual==='2'?'Couchê / Cartão':'Cartão');
 const impMarcado=name=>document.querySelector(`input[name="${name}"]:checked`)?.value;
 let impMensagem='';
 function impMontarOpcoes(){
@@ -1072,7 +1073,7 @@ function impMontarOpcoes(){
  const papelAnterior=impMarcado('imp-papel');
  const temAdesivo=impProdutoAtual==='2'&&tam==='A4';
  $('imp-papeis').innerHTML=impOpcao('imp-papel','offset','Offset / Sulfite 75g',papelAnterior!=='cartao'&&!(temAdesivo&&papelAnterior==='adesivo'))+
- impOpcao('imp-papel','cartao',tam==='A3'||impProdutoAtual==='2'?'Couchê / Cartão':'Cartão',papelAnterior==='cartao')+
+ impOpcao('imp-papel','cartao',impRotuloCartao(tam),papelAnterior==='cartao')+
  (temAdesivo?impOpcao('imp-papel','adesivo','Adesivo',papelAnterior==='adesivo'):'');
  impAtualizarPapel();
 }
@@ -1147,7 +1148,7 @@ function impCalcular(){
  const totalImp=Math.round((q*faixa.preco+Number.EPSILON)*100)/100;
  const totalEnc=incluir?Math.round(precoEnc*apostilas*100)/100:0;
  const total=Math.round((totalImp+totalEnc)*100)/100;
- const nomePapel=papel==='offset'?'Offset / Sulfite 75g':papel==='adesivo'?'Adesivo':(tam==='A3'||impProdutoAtual==='2'?'Couchê / Cartão ':'Cartão ')+gram+'g';
+ const nomePapel=papel==='offset'?'Offset / Sulfite 75g':papel==='adesivo'?'Adesivo':impRotuloCartao(tam)+' '+gram+'g';
  const nomeLado=papel==='offset'||impProdutoAtual==='2'?'':lado==='frente'?' - Frente':' - Frente e Verso';
  $('imp-total').textContent=money(total+valorArte("imp"));
  $('imp-detalhes').textContent=incluir?'Impressão: '+money(totalImp)+' · Encadernação: '+money(totalEnc):'Valor por impressão: '+money(faixa.preco)+' · '+q.toLocaleString('pt-BR')+' impressões';
