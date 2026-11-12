@@ -57,6 +57,15 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
 .empty-sector p{color:var(--muted);line-height:1.5;margin:0}
 @media(max-width:700px){.sector-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.sector-tab{padding:11px 6px;font-size:12px}}
 
+#balcao-acabamentos{margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
+#balcao-acabamentos[hidden]{display:none}
+#balcao-acabamentos h4{margin:16px 0 6px;font-size:14px}
+#balcao-acabamentos .catalog-hint{margin-top:8px;line-height:1.45}
+.balcao-acabamentos-tabela{width:100%;table-layout:fixed}
+.balcao-acabamentos-tabela :is(th,td){padding:8px;font-size:13px;white-space:normal;text-align:left;line-height:1.35}
+.balcao-acabamentos-tabela :is(th,td):last-child{width:50%;text-align:right}
+.balcao-acabamentos-tabela thead{background:var(--brand-soft)}
+
 /* Padronização de mensagens de cópia em todos os setores */
 .feedback-orcamento{font-size:13px;color:#0c6d41;margin-top:9px;min-height:18px;line-height:1.45}
 
@@ -356,7 +365,7 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
   </section>
   <section class="panel preview-panel"><b>Prévia para copiar e colar no WhatsApp</b><pre id="imp-previa">Preencha as opções para calcular o orçamento.</pre></section>
  </div><aside class="panel catalog"><h2 class="catalog-title">Produtos e preços</h2><p class="catalog-hint">Selecione um produto para orçar.</p><div class="table-scroll"><table class="external-table"><thead><tr><th>Cód.</th><th>Produto</th></tr></thead><tbody id="imp-catalogo"><tr data-imp-codigo="1" class="active"><td>1</td><td>Impressão a Laser - PB</td></tr><tr data-imp-codigo="2"><td>2</td><td>Impressão a Laser - Colorido</td></tr><tr data-imp-codigo="3"><td>3</td><td>Plastificação</td></tr></tbody></table></div>
-<section aria-labelledby="balcao-acabamentos-titulo" style="margin-top:24px"><h3 id="balcao-acabamentos-titulo" class="catalog-title">Acabamentos</h3><p class="catalog-hint"><strong>Corte (acima de 5 cm)</strong></p><div class="table-scroll"><table class="external-table"><thead><tr><th>Papel</th><th>Valor do corte</th></tr></thead><tbody><tr><td>Papel comum</td><td>R$ 10,00 a cada 500 folhas</td></tr><tr><td>Gramatura maior (170g ou 240g)</td><td>R$ 10,00 a cada 250 folhas</td></tr></tbody></table></div><p class="catalog-hint" style="margin-top:18px"><strong>Dobra + grampo</strong></p><div class="table-scroll"><table class="external-table"><thead><tr><th>Quantidade de folhas</th><th>Valor por unidade</th></tr></thead><tbody><tr><td>Até 30 folhas</td><td>R$ 0,10 cada</td></tr><tr><td>De 31 a 60 folhas</td><td>R$ 0,20 cada</td></tr><tr><td>Acima de 60 folhas</td><td>R$ 0,25 cada</td></tr></tbody></table></div><div id="balcao-acabamento-dobra"><p class="catalog-hint" style="margin-top:18px"><strong>Dobra</strong></p><div class="table-scroll"><table class="external-table"><thead><tr><th>Unidade de medida</th><th>Valor por unidade</th></tr></thead><tbody><tr><td>Unidade</td><td>R$ 0,10 cada</td></tr></tbody></table></div><p class="catalog-hint">Cada folha dobrada ou conjunto de folhas dobrado junto conta como 1 unidade. Valor fixo, independentemente da quantidade total. Válido para dobra ao meio ou outros tipos de dobra, sem grampo.</p></div></section>
+<section id="balcao-acabamentos" aria-labelledby="balcao-acabamentos-titulo"><h3 id="balcao-acabamentos-titulo" class="catalog-title">Acabamentos</h3><h4>Corte (acima de 5 cm)</h4><div class="table-scroll"><table class="balcao-acabamentos-tabela"><thead><tr><th>Papel</th><th>Valor do corte</th></tr></thead><tbody><tr><td>Papel comum</td><td>R$ 10,00 a cada 500 folhas</td></tr><tr><td>Gramatura maior (170g ou 240g)</td><td>R$ 10,00 a cada 250 folhas</td></tr></tbody></table></div><h4>Dobra + grampo</h4><div class="table-scroll"><table class="balcao-acabamentos-tabela"><thead><tr><th>Quantidade de folhas</th><th>Valor por unidade</th></tr></thead><tbody><tr><td>Até 30 folhas</td><td>R$ 0,10 cada</td></tr><tr><td>De 31 a 60 folhas</td><td>R$ 0,20 cada</td></tr><tr><td>Acima de 60 folhas</td><td>R$ 0,25 cada</td></tr></tbody></table></div><div id="balcao-acabamento-dobra"><h4>Dobra</h4><div class="table-scroll"><table class="balcao-acabamentos-tabela"><thead><tr><th>Unidade de medida</th><th>Valor por unidade</th></tr></thead><tbody><tr><td>Unidade</td><td>R$ 0,10 cada</td></tr></tbody></table></div><p class="catalog-hint">Cada folha dobrada ou conjunto de folhas dobrado junto conta como 1 unidade. Valor fixo, independentemente da quantidade total. Válido para dobra ao meio ou outros tipos de dobra, sem grampo.</p></div></section>
 </aside></div>
 </section>
 
@@ -1059,6 +1068,7 @@ function impEscolherProduto(codigo){
  const plast=impProdutoAtual==='3';
  $('imp-produto-nome').textContent=impNome();
  $('imp-plastificacao-campo').hidden=!plast;
+ $('balcao-acabamentos').hidden=plast;
  $('imp-tamanhos-campo').hidden=plast;
  $('imp-papeis-campo').hidden=plast;
  $('imp-gramatura-campo').hidden=plast;
