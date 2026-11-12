@@ -1087,7 +1087,7 @@ function impEscolherProduto(codigo){
 }
 $('imp-catalogo').addEventListener('click',e=>{const tr=e.target.closest('tr[data-imp-codigo]');if(tr)impEscolherProduto(tr.dataset.impCodigo)});
 const impOpcao=(name,value,rotulo,checked)=>`<label><input type="radio" name="${name}" value="${value}"${checked?' checked':''}> ${rotulo}</label>`;
-const impRotuloCartao=tam=>impProdutoAtual==='2'&&tam==='A3'?'Couchê / Cartão / Adesivo':(tam==='A3'||impProdutoAtual==='2'?'Couchê / Cartão':'Cartão');
+const impRotuloCartao=tam=>impProdutoAtual==='2'&&tam==='A3'?'Couchê / Cartão / Adesivo':(tam==='A3'||impProdutoAtual==='2'?'Couchê / Cartão':'Cartão / Couchê');
 const impMarcado=name=>document.querySelector(`input[name="${name}"]:checked`)?.value;
 let impMensagem='';
 function impMontarOpcoes(){
