@@ -364,7 +364,11 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
    <p class="notice" id="imp-aviso">Preços conforme o tipo de impressão e a quantidade. Plastificação: valor unitário por tamanho, multiplicado pela quantidade selecionada.</p>
   </section>
   <section class="panel preview-panel"><b>Prévia para copiar e colar no WhatsApp</b><pre id="imp-previa">Preencha as opções para calcular o orçamento.</pre></section>
- </div><aside class="panel catalog"><h2 class="catalog-title">Produtos e preços</h2><p class="catalog-hint">Selecione um produto para orçar.</p><div class="table-scroll"><table class="external-table"><thead><tr><th>Cód.</th><th>Produto</th></tr></thead><tbody id="imp-catalogo"><tr data-imp-codigo="1" class="active"><td>1</td><td>Impressão a Laser - PB</td></tr><tr data-imp-codigo="2"><td>2</td><td>Impressão a Laser - Colorido</td></tr><tr data-imp-codigo="3"><td>3</td><td>Plastificação</td></tr></tbody></table></div>
+ </div><aside class="panel catalog"><h2 class="catalog-title">Serviços e preços</h2><p class="catalog-hint">Selecione um serviço para orçar.</p><div class="table-scroll"><table class="external-table"><thead><tr><th>Cód.</th><th>Produto</th></tr></thead><tbody id="imp-catalogo"><tr data-imp-codigo="1" class="active"><td>1</td><td>Impressão a Laser - PB</td></tr><tr data-imp-codigo="2"><td>2</td><td>Impressão a Laser - Colorido</td></tr><tr data-imp-codigo="3"><td>3</td><td>Plastificação</td></tr></tbody></table></div>
+<section aria-labelledby="balcao-plastificacao-titulo" style="margin-top:20px">
+ <h3 class="catalog-title" id="balcao-plastificacao-titulo">Plastificação</h3>
+ <div class="table-scroll"><table class="balcao-acabamentos-tabela"><thead><tr><th>Tamanho e medida</th><th>Valor por unidade</th></tr></thead><tbody id="balcao-plastificacao-precos"></tbody></table></div>
+</section>
 <section id="balcao-acabamentos" aria-labelledby="balcao-acabamentos-titulo"><h3 id="balcao-acabamentos-titulo" class="catalog-title">Acabamentos</h3><h4>Corte (acima de 5 cm)</h4><div class="table-scroll"><table class="balcao-acabamentos-tabela"><thead><tr><th>Papel</th><th>Valor do corte</th></tr></thead><tbody><tr><td>Papel comum</td><td>R$ 10,00 a cada 500 folhas</td></tr><tr><td>Gramatura maior (170g ou 240g)</td><td>R$ 10,00 a cada 250 folhas</td></tr></tbody></table></div><h4>Dobra + grampo</h4><div class="table-scroll"><table class="balcao-acabamentos-tabela"><thead><tr><th>Quantidade de folhas</th><th>Valor por unidade</th></tr></thead><tbody><tr><td>Até 30 folhas</td><td>R$ 0,10 cada</td></tr><tr><td>De 31 a 60 folhas</td><td>R$ 0,20 cada</td></tr><tr><td>Acima de 60 folhas</td><td>R$ 0,25 cada</td></tr></tbody></table></div><div id="balcao-acabamento-dobra"><h4>Dobra</h4><div class="table-scroll"><table class="balcao-acabamentos-tabela"><thead><tr><th>Unidade de medida</th><th>Valor por unidade</th></tr></thead><tbody><tr><td>Unidade</td><td>R$ 0,10 cada</td></tr></tbody></table></div><p class="catalog-hint">Cada folha dobrada ou conjunto de folhas dobrado junto conta como 1 unidade. Valor fixo, independentemente da quantidade total. Válido para dobra ao meio ou outros tipos de dobra, sem grampo.</p></div></section>
 </aside></div>
 </section>
@@ -1058,8 +1062,11 @@ const plastificacaoOpcoes={
  P:{medida:'11 × 8 cm',preco:3.50},
  M:{medida:'17 × 22,2 cm',preco:5},
  G:{medida:'22,6 × 34 cm',preco:7},
- GG:{medida:'42,5 × 30 cm',preco:14}
+ GG:{medida:'42,5 × 30 cm',preco:12}
 };
+$('balcao-plastificacao-precos').innerHTML=Object.entries(plastificacaoOpcoes).map(([tamanho,{medida,preco}])=>
+ `<tr><td><strong>${tamanho}</strong> · ${medida}</td><td>${money(preco)}</td></tr>`
+).join('');
 let impProdutoAtual='1';
 const impNome=()=>impProdutoAtual==='1'?'Impressão a Laser - PB':impProdutoAtual==='2'?'Impressão a Laser - Colorido':'Plastificação';
 function impEscolherProduto(codigo){
