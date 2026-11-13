@@ -247,6 +247,7 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
 .field.pix-opcao>label{display:flex;align-items:center;justify-content:flex-start;gap:9px;cursor:pointer;margin:0;line-height:1.4}
 .field.pix-opcao>label>input[type="checkbox"]{flex:0 0 18px;width:18px;height:18px;padding:0;margin:0;accent-color:var(--brand)}
 .pix-opcao>.catalog-hint{margin:5px 0 0 27px;line-height:1.4;overflow-wrap:anywhere}
+#setor-grafemimos select{width:100%;min-width:0;min-height:38px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;background:#fff;color:inherit;font:inherit}
 #grafemimos-catalogo details{border:1px solid var(--border);border-radius:9px;margin-top:8px;overflow:hidden}
 #grafemimos-catalogo summary{cursor:pointer;padding:10px 12px;font-weight:700;background:var(--brand-soft)}
 #grafemimos-catalogo .grafemimos-item{display:block;width:100%;border:0;border-top:1px solid var(--border);border-radius:0;background:#fff;color:inherit;text-align:left;padding:9px 12px;box-shadow:none}
@@ -636,6 +637,7 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
 </section>
 <section id="setor-grafemimos" class="sector-content" role="tabpanel" aria-labelledby="tab-grafemimos" hidden>
 <div class="workspace"><div class="maincolumn"><section class="panel">
+<div class="field"><label for="grafemimos-categoria">Categoria</label><select id="grafemimos-categoria"></select></div>
 <div class="field"><label for="grafemimos-produto">Produto</label><select id="grafemimos-produto"></select></div>
 <div class="grid"><div class="field"><label for="grafemimos-modelo">Modelo</label><select id="grafemimos-modelo"></select></div><div class="field"><label for="grafemimos-tamanho">Tamanho</label><select id="grafemimos-tamanho"></select></div></div>
 <div class="field"><label for="grafemimos-cor">Cor desejada (sujeita à disponibilidade)</label><input id="grafemimos-cor" placeholder="Informe a cor"></div>
@@ -1672,6 +1674,10 @@ function grafemimosCalculo(p,q,verso,mangas){
 }
 function grafemimosSelecionar(codigo){
  const p=grafemimosProdutos.find(p=>p[0]===codigo)||grafemimosProdutos[0];
+ const categoria=p[10]?.grupo||'Camisetas';
+ $('grafemimos-categoria').value=categoria;
+ const grupo=grafemimosGrupos.find(grupo=>grupo.label===categoria);
+ $('grafemimos-produto').replaceChildren(...Array.from(grupo.children,opcao=>opcao.cloneNode(true)));
  $('grafemimos-produto').value=p[0];
  document.querySelector('[data-grafemimos="'+p[0]+'"]').closest('details').open=true;
  const brinde=!!p[10];
@@ -1735,8 +1741,15 @@ function grafemimosAtualizar(){
  $('grafemimos-previa').textContent=grafemimosMensagem;
  $('grafemimos-feedback').textContent='';
 }
-$('grafemimos-produto').innerHTML=['Camisetas','Canecas','Taças e Copos','Térmicos, Garrafas e Squeeze'].map(grupo=>'<optgroup label="'+grupo+'">'+grafemimosProdutos.filter(p=>(p[10]?p[10].grupo:'Camisetas')===grupo).map(p=>'<option value="'+p[0]+'">'+(p[10]?p[10].codigo:p[0])+' — '+p[1]+'</option>').join('')+'</optgroup>').join('');
-$('grafemimos-catalogo').innerHTML=Array.from($('grafemimos-produto').children,grupo=>{
+const grafemimosOpcoes=document.createElement('select');
+grafemimosOpcoes.innerHTML=['Camisetas','Canecas','Taças e Copos','Térmicos, Garrafas e Squeeze'].map(grupo=>'<optgroup label="'+grupo+'">'+grafemimosProdutos.filter(p=>(p[10]?p[10].grupo:'Camisetas')===grupo).map(p=>'<option value="'+p[0]+'">'+(p[10]?p[10].codigo:p[0])+' — '+p[1]+'</option>').join('')+'</optgroup>').join('');
+const grafemimosGrupos=Array.from(grafemimosOpcoes.children);
+$('grafemimos-categoria').replaceChildren(...grafemimosGrupos.map(grupo=>new Option(grupo.label,grupo.label)));
+$('grafemimos-categoria').addEventListener('change',()=>{
+ const grupo=grafemimosGrupos.find(grupo=>grupo.label===$('grafemimos-categoria').value);
+ grafemimosSelecionar(grupo.firstElementChild.value);
+});
+$('grafemimos-catalogo').innerHTML=grafemimosGrupos.map(grupo=>{
  const itens=Array.from(grupo.children,opcao=>{
   const p=grafemimosProdutos.find(item=>item[0]===opcao.value);
   const precos=p[10]?Object.entries(p[10].opcoes):[['Só frente',p[5]],['Frente e verso',p[6]],['Por manga',p[7]]];
