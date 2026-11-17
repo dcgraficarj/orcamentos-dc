@@ -1014,9 +1014,12 @@ function atualizarBlocos(resetQuantidade=false){
  const precoFinal=Math.round((precoBase+adicional)*100)/100;
  $('blocos-total').textContent=money(precoFinal+valorArte("blocos"));
  $('blocos-detalhes').textContent=q.toLocaleString('pt-BR')+' blocos · Valor unitário: '+money(precoFinal/q)+' · '+blocosComposicao(vias)+(adicional?' · Base acabamento: '+folhasA4Cobranca+' folhas A4 equivalentes ('+grupos500+' '+(grupos500===1?'resma':'resmas')+') · Acabamento: +'+money(adicional):'');
- mensagemBlocos='Segue orçamento:\nProduto: '+produto.nome+(produto.carbonado?' - '+vias+' vias':'')+' - Tamanho: '+p.tamanho+
- '\n'+blocosComposicao(vias)+'\nQuantidade: '+q.toLocaleString('pt-BR')+' '+(q===1?'bloco':'blocos')+' - Valor unitário: '+money(precoFinal/q)+
- '\nAcabamento: '+nomeAcabamento+(adicional?' ('+grupos500+' '+(grupos500===1?'resma':'resmas')+' de 500 folhas A4 equivalentes) - '+money(adicional):'')+
+ const descricaoProduto=produto.carbonado
+  ? produto.nome+' - '+vias+' vias - '+blocosComposicao(vias)
+  : produto.nome.replace(/FOLHAS CADA$/,'FOLHAS CADA BLOCO');
+ mensagemBlocos='Segue orçamento:\nProduto: '+descricaoProduto+' - Tamanho: '+p.tamanho+
+ '\nQuantidade: '+q.toLocaleString('pt-BR')+' '+(q===1?'bloco':'blocos')+
+ '\nAcabamento: '+nomeAcabamento+
  linhaArte('blocos')+'\n*VALOR TOTAL: '+money(precoFinal+valorArte("blocos"))+'*'+
  '\nPrazo de produção: '+(produto.carbonado?'a partir de 3 dias úteis':'até 3 dias úteis')+(produto.vias===3?'\n2ª e 3ª vias conforme disponibilidade de estoque: amarelo, rosa, azul ou verde.':'');
  mensagemBlocos=detalharArteNoOrcamento(mensagemBlocos,'blocos',precoFinal);
