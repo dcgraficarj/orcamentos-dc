@@ -310,6 +310,7 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
   <div class="maincolumn">
     <section class="panel">
       <div class="field"><label>Produto selecionado</label><div class="externa-produto" id="blocos-produto">BLOCO PB 1 VIA PADRÃO - 100 FOLHAS CADA</div></div>
+      <p id="blocos-documentacao" class="notice" hidden></p>
       <div id="blocos-observacao-vias" class="meta" hidden style="margin:0 0 10px">2ª e 3ª vias conforme disponibilidade de estoque. Opções: amarelo, rosa, azul ou verde.</div>
       <div class="field" id="blocos-carbonado-vias-campo" hidden><label>Quantidade de vias (papel autocopiativo)</label><div class="vinil-opcoes"><label><input type="radio" name="blocos-carbonado-vias" value="2" checked> 2 vias</label><label><input type="radio" name="blocos-carbonado-vias" value="3"> 3 vias</label></div></div>
       <div class="field"><label for="blocos-tamanho">Tamanho do bloco</label><select id="blocos-tamanho" class="blocos-select"></select></div>
@@ -938,7 +939,8 @@ const blocosCatalogo={
   {tamanho:'14×20 cm',multiplo:2,precos:[[2,55],[4,100],[6,117],[10,157.50]]},
   {tamanho:'20×30 cm',multiplo:1,precos:[[1,32.50],[5,155]]}
  ]},
- '4':{nome:'BLOCO PB CARBONADO - PAPEL AUTOCOPIATIVO',carbonado:true,tamanhos:[]}
+ '4':{nome:'BLOCO PB CARBONADO - PAPEL AUTOCOPIATIVO',carbonado:true,tamanhos:[]},
+ '5':{nome:'Bloco Colorido - Papel azul - 50 folhas cada bloco',vias:1,folhas:50,acabamentoIncluso:true,observacao:'Enviar requisição da Notificação da Receita para numeração e autorização do CREMERJ / Vigilância Sanitária.',tamanhos:[{tamanho:'25×9 cm',multiplo:1,precos:[[1,30],[5,125]]}]}
 };
 // Preços informados para as quantidades de referência, separados por número de vias.
 const carbonadoTabelas={
@@ -971,6 +973,9 @@ function selecionarBloco(codigo){
  const carbonado=!!produto.carbonado;
  $('blocos-carbonado-vias-campo').hidden=!carbonado;
  $('blocos-carbonado-aviso').hidden=!carbonado;
+ $('blocos-documentacao').hidden=!produto.observacao;
+ $('blocos-documentacao').textContent=produto.observacao||'';
+ document.querySelector('.blocos-acabamentos').closest('.field').hidden=!!produto.acabamentoIncluso;
  document.querySelectorAll('.blocos-acabamentos label').forEach(label=>{
   const tipo=label.querySelector('input')?.value;
   label.hidden=carbonado && !['nenhum','numeracao'].includes(tipo);
@@ -999,9 +1004,9 @@ function atualizarBlocos(resetQuantidade=false){
  $('blocos-quantidade-erro').textContent=valido?'':(texto===''?'Digite a quantidade de blocos.':q<minimo?'Quantidade mínima: '+minimo+' blocos.':p.multiplo===1?'Informe uma quantidade inteira.':'Quantidade inválida: para este tamanho, informe múltiplos de '+p.multiplo+'.');
  $('blocos-copiar').disabled=!valido;
  let acabamento=document.querySelector('input[name="blocos-acabamento"]:checked')?.value||'nenhum';
- if(produto.carbonado&&!['nenhum','numeracao'].includes(acabamento))acabamento='nenhum';
+ if(produto.acabamentoIncluso||produto.carbonado&&!['nenhum','numeracao'].includes(acabamento))acabamento='nenhum';
  const acabamentos={nenhum:['Sem acabamento adicional',0],serrilhaNumeracao:['Serrilha + Numeração',30],numeracao:['Apenas Numeração',20],serrilha:['Apenas Serrilha',20]};
- const [nomeAcabamento,precoAcabamento]=acabamentos[acabamento];
+ const [nomeAcabamento,precoAcabamento]=produto.acabamentoIncluso?['Serrilha + Numeração inclusas',0]:acabamentos[acabamento];
  $('blocos-produto').textContent=produto.carbonado?produto.nome+' - '+vias+' VIAS - '+blocosComposicao(vias):produto.nome;
  if(!valido){
   $('blocos-total').textContent='R$ 0,00';
@@ -1021,8 +1026,10 @@ function atualizarBlocos(resetQuantidade=false){
  const grupos500=Math.ceil(folhasA4Cobranca/500);
  const adicional=precoAcabamento*grupos500;
  const precoFinal=Math.round((precoBase+adicional)*100)/100;
+ const prazoBlocos=produto.acabamentoIncluso?(precoFinal<=250?'até 3 dias úteis':'até 4 dias úteis'):(produto.carbonado?'a partir de 3 dias úteis':'até 3 dias úteis');
+ $('blocos-prazo').value=prazoBlocos;
  $('blocos-total').textContent=money(precoFinal+valorArte("blocos"));
- $('blocos-detalhes').textContent=q.toLocaleString('pt-BR')+' blocos · Valor unitário: '+money(precoFinal/q)+' · '+blocosComposicao(vias)+(adicional?' · Base acabamento: '+folhasA4Cobranca+' folhas A4 equivalentes ('+grupos500+' '+(grupos500===1?'resma':'resmas')+') · Acabamento: +'+money(adicional):'');
+ $('blocos-detalhes').textContent=q.toLocaleString('pt-BR')+' blocos · Valor unitário: '+money(precoFinal/q)+' · '+(produto.acabamentoIncluso?'50 folhas por bloco · Serrilha + Numeração inclusas':blocosComposicao(vias))+(adicional?' · Base acabamento: '+folhasA4Cobranca+' folhas A4 equivalentes ('+grupos500+' '+(grupos500===1?'resma':'resmas')+') · Acabamento: +'+money(adicional):'');
  const descricaoProduto=produto.carbonado
   ? produto.nome+' - '+vias+' vias - '+blocosComposicao(vias)
   : produto.nome.replace(/FOLHAS CADA$/,'FOLHAS CADA BLOCO');
@@ -1030,7 +1037,7 @@ function atualizarBlocos(resetQuantidade=false){
  '\nQuantidade: '+q.toLocaleString('pt-BR')+' '+(q===1?'bloco':'blocos')+
  '\nAcabamento: '+nomeAcabamento+
  linhaArte('blocos')+'\n*VALOR TOTAL: '+money(precoFinal+valorArte("blocos"))+'*'+
- '\nPrazo de produção: '+(produto.carbonado?'a partir de 3 dias úteis':'até 3 dias úteis')+(produto.vias===3?'\n2ª e 3ª vias conforme disponibilidade de estoque: amarelo, rosa, azul ou verde.':'');
+ '\nPrazo de produção: '+prazoBlocos+(produto.observacao?'\nObservações: '+produto.observacao:'')+(produto.vias===3?'\n2ª e 3ª vias conforme disponibilidade de estoque: amarelo, rosa, azul ou verde.':'');
  mensagemBlocos=detalharArteNoOrcamento(mensagemBlocos,'blocos',precoFinal);
  mensagemBlocos=lojaFormatarPix(mensagemBlocos,'blocos');$('blocos-previa').textContent=mensagemBlocos;
  $('blocos-feedback').textContent='';
