@@ -823,7 +823,7 @@ function atualizaExterna(){
  const codigo=String(Number($('externa-codigo').value||0));
  const item=externaProdutos[codigo];
  const tag=!!item?.tamanhos;
- $('externa-tag-referencia').hidden=!tag;
+ $('externa-tag-referencia').hidden=true;
  const formato=$('externa-formato');
  $('externa-formato-campo').hidden=!item?.formatos;
  if(item?.formatos&&codigo!==externaCodigoAnterior){
@@ -878,6 +878,7 @@ function atualizaExterna(){
  }
  const tamanhoAtual=tag?document.querySelector('input[name="externa-tag-tamanho"]:checked').value:null;
  const furo=tag?(tamanhoAtual==='9x5'?'com':document.querySelector('input[name="externa-tag-furo"]:checked').value):null;
+ $('externa-tag-referencia').hidden=!(tag&&furo==='com');
  $('externa-tag-furo-campo').hidden=!(tag&&tamanhoAtual==='4.5x5');
  const gramatura=item.gramaturas?(document.querySelector('input[name="externa-gramatura"]:checked')?.value||'70'):null;
  const valores=tag?item.tamanhos[tamanhoAtual][furo]:(item.gramaturas?item.gramaturas[gramatura]:(item.formatos?.[formato.value]||item.valores));
