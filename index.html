@@ -2031,7 +2031,7 @@ $('cart-pdf').addEventListener('click',()=>{
   return linhas;
  });
  const dados={data:now,cliente:'Cliente não informado',cnpj:'',contato:'',email:'',prazo:'Conforme o prazo informado em cada item',validade:'',pagamento:'',entrega:'',obs:''};
- try{const blob=formalPdfDownload(dados,items),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='Orcamento_DC_Carrinho.pdf';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),20000);$('cart-feedback').textContent='PDF gerado, confira os Downloads.';}
+ try{const blob=formalPdfDownload(dados,items),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='Orcamento_DC_Carrinho_'+new Date().toLocaleDateString('pt-BR',{timeZone:'America/Sao_Paulo',day:'2-digit',month:'2-digit',year:'numeric'}).replace(/\//g,'-')+'.pdf';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),20000);$('cart-feedback').textContent='PDF gerado, confira os Downloads.';}
  catch(err){$('cart-feedback').textContent='Não foi possível gerar o PDF: '+err.message;}
 });
 $('cart-formalizar').addEventListener('click',()=>{
