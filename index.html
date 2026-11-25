@@ -643,6 +643,7 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
  <section class="panel cart-panel">
   <div class="cart-head"><h2 style="margin:0">Carrinho de Orçamentos</h2></div>
   <p class="cart-notice">Os valores são os escolhidos em cada aba. Na ROLAND, você decide entre valor original e mínimo de R$ 20,00 antes de adicionar.</p>
+  <div class="field pix-opcao"><label><input type="checkbox" id="cart-incluir-unitario"> Incluir valor unitário de cada item no orçamento</label></div>
   <div id="cart-itens"></div>
   <div class="cart-total">TOTAL DO PEDIDO: <span id="cart-total">R$ 0,00</span></div>
   <div class="buttons">
@@ -677,6 +678,7 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
 const lojaPix="*Nossa chave PIX é nosso e-mail*  📧\ndelcastilholoja@gmail.com\n\n➤ _Moura Reproduções Ltda_.\n\n*Após o pagamento, favor enviar*:\n✅ *Comprovante*\n✅ *Nome que ficará no pedido*\n\n_Obs.: Esse nome poderá ser usado para localizar o seu material na retirada._";
 function lojaFormatarPix(texto,setor){
  if(!texto)return texto;
+ texto=orcamentoValorUnitario(texto,setor);
  const fim='\n\n'+lojaPix;
  if(texto.endsWith(fim))texto=texto.slice(0,-fim.length);
  return texto+($('loja-pix-'+setor)?.checked?fim:'');
@@ -1785,6 +1787,7 @@ function grafemimosAtualizar(){
  }
  grafemimosMensagem=detalharArteNoOrcamento(grafemimosMensagem,'grafemimos',base);
  grafemimosMensagem=grafemimosFormatarMensagem(grafemimosMensagem,$('grafemimos-incluir-pix').checked);
+ grafemimosMensagem=orcamentoValorUnitario(grafemimosMensagem,'grafemimos');
  $('grafemimos-previa').textContent=grafemimosMensagem;
  $('grafemimos-feedback').textContent='';
 }
@@ -1931,7 +1934,8 @@ function cartTexto(){
  const soGrafemimos=cart.every(x=>x.setor==='grafemimos');
  let texto=(soGrafemimos?grafemimosCabecalho+'\n\n':'')+'Segue orçamento:\n\n';
  cartLineItems().forEach((x,i)=>{
-  texto+=(!soGrafemimos&&x.setor==='grafemimos'?grafemimosCabecalho+'\n':'')+(i+1)+'. '+x.descricao+'\nQuantidade: '+x.quantidade+'\n'+(x.detalhe?x.detalhe+'\n':'')+
+  texto+=(!soGrafemimos&&x.setor==='grafemimos'?grafemimosCabecalho+'\n':'')+'*'+(i+1)+'*. '+x.descricao+'\nQuantidade: '+x.quantidade+'\n'+(x.detalhe?x.detalhe+'\n':'')+
+  ($('cart-incluir-unitario').checked?'Valor unitário: '+cartMoney(x.base/cartQuantidadeNumerica(x.quantidade))+'\n':'')+
   (x.arte>0?'Valor: '+cartMoney(x.base)+'\nCriação de arte: '+cartMoney(x.arte)+'\n':'')+
   '*VALOR TOTAL DO ITEM: '+cartMoney(x.valor)+'*'+(x.prazo?'\n'+(x.setor==='bottons'?'Prazo estimado de produção: ':'Prazo de produção: ')+x.prazo:'')+
   (x.arte>0?'\nPrazo para criação de arte: até 3 dias úteis':'')+'\n\n';
@@ -2056,5 +2060,35 @@ $('loja-pix-cordao').addEventListener('change',()=>{cordaoMensagem=lojaFormatarP
 $('loja-pix-carimbo').addEventListener('change',()=>{carimboMensagem=lojaFormatarPix(carimboMensagem,'carimbo');if(carimboMensagem)$('carimbo-previa').textContent=carimboMensagem;});
 $('loja-pix-bottons').addEventListener('change',()=>{bottonsMensagem=lojaFormatarPix(bottonsMensagem,'bottons');if(bottonsMensagem)$('bottons-previa').textContent=bottonsMensagem;});
 $('loja-pix-finalano').addEventListener('change',()=>{finalanoMensagem=lojaFormatarPix(finalanoMensagem,'finalano');if(finalanoMensagem)$('finalano-previa').textContent=finalanoMensagem;});
+
+// Valor unitário opcional no texto enviado ao cliente; criação de arte permanece separada.
+function orcamentoValorUnitario(texto,setor){
+ const opcao=$('unitario-'+setor);
+ if(!opcao)return texto;
+ const limpo=texto.replace(/^\*?(?:Valor unitário|Preço unitário|Valor por unidade|Valor por conjunto):[^\n]*\n?/gmi,'');
+ if(!opcao.checked)return limpo;
+ const quantidade=limpo.match(/^Quantidade:\s*([^\n]+)/m);
+ const totalEl=$(setor==='roland'?'total':setor+'-total');
+ if(!quantidade||!totalEl)return limpo;
+ let q;try{q=cartQuantidadeNumerica(quantidade[1]);}catch(e){return limpo;}
+ const total=Number(totalEl.textContent.replace(/[^\d,]/g,'').replace(',','.'));
+ const base=total-valorArte(setor);
+ if(!Number.isFinite(base)||base<0)return limpo;
+ return limpo.replace(/(^Quantidade:[^\n]*)(\n|$)/m,(_,linha,fim)=>linha+'\nValor unitário: '+money(base/q)+fim);
+}
+Object.keys(cartInfos).forEach(setor=>{
+ const botao=$(setor==='roland'?'copiar':setor+'-copiar');
+ const box=document.createElement('div');box.className='field pix-opcao';
+ const label=document.createElement('label'),check=document.createElement('input');check.type='checkbox';check.id='unitario-'+setor;
+ label.append(check,document.createTextNode(' Incluir valor unitário no orçamento'));box.append(label);
+ botao.closest('.buttons').before(box);
+ check.addEventListener('change',()=>{
+  if(setor==='grafemimos')grafemimosAtualizar();
+  else $('loja-pix-'+setor).dispatchEvent(new Event('change'));
+ });
+ check.dispatchEvent(new Event('change'));
+});
+$('cart-incluir-unitario').addEventListener('change',cartRender);
+
 cartRender();
 </script></body></html>
