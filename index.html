@@ -707,7 +707,7 @@ Email: delcastilholoja@gmail.com</textarea></div></details>
    <div class="formal-field"><label>Forma de pagamento</label><div class="vinil-opcoes formal-radio"><label><input type="radio" name="formal-pagamento" value="PIX" checked> PIX</label><label><input type="radio" name="formal-pagamento" value="Débito"> Débito</label><label><input type="radio" name="formal-pagamento" value="Crédito"> Crédito</label><label><input type="radio" name="formal-pagamento" value="Link de pagamento"> Link de pagamento</label><label><input type="radio" name="formal-pagamento" value="Boleto"> Boleto</label></div><div id="formal-boleto-campo" hidden style="margin-top:10px"><label for="formal-boleto-prazo">Prazo / vencimento do boleto</label><input type="text" id="formal-boleto-prazo" placeholder="Ex.: 30 dias ou vencimento em 26/12/2026"></div></div>
    <div class="formal-field" style="grid-column:1/-1"><label for="formal-obs">Observações</label><textarea id="formal-obs" rows="3" placeholder="Detalhes, acabamento, condições adicionais..."></textarea></div>
   </div>
-  <div class="field pix-opcao"><label><input type="checkbox" id="formal-historico"> Registrar no histórico compartilhado ao gerar o PDF</label><p class="catalog-hint">Requer conexão na aba Histórico. Sem conexão, o PDF é gerado sem registro compartilhado.</p></div>
+  <div class="field pix-opcao"><strong>Registro automático no histórico compartilhado</strong><p class="catalog-hint">Todo orçamento formalizado é salvo no histórico antes de gerar o PDF. É necessário estar conectado na aba Histórico.</p></div>
   <div class="error" id="formal-erro" aria-live="polite"></div>
   <div class="buttons"><button type="button" id="formal-pdf">Gerar PDF automaticamente</button><button type="button" id="formal-ver-historico" class="secondary">Ver histórico</button><button type="button" class="secondary" id="formal-limpar">Limpar orçamento</button><button type="button" class="secondary" id="formal-voltar">Voltar aos produtos</button></div>
   <div id="formal-feedback" class="feedback-orcamento" aria-live="polite"></div>
@@ -1800,12 +1800,12 @@ $('formal-pdf').addEventListener('click',async()=>{const cliente=$('formal-clien
  const dados={data,cliente,atendente:$('formal-atendente').value.trim(),endereco:$('formal-endereco').value.trim(),empresa:$('formal-empresa').value.trim(),cnpj:$('formal-cnpj').value.trim(),contato:$('formal-contato').value.trim(),email:$('formal-email').value.trim(),prazo:$('formal-prazo').value.trim(),prazoArte:arteExtra>0?'até 3 dias úteis':'',validade:$('formal-validade').value.trim(),pagamento:formalPagamentoTexto(),entrega:document.querySelector('input[name="formal-entrega"]:checked').value,obs:$('formal-obs').value.trim()};
  $('formal-pdf').disabled=true;
  try{
-  if($('formal-historico').checked){
-   $('formal-feedback').textContent='Registrando no histórico compartilhado…';
-   const registro=await histRegistrar(dados,itens);dados.numero=registro.numero;
-  }
+  $('formal-feedback').textContent='Registrando no histórico compartilhado…';
+  const registro=await histRegistrar(dados,itens);
+  if(!registro||!registro.numero)throw Error('O histórico não confirmou o número do orçamento.');
+  dados.numero=registro.numero;
   histBaixar(dados,itens);
-  $('formal-feedback').textContent=dados.numero?'PDF gerado e orçamento '+dados.numero+' salvo no histórico compartilhado.':'PDF gerado sem registro no histórico compartilhado.';
+  $('formal-feedback').textContent='PDF gerado e orçamento '+dados.numero+' salvo no histórico compartilhado.';
  }catch(e){$('formal-feedback').textContent='';$('formal-erro').textContent='Não foi possível concluir: '+e.message+' Tente novamente. Se o registro já chegou ao Google, a tentativa não cria uma duplicata.';}
  finally{$('formal-pdf').disabled=false;}
 });
@@ -2258,7 +2258,7 @@ let histOffset=0,histFiltro={},histOcupado=false;
 function histCredenciais(){return {url:$('hist-url').value.trim(),key:$('hist-chave').value.trim()};}
 function histLigado(){const c=histCredenciais();return /^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(c.url)&&c.key.length>=32;}
 async function histApi(action,args={}){
- if(!histLigado())throw Error('Conecte o histórico usando a URL e a chave da loja.');
+ if(!histLigado())throw Error('Conecte o histórico na aba Histórico usando a URL e a chave da loja. O registro é obrigatório para emitir o orçamento formalizado.');
  const c=histCredenciais(),controller=new AbortController(),timer=setTimeout(()=>controller.abort(),45000);
  try{
   const response=await fetch(c.url,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({...args,action,key:c.key}),redirect:'follow',signal:controller.signal});
@@ -2318,15 +2318,14 @@ async function histCarregar(){
  finally{histOcupado=false;$('hist-atualizar').disabled=false;}
 }
 try{$('hist-url').value=localStorage.getItem('dc_hist_url')||'';$('hist-chave').value=sessionStorage.getItem('dc_hist_key')||'';}catch(e){}
-$('formal-historico').checked=histLigado();
 $('hist-conectar').addEventListener('click',async()=>{
  if(!histLigado()){$('hist-feedback').textContent='Informe uma URL /exec válida e a chave gerada na instalação.';return;}
  $('hist-conectar').disabled=true;
- try{await histApi('list',{offset:0});localStorage.setItem('dc_hist_url',$('hist-url').value.trim());sessionStorage.setItem('dc_hist_key',$('hist-chave').value.trim());$('formal-historico').checked=true;$('hist-config').open=false;await histCarregar();}
+ try{await histApi('list',{offset:0});localStorage.setItem('dc_hist_url',$('hist-url').value.trim());sessionStorage.setItem('dc_hist_key',$('hist-chave').value.trim());$('hist-config').open=false;await histCarregar();}
  catch(e){$('hist-feedback').textContent='Conexão não concluída: '+e.message;}
  finally{$('hist-conectar').disabled=false;}
 });
-$('hist-sair').addEventListener('click',()=>{sessionStorage.removeItem('dc_hist_key');$('hist-chave').value='';$('formal-historico').checked=false;$('hist-lista').replaceChildren();$('hist-planilha').hidden=true;$('hist-conexao').textContent='Desconectado neste computador.';});
+$('hist-sair').addEventListener('click',()=>{sessionStorage.removeItem('dc_hist_key');$('hist-chave').value='';$('hist-lista').replaceChildren();$('hist-planilha').hidden=true;$('hist-conexao').textContent='Desconectado neste computador.';});
 $('hist-atualizar').addEventListener('click',()=>{histOffset=0;histFiltro={q:$('hist-busca').value.trim(),from:$('hist-de').value,to:$('hist-ate').value};histCarregar();});
 $('hist-anterior').addEventListener('click',()=>{histOffset=Math.max(0,histOffset-100);histCarregar();});
 $('hist-proximo').addEventListener('click',()=>{histOffset+=100;histCarregar();});
