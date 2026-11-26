@@ -629,7 +629,7 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
    <div class="formal-field"><label for="formal-prazo">Prazo de produção</label><input id="formal-prazo" placeholder="Ex.: até 3 dias úteis após aprovação"></div>
    <div class="formal-field"><label for="formal-validade">Validade do orçamento</label><input id="formal-validade" placeholder="Ex.: 7 dias"></div>
    <div class="formal-field"><label>Entrega / Retirada</label><div class="vinil-opcoes formal-radio"><label><input type="radio" name="formal-entrega" value="Retirada no balcão" checked> Retirada</label><label><input type="radio" name="formal-entrega" value="Entrega"> Entrega</label></div></div>
-   <div class="formal-field"><label>Forma de pagamento</label><div class="vinil-opcoes formal-radio"><label><input type="radio" name="formal-pagamento" value="PIX" checked> PIX</label><label><input type="radio" name="formal-pagamento" value="Débito"> Débito</label><label><input type="radio" name="formal-pagamento" value="Crédito"> Crédito</label><label><input type="radio" name="formal-pagamento" value="Link de pagamento"> Link de pagamento</label></div></div>
+   <div class="formal-field"><label>Forma de pagamento</label><div class="vinil-opcoes formal-radio"><label><input type="radio" name="formal-pagamento" value="PIX" checked> PIX</label><label><input type="radio" name="formal-pagamento" value="Débito"> Débito</label><label><input type="radio" name="formal-pagamento" value="Crédito"> Crédito</label><label><input type="radio" name="formal-pagamento" value="Link de pagamento"> Link de pagamento</label><label><input type="radio" name="formal-pagamento" value="Boleto"> Boleto</label></div><div id="formal-boleto-campo" hidden style="margin-top:10px"><label for="formal-boleto-prazo">Prazo / vencimento do boleto</label><input type="text" id="formal-boleto-prazo" placeholder="Ex.: 30 dias ou vencimento em 26/12/2026"></div></div>
    <div class="formal-field" style="grid-column:1/-1"><label for="formal-obs">Observações</label><textarea id="formal-obs" rows="3" placeholder="Detalhes, acabamento, condições adicionais..."></textarea></div>
   </div>
   <div class="error" id="formal-erro" aria-live="polite"></div>
@@ -1608,7 +1608,19 @@ function formalAtualizar(){let total=0;formalDados().forEach(i=>{if(i.descricao&
 $('abrir-formal').addEventListener('click',()=>{abrirSetor('formal');window.scrollTo({top:0,behavior:'smooth'});});
 $('formal-adicionar').addEventListener('click',()=>formalLinha());
 $('formal-voltar').addEventListener('click',()=>abrirSetor('roland'));
-$('formal-limpar').addEventListener('click',()=>{['formal-cliente','formal-cnpj','formal-contato','formal-email','formal-prazo','formal-validade','formal-obs'].forEach(id=>$(id).value='');document.querySelector('input[name="formal-pagamento"][value="PIX"]').checked=true;document.querySelector('input[name="formal-entrega"][value="Retirada no balcão"]').checked=true;$('formal-itens').innerHTML='';resetArte('formal');formalLinha();$('formal-erro').textContent='';$('formal-feedback').textContent='';});
+function formalBoletoAtualizar(){
+ const boleto=document.querySelector('input[name="formal-pagamento"]:checked')?.value==='Boleto';
+ $('formal-boleto-campo').hidden=!boleto;
+ $('formal-boleto-prazo').disabled=!boleto;
+}
+function formalPagamentoTexto(){
+ const forma=document.querySelector('input[name="formal-pagamento"]:checked').value;
+ const prazo=$('formal-boleto-prazo').value.trim();
+ return forma==='Boleto'&&prazo?forma+' — '+prazo:forma;
+}
+document.querySelectorAll('input[name="formal-pagamento"]').forEach(input=>input.addEventListener('change',formalBoletoAtualizar));
+formalBoletoAtualizar();
+$('formal-limpar').addEventListener('click',()=>{['formal-cliente','formal-cnpj','formal-contato','formal-email','formal-prazo','formal-validade','formal-obs','formal-boleto-prazo'].forEach(id=>$(id).value='');document.querySelector('input[name="formal-pagamento"][value="PIX"]').checked=true;formalBoletoAtualizar();document.querySelector('input[name="formal-entrega"][value="Retirada no balcão"]').checked=true;$('formal-itens').innerHTML='';resetArte('formal');formalLinha();$('formal-erro').textContent='';$('formal-feedback').textContent='';});
 $('formal-data').value=new Date().toLocaleDateString('en-CA');
 formalLinha();
 function formalPdfDownload(dados,itens){
@@ -1643,7 +1655,7 @@ function formalPdfDownload(dados,itens){
 $('formal-pdf').addEventListener('click',()=>{const cliente=$('formal-cliente').value.trim();const itens=formalDados();const erro=!cliente?'Preencha o nome da empresa ou cliente.':(!itens.length||itens.some(i=>!i.descricao||!Number.isSafeInteger(i.quantidade)||i.quantidade<=0||!Number.isFinite(i.valor)||i.valor<0))?'Preencha descrição, quantidade inteira e valor total de todos os itens.':'';$('formal-erro').textContent=erro;$('formal-feedback').textContent='';if(erro)return;
  const dia=$('formal-data').value;const data=dia?dia.split('-').reverse().join('/') : new Date().toLocaleDateString('pt-BR');
  const arteExtra=valorArte('formal');if(arteExtra>0)itens.push({descricao:'Criação de arte',quantidade:1,valor:arteExtra});
- const dados={data,cliente,cnpj:$('formal-cnpj').value.trim(),contato:$('formal-contato').value.trim(),email:$('formal-email').value.trim(),prazo:$('formal-prazo').value.trim(),prazoArte:arteExtra>0?'até 3 dias úteis':'',validade:$('formal-validade').value.trim(),pagamento:document.querySelector('input[name="formal-pagamento"]:checked').value,entrega:document.querySelector('input[name="formal-entrega"]:checked').value,obs:$('formal-obs').value.trim()};
+ const dados={data,cliente,cnpj:$('formal-cnpj').value.trim(),contato:$('formal-contato').value.trim(),email:$('formal-email').value.trim(),prazo:$('formal-prazo').value.trim(),prazoArte:arteExtra>0?'até 3 dias úteis':'',validade:$('formal-validade').value.trim(),pagamento:formalPagamentoTexto(),entrega:document.querySelector('input[name="formal-entrega"]:checked').value,obs:$('formal-obs').value.trim()};
  try{const blob=formalPdfDownload(dados,itens);const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='Orcamento_DC_'+cliente.replace(/[^a-zA-Z0-9_-]/g,'_').slice(0,35)+'.pdf';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),20000);$('formal-feedback').textContent='PDF gerado. Confira a pasta Downloads.';}catch(e){$('formal-erro').textContent='Falha ao gerar PDF: '+e.message;}
 });
 
