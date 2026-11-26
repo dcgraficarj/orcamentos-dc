@@ -10,7 +10,7 @@ A interface está na aba HISTÓRICO do site. O compartilhamento depende da insta
 
 A URL permanece no navegador; a chave permanece apenas na sessão. Ao fechar a sessão será preciso informá-la novamente. Quem tiver a chave pode consultar os dados e alterar status. A base não tem permissões individuais por atendente.
 
-Ao gerar uma proposta, marque Registrar no histórico compartilhado. A opção é marcada automaticamente quando a conexão está configurada. Sem essa opção o PDF é gerado sem registro. Nenhum orçamento antigo ou PDF avulso é importado automaticamente.
+Todo orçamento formalizado é registrado automaticamente no histórico compartilhado antes de gerar o PDF. O registro é obrigatório e não há opção para desativá-lo. Sem conexão, ou se o servidor não confirmar o registro, a emissão é bloqueada com uma mensagem de erro; conecte o histórico ou tente novamente. Baixar novamente um PDF pela lista reutiliza o registro existente. Nenhum orçamento antigo ou PDF avulso é importado automaticamente.
 
 A aba Orcamentos contém os registros e dados originais em JSON. A aba Eventos guarda as mudanças de status. Não edite as colunas técnicas, números ou IDs. O servidor usa trava para numerar sem colisão e ID de operação para não duplicar uma tentativa repetida. Duplicar no site abre uma nova proposta para revisão sem alterar o registro original.
 
