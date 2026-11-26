@@ -331,6 +331,8 @@ pre{padding:10px;margin-top:7px;font-size:12px;line-height:1.45}
 <label><input type="radio" name="blocos-acabamento" value="numeracao"> Apenas Numeração</label>
 <label><input type="radio" name="blocos-acabamento" value="serrilha"> Apenas Serrilha</label>
 </div><div class="meta">Adicional por resma iniciada de 500 folhas A4, considerando quantas artes cabem por folha conforme o tamanho.</div></div>
+      <div id="blocos-serrilha-vias-campo" class="field" hidden><label>Vias que receberão serrilha</label><div class="vinil-opcoes"><label id="blocos-serrilha-via-1-opcao"><input type="checkbox" name="blocos-serrilha-via" value="1" checked> 1ª via</label><label id="blocos-serrilha-via-2-opcao"><input type="checkbox" name="blocos-serrilha-via" value="2" checked> 2ª via</label><label id="blocos-serrilha-via-3-opcao"><input type="checkbox" name="blocos-serrilha-via" value="3" checked> 3ª via</label></div><div class="meta">Selecione uma ou mais vias. A escolha não altera o preço padrão do acabamento.</div></div>
+      <div id="blocos-extras-campo" class="field" hidden><label>Acabamentos extras</label><div class="grid"><div id="blocos-extra-serrilha-campo"><label for="blocos-extra-serrilha">Valor adicional por serrilhas extras (R$)</label><input type="number" id="blocos-extra-serrilha" min="0" step="0.01" placeholder="0,00"></div><div id="blocos-extra-numeracao-campo"><label for="blocos-extra-numeracao">Valor adicional por numerações extras (R$)</label><input type="number" id="blocos-extra-numeracao" min="0" step="0.01" placeholder="0,00"></div></div><div class="meta">Informe o valor total adicional do pedido. Cada adicional será somado uma única vez.</div></div>
       <div id="blocos-carbonado-aviso" class="meta" hidden style="margin-bottom:9px">Papel autocopiativo: não fazemos serrilha. Numeração opcional: R$ 20,00 a cada 500 folhas.</div>
       <div class="field"><label for="blocos-prazo">Prazo de produção</label><input id="blocos-prazo" value="até 3 dias úteis" readonly></div>
       <div class="arte-extra" id="arte-blocos"><label class="arte-opcao"><input type="checkbox" id="arte-blocos-check"> Adicionar criação de arte</label><div class="arte-valor"><label for="arte-blocos-valor">Valor da criação de arte (R$)</label><input type="text" inputmode="decimal" id="arte-blocos-valor" placeholder="Ex.: 30,00" autocomplete="off"><div class="arte-aviso" id="arte-blocos-erro"></div></div></div><div class="result"><div><b>Valor total</b><div class="meta" id="blocos-detalhes">Escolha o tamanho e a tiragem</div></div><strong id="blocos-total">R$ 0,00</strong></div>
@@ -995,9 +997,14 @@ function montarBlocos(){
   '<tr data-produto-bloco="'+cod+'"><td>'+cod+'</td><td>'+p.nome+'</td></tr>').join('');
  selecionarBloco('1');
 }
+function blocosExtrasLimpar(){
+ ['blocos-extra-serrilha','blocos-extra-numeracao'].forEach(id=>$(id).value='');
+ document.querySelectorAll('input[name="blocos-serrilha-via"]').forEach(el=>el.checked=true);
+}
 function selecionarBloco(codigo){
  if(!blocosCatalogo[codigo])return;
  blocoCodigo=codigo;
+ blocosExtrasLimpar();
  const produto=blocosCatalogo[codigo];
  const carbonado=!!produto.carbonado;
  $('blocos-carbonado-vias-campo').hidden=!carbonado;
@@ -1035,7 +1042,29 @@ function atualizarBlocos(resetQuantidade=false){
  let acabamento=document.querySelector('input[name="blocos-acabamento"]:checked')?.value||'nenhum';
  if(produto.acabamentoIncluso||produto.carbonado&&!['nenhum','numeracao'].includes(acabamento))acabamento='nenhum';
  const acabamentos={nenhum:['Sem acabamento adicional',0],serrilhaNumeracao:['Serrilha + Numeração',30],numeracao:['Apenas Numeração',20],serrilha:['Apenas Serrilha',20]};
- const [nomeAcabamento,precoAcabamento]=produto.acabamentoIncluso?['Serrilha + Numeração inclusas',0]:acabamentos[acabamento];
+ let [nomeAcabamento,precoAcabamento]=produto.acabamentoIncluso?['Serrilha + Numeração inclusas',0]:acabamentos[acabamento];
+ const temSerrilha=produto.acabamentoIncluso||['serrilha','serrilhaNumeracao'].includes(acabamento);
+ const temNumeracao=produto.acabamentoIncluso||['numeracao','serrilhaNumeracao'].includes(acabamento);
+ $('blocos-serrilha-vias-campo').hidden=!temSerrilha;
+ $('blocos-extras-campo').hidden=!(temSerrilha||temNumeracao);
+ $('blocos-extra-serrilha-campo').hidden=!temSerrilha;
+ $('blocos-extra-numeracao-campo').hidden=!temNumeracao;
+ document.querySelectorAll('input[name="blocos-serrilha-via"]').forEach(el=>{
+  el.disabled=Number(el.value)>vias||!temSerrilha;
+  $('blocos-serrilha-via-'+el.value+'-opcao').hidden=Number(el.value)>vias;
+ });
+ const viasSerrilha=Array.from(document.querySelectorAll('input[name="blocos-serrilha-via"]:checked')).filter(el=>!el.disabled).map(el=>el.value+'ª via');
+ const extraSerrilha=temSerrilha?Number($('blocos-extra-serrilha').value||0):0;
+ const extraNumeracao=temNumeracao?Number($('blocos-extra-numeracao').value||0):0;
+ const erroExtras=temSerrilha&&!viasSerrilha.length?'Selecione ao menos uma via para a serrilha.':![extraSerrilha,extraNumeracao].every(n=>Number.isFinite(n)&&n>=0)?'Informe valores adicionais válidos, maiores ou iguais a zero.':'';
+ if(temSerrilha&&viasSerrilha.length)nomeAcabamento+=' — Serrilha: '+viasSerrilha.join(', ');
+ if(extraSerrilha>0)nomeAcabamento+=' | Serrilhas extras: +'+money(extraSerrilha);
+ if(extraNumeracao>0)nomeAcabamento+=' | Numerações extras: +'+money(extraNumeracao);
+ if(erroExtras){
+  $('blocos-quantidade-erro').textContent=erroExtras;$('blocos-copiar').disabled=true;
+  $('blocos-total').textContent=money(0);$('blocos-detalhes').textContent=erroExtras;
+  mensagemBlocos='';$('blocos-previa').textContent=erroExtras;return;
+ }
  $('blocos-produto').textContent=produto.carbonado?produto.nome+' - '+vias+' vias - '+blocosComposicao(vias):produto.nome;
  if(!valido){
   $('blocos-total').textContent='R$ 0,00';
@@ -1054,7 +1083,7 @@ function atualizarBlocos(resetQuantidade=false){
  const folhasA4Cobranca=Math.ceil(q*100/artesPorA4);
  const grupos500=Math.ceil(folhasA4Cobranca/500);
  const adicional=precoAcabamento*grupos500;
- const precoFinal=Math.round((precoBase+adicional)*100)/100;
+ const precoFinal=Math.round((precoBase+adicional+extraSerrilha+extraNumeracao)*100)/100;
  const prazoBlocos=produto.acabamentoIncluso?(precoFinal<=250?'até 3 dias úteis':'até 4 dias úteis'):(produto.carbonado?'a partir de 3 dias úteis':'até 3 dias úteis');
  $('blocos-prazo').value=prazoBlocos;
  $('blocos-total').textContent=money(precoFinal+valorArte("blocos"));
@@ -1078,13 +1107,15 @@ document.querySelectorAll('input[name="blocos-carbonado-vias"]').forEach(r=>r.ad
  $('blocos-tamanho').innerHTML=p.tamanhos.map((t,i)=>'<option value="'+i+'">'+t.tamanho+'</option>').join('');
  atualizarBlocos(true);
 }));
+['blocos-extra-serrilha','blocos-extra-numeracao'].forEach(id=>$(id).addEventListener('input',()=>atualizarBlocos()));
+document.querySelectorAll('input[name="blocos-serrilha-via"]').forEach(el=>el.addEventListener('change',()=>atualizarBlocos()));
 $('blocos-quantidade').addEventListener('input',()=>atualizarBlocos());
 document.querySelectorAll('input[name="blocos-acabamento"]').forEach(el=>el.addEventListener('change',()=>atualizarBlocos()));
 $('blocos-tabela').addEventListener('click',e=>{
  const tr=e.target.closest('tr[data-produto-bloco]');
  if(!tr)return;selecionarBloco(tr.dataset.produtoBloco);
 });
-$('blocos-limpar').addEventListener('click',()=>{resetArte('blocos');
+$('blocos-limpar').addEventListener('click',()=>{resetArte('blocos');blocosExtrasLimpar();
  $('blocos-tamanho').value='0';document.querySelector('input[name="blocos-acabamento"][value="nenhum"]').checked=true;
  if(blocoCodigo==='4'){document.querySelector('input[name="blocos-carbonado-vias"][value="2"]').checked=true;blocosCatalogo['4'].tamanhos=carbonadoTabelas['2'];$('blocos-tamanho').innerHTML=carbonadoTabelas['2'].map((t,i)=>'<option value="'+i+'">'+t.tamanho+'</option>').join('');}
  atualizarBlocos(true);
