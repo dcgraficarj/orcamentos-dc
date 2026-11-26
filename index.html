@@ -1051,19 +1051,20 @@ function atualizarBlocos(resetQuantidade=false){
  const permiteExtras=!['4','5'].includes(blocoCodigo);
  const temSerrilha=permiteExtras&&(produto.acabamentoIncluso||['serrilha','serrilhaNumeracao'].includes(acabamento));
  const temNumeracao=permiteExtras&&(produto.acabamentoIncluso||['numeracao','serrilhaNumeracao'].includes(acabamento));
- $('blocos-serrilha-vias-campo').hidden=!temSerrilha;
+ const escolherViasSerrilha=temSerrilha&&blocoCodigo!=='1';
+ $('blocos-serrilha-vias-campo').hidden=!escolherViasSerrilha;
  $('blocos-extras-campo').hidden=!(temSerrilha||temNumeracao);
  $('blocos-extra-serrilha-campo').hidden=!temSerrilha;
  $('blocos-extra-numeracao-campo').hidden=!temNumeracao;
  document.querySelectorAll('input[name="blocos-serrilha-via"]').forEach(el=>{
-  el.disabled=Number(el.value)>vias||!temSerrilha;
+  el.disabled=Number(el.value)>vias||!escolherViasSerrilha;
   $('blocos-serrilha-via-'+el.value+'-opcao').hidden=Number(el.value)>vias;
  });
  const viasSerrilha=Array.from(document.querySelectorAll('input[name="blocos-serrilha-via"]:checked')).filter(el=>!el.disabled).map(el=>el.value+'ª via');
  const extraSerrilha=temSerrilha?Number($('blocos-extra-serrilha').value||0):0;
  const extraNumeracao=temNumeracao?Number($('blocos-extra-numeracao').value||0):0;
- const erroExtras=temSerrilha&&!viasSerrilha.length?'Selecione ao menos uma via para a serrilha.':![extraSerrilha,extraNumeracao].every(n=>Number.isFinite(n)&&n>=0)?'Informe valores adicionais válidos, maiores ou iguais a zero.':'';
- if(temSerrilha&&viasSerrilha.length)nomeAcabamento+=' — Serrilha: '+viasSerrilha.join(', ');
+ const erroExtras=escolherViasSerrilha&&!viasSerrilha.length?'Selecione ao menos uma via para a serrilha.':![extraSerrilha,extraNumeracao].every(n=>Number.isFinite(n)&&n>=0)?'Informe valores adicionais válidos, maiores ou iguais a zero.':'';
+ if(escolherViasSerrilha&&viasSerrilha.length)nomeAcabamento+=' — Serrilha: '+viasSerrilha.join(', ');
  if(extraSerrilha>0)nomeAcabamento+=' | Serrilhas extras: +'+money(extraSerrilha);
  if(extraNumeracao>0)nomeAcabamento+=' | Numerações extras: +'+money(extraNumeracao);
  if(erroExtras){
